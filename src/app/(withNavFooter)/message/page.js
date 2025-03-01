@@ -8,8 +8,6 @@ import { BsEmojiSmile } from "react-icons/bs";
 const MainChat = () => {
     return (
         <div>
-
-
             <div className="flex flex-col w-full px-4 py-2">
                 <p className="text-center text-xs text-gray-500 my-2">Mon 9 Dec 12:12 PM</p>
 

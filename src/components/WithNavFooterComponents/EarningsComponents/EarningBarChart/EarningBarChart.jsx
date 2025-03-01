@@ -60,7 +60,7 @@ const EarningBarChart = () => {
                     </Link>
                 </Dropdown>
             </div>
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height={350}>
                 <BarChart data={data}>
                     <XAxis dataKey="name" stroke="#816a6b" />
                     <YAxis stroke="#816a6b" />

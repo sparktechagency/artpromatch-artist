@@ -1,9 +1,11 @@
 'use client';
 import { CiClock2 } from "react-icons/ci";
-import { Card, Button, Checkbox, List, Space } from "antd";
+import { Card, Button, Checkbox, List, Space, message, Modal, Image } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { FaClock } from "react-icons/fa6";
+import { useState } from "react";
+import { AllImages } from "@/assets/images/AllImages";
 
 const weeklySchedule = [
     { day: "Monday" },
@@ -27,6 +29,21 @@ const bookedHours = [
 ];
 
 const AvailablityPage = () => {
+const [OpenMoal, setOpenModal] = useState(false);
+const showModal = () => {
+    setOpenModal(true);
+}
+const handleOk = () => {
+    setOpenModal(false);
+}
+const handleCancel = () => {
+    setOpenModal(false);
+}
+
+const handleDelete = () => {
+   message.success("Deleted Successfully");
+}
+
     return (
         <div className='container mx-auto md:my-20'>
             <div className='flex flex-col justify-center items-center'>
@@ -66,8 +83,8 @@ const AvailablityPage = () => {
                                     <p className="text-sm text-gray-500">Slots Booked: {item.booked} of {item.total} Available</p>
                                 </div>
                                 <Space className="p-2">
-                                    <Button icon={<EditOutlined />} />
-                                    <Button icon={<DeleteOutlined />} danger />
+                                    <Button onclick={showModal} icon={<EditOutlined />} />
+                                    <Button onclick={handleDelete} icon={<DeleteOutlined />} danger />
                                 </Space>
                             </List.Item>
                         )}
@@ -85,6 +102,35 @@ const AvailablityPage = () => {
                     />
                 </Card>
             </div>
+            <Modal open={OpenMoal} onOk={handleOk} onCancel={handleCancel}>
+                <div className="flex justify-between items-center mb-4  border-0 border-b">
+                    <div className="flex items-center gap-3">
+                        <Image
+                            src={AllImages.user}
+                            alt="Profile"
+                            className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div>
+                            <h3 className="text-lg font-semibold">Alex Rivera</h3>
+                            <p className="text-gray-500 text-sm">Brooklyn, NY</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex justify-between items-center mb-4  border-0 border-b">
+                    <div className="flex items-center gap-3">
+                        <Image
+                            src={AllImages.user}
+                            alt="Profile"
+                            className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div>
+                            <h3 className="text-lg font-semibold">Alex Rivera</h3>
+                            <p className="text-gray-500 text-sm">Brooklyn, NY</p>
+                        </div>
+                    </div>
+                </div>
+                </Modal>
+           
         </div>
     );
 };
