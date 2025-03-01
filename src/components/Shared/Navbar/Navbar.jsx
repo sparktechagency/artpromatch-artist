@@ -55,7 +55,7 @@ const NavBar = () => {
 
   const beforeLoginLabels = [
     { name: "Discover", link: "/discover" },
-    { name: "Guest Spots", link: "/guest-spots" },
+    { name: "Guest Spots", link: "/sign-in" },
     { name: "Help", link: "/help" },
   ];
 
