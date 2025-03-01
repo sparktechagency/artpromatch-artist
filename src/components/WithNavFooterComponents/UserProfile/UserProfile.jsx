@@ -1,16 +1,13 @@
 "use client"
-import { AllImages } from "@/assets/images/AllImages";
 import { ConfigProvider, Form, Input, Select } from "antd";
-import Image from "next/image";
-import { FaTrash, FaUpload } from "react-icons/fa6";
 const UserProfile = () => {
     const onFinish = (values) => {
         console.log('Received values of form:', values);
     }
     const { Option } = Select;
     return (
-        <div className="">
-            <div className=" flex justify-between items-center">
+        <div className="px-2 md:px-0">
+            {/* <div className=" flex flex-col md:flex-row justify-between items-center gap-5 md:gap-0">
                 <div className="flex items-center gap-2">
                     <Image className="rounded-full" src={AllImages.user} height={100} width={100} alt="user" />
                     <div className="">
@@ -18,7 +15,7 @@ const UserProfile = () => {
                         <p className="text-neutral-400">Update your profile information</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col md:flex-row items-center gap-2  mb-5 md:mb-0">
                     <button className="flex items-center gap-2 px-10 py-2 rounded-xl border hover:border-primary hover:text-primary">
                         <FaUpload /> Uplaod
                     </button>
@@ -26,7 +23,7 @@ const UserProfile = () => {
                         <FaTrash /> Remove
                     </button>
                 </div>
-            </div>
+            </div> */}
             <ConfigProvider
                 theme={{
                     components: {
@@ -44,6 +41,7 @@ const UserProfile = () => {
                     initialValues={{ remember: false }}
                     onFinish={onFinish}
                     layout="vertical"
+                   className="my-5"
                 >
                     <Form.Item
                         name="name"

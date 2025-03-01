@@ -11,10 +11,12 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { AiOutlineMessage } from "react-icons/ai";
 import NotificationModal from "@/components/WithNavFooterComponents/HomeComponents/NotificationModal/NotificationModal";
 import { useRouter } from "next/navigation";
+import { CiHeart } from "react-icons/ci";
 
 const NavBar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [notificationModalVisible, setNotificationModalVisible] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
 
@@ -66,6 +68,19 @@ const NavBar = () => {
     { name: "Help", link: "/help" },
   ];
 
+const handleNotificationClick = () => {
+  setNotificationModalVisible(true);
+};
+const handleNotificationClose = () => {
+  setNotificationModalVisible(false);
+};
+const handleNotificationOk = () => {
+  setNotificationModalVisible(false);
+};
+
+
+
+
   return (
     <div>
       <nav className="w-full my-6">
@@ -93,7 +108,10 @@ const NavBar = () => {
 
           {isLogin ? (
             <div className="hidden lg:flex items-center space-x-4">
-              <IoIosNotificationsOutline className="h-5 w-5" />
+              <Link href="/favourites">
+              <CiHeart className="h-5 w-5 cursor-pointer" />
+              </Link>
+              <IoIosNotificationsOutline onClick={handleNotificationClick}  className="h-5 w-5 cursor-pointer" />
               <Link href="/message">
                 <AiOutlineMessage className="h-5 w-5" />
               </Link>
@@ -157,7 +175,10 @@ const NavBar = () => {
               </button>
             ) : (
               <>
-                <button onClick={handleLogin} className="bg-primary text-white px-10 py-3 rounded-md shadow-lg">
+                <button
+                  onClick={handleLogin}
+                  className="bg-primary text-white px-10 py-3 rounded-md shadow-lg"
+                >
                   Log In
                 </button>
                 <Link href="/sign-up">
@@ -170,6 +191,9 @@ const NavBar = () => {
           </div>
         </Drawer>
       </nav>
+      <Modal open={notificationModalVisible} onOk={handleNotificationOk} onCancel={handleNotificationClose}>
+        <NotificationModal></NotificationModal>
+      </Modal>
     </div>
   );
 };

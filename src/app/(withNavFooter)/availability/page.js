@@ -83,7 +83,7 @@ const handleDelete = () => {
                                     <p className="text-sm text-gray-500">Slots Booked: {item.booked} of {item.total} Available</p>
                                 </div>
                                 <Space className="p-2">
-                                    <Button onclick={showModal} icon={<EditOutlined />} />
+                                    <Button onclick={showModal} icon={<EditOutlined />}/>
                                     <Button onclick={handleDelete} icon={<DeleteOutlined />} danger />
                                 </Space>
                             </List.Item>
