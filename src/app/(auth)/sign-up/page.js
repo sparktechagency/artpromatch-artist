@@ -10,27 +10,27 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const SignUp = () => {
-   const router = useRouter();
+  const router = useRouter();
   const [signup] = useSignupMutation();
 
   const onFinish = (values) => {
-    const data = {
+    const userInfo = {
       fullName: values.name,
       email: values.email,
       phoneNumber: values.phone,
       password: values.password,
     };
-    const res = signup(data)
+
+    signup(userInfo)
       .unwrap()
       .then((res) => {
-        console.log("res", res);
-        if (res?.success) {
-          message.success(res?.message);
-          router.push("/account-verification");
-        }
+        localStorage.setItem("token", res?.data?.token);
+        message.success("User Registered Successfully");
+        router.push("/account-verification");
       })
-      .catch((err) => {
-        console.log("err", err);
+      .catch((error) => {
+        console.log("error", error);
+        message.error(error?.data?.message);
       });
   };
 
