@@ -29,10 +29,10 @@ const AccountVerification = () => {
       if (response.success) {
         message.success(response.message);
         localStorage.removeItem("token");
-        console.log(localStorage.getItem("token"), "token from 32");
+        // console.log(localStorage.getItem("token"), "token from 32");
 
         localStorage.setItem("token", accessToken);
-        console.log(localStorage.getItem("token"), "token from 35");
+        // console.log(localStorage.getItem("token"), "token from 35");
         router.push("/user-type-selection");
       } else {
         message.error("Invalid OTP.");
