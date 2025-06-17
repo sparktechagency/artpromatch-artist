@@ -2,7 +2,6 @@
 "use client";
 
 import { AllImages } from "@/assets/images/AllImages";
-// import { useUserTypeSelectionMutation } from "@/redux/features/auth/authApi";
 import { Form, Typography, Radio } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -31,17 +30,12 @@ const userRoles = [
 
 const UserTypeSelection = () => {
   const [value, setValue] = useState(1);
-  //   const [userTypeSelection] = useUserTypeSelectionMutation();
   const router = useRouter();
   const selectedRole = userRoles.find((role) => role.value === value);
-  const selectedRoleValue=localStorage.setItem("role", selectedRole?.label);
+  const selectedRoleValue = localStorage.setItem("role", selectedRole?.label);
   const onFinish = async () => {
     try {
-      console.log("Selected role:", selectedRole);
-    //   router.push(
-    //     `/preference-selection?role=${encodeURIComponent(selectedRole?.label)}`
-    //   );
-    router.push(`/user-welcome`);
+      router.push(`/user-welcome`);
     } catch (error) {
       error?.message && message.error(error?.message);
       console.error("Error selecting user type:", error);
