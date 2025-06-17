@@ -24,6 +24,7 @@ const SignUp = () => {
     signup(userInfo)
       .unwrap()
       .then((res) => {
+        console.log("res", res);
         localStorage.setItem("token", res?.data?.token);
         message.success(res.message);
         router.push("/account-verification");
