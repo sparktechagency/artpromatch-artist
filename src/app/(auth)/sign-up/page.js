@@ -25,7 +25,7 @@ const SignUp = () => {
       .unwrap()
       .then((res) => {
         localStorage.setItem("token", res?.data?.token);
-        message.success("User Registered Successfully");
+        message.success(res.message);
         router.push("/account-verification");
       })
       .catch((error) => {
