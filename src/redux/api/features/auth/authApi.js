@@ -26,8 +26,19 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-
+    createArtist: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/create-profile",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation, useVerifyOtpMutation, useSendOtpAgainMutation } = authApi;
+export const {
+  useSignupMutation,
+  useVerifyOtpMutation,
+  useSendOtpAgainMutation,
+  useCreateArtistMutation,
+} = authApi;
