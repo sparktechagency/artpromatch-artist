@@ -3,7 +3,6 @@
 import { AllImages } from "@/assets/images/AllImages";
 import { Form, Input, Steps, Typography } from "antd";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaLocationArrow } from "react-icons/fa6";
@@ -12,8 +11,16 @@ const PreferedLocation = () => {
 
   const onFinish = (values) => {
     // console.log("Success:", values);
-    localStorage.setItem("city", JSON.stringify(values.city));
-    localStorage.setItem("stdioName", JSON.stringify(values.stdioName));
+    const studioName = values.studioName;
+    const city = values.city;
+    const location = {
+      longitude: 90.4125,
+      latitude: 23.8103,
+    };
+
+    localStorage.setItem("city", JSON.stringify("city"));
+    localStorage.setItem("studioName", JSON.stringify("studioName"));
+    localStorage.setItem("location",JSON.stringify(location));
     router.push("/verify-profile");
   };
   const [current, setCurrent] = useState(0);
@@ -55,7 +62,7 @@ const PreferedLocation = () => {
               </div>
               <div>
                 <Form.Item
-                  name="stdioName"
+                  name="studioName"
                   style={{}}
                   label={<p className=" text-md">Studio/Business Name</p>}
                 >

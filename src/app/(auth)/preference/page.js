@@ -10,7 +10,7 @@ import React, { useState } from "react";
 const Preferences = () => {
   const [current, setCurrent] = useState(0);
   const [selectedArt, setSelectedArt] = useState([]);
-  localStorage.setItem("selectedExpertise", JSON.stringify(selectedArt));
+ localStorage.setItem("selectedExpertise", JSON.stringify(selectedArt));
   console.log(selectedArt);
   const handleSelect = (value) => {
     setSelectedArt((prevSelectedArt) =>
