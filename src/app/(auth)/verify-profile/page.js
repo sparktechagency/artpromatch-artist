@@ -41,7 +41,7 @@ const VerifyProfile = () => {
       location: locationPayload,
       city: city,
     };
-    console.log("data", data);
+    // console.log("data", data);
 
     const formdata = new FormData();
     formdata.append("data", JSON.stringify(data));
@@ -58,7 +58,7 @@ const VerifyProfile = () => {
           router.push("/all-set");
         })
         .catch((error) => {
-          console.log("error", error);
+        //   console.log("error", error);
           message.error(error?.data?.message);
         });
     } catch (error) {
