@@ -1,38 +1,66 @@
 "use client";
 
 import { AllImages } from "@/assets/images/AllImages";
+import Maps from "@/components/WithNavFooterComponents/Maps/Maps";
 import { Form, Input, Steps, Typography } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { list } from "postcss";
 import React, { useState } from "react";
 import { FaLocationArrow } from "react-icons/fa6";
 const PreferedLocation = () => {
+  const [location, setLocation] = useState(null);
+  const [value, setValue] = useState(8);
+  const [current, setCurrent] = useState(0);
+  const radius = value;
   const router = useRouter();
 
+  console.log("Location from map", location);
+
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          const data = {
+            type: "Point",
+            coordinates: [longitude,latitude],
+          };
+          setLocation({
+            lng: longitude,
+            lat: latitude,
+          });
+          localStorage.setItem("location", JSON.stringify(data));
+          localStorage.setItem("radius", radius);
+        },
+        (err) => {
+          console.error("Geolocation error:", err.message);
+          alert("Failed to get your location. Please allow location access.");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by your browser");
+    }
+  };
+
   const onFinish = (values) => {
-    // console.log("Success:", values);
     const studioName = values.studioName;
     const city = values.city;
-    const location = {
-      longitude: 90.4125,
-      latitude: 23.8103,
-    };
 
     localStorage.setItem("city", JSON.stringify("city"));
     localStorage.setItem("studioName", JSON.stringify("studioName"));
-    localStorage.setItem("location",JSON.stringify(location));
+    // localStorage.setItem("location", JSON.stringify(location));
     router.push("/verify-profile");
   };
-  const [current, setCurrent] = useState(0);
   const onChange = (value) => {
     console.log("onChange:", value);
     setCurrent(value);
   };
-  const data = {
-    coordinates: [77.1025, 28.7041],
-  };
+  // const data = {
+  //   coordinates: [77.1025, 28.7041],
+  // };
 
-  localStorage.setItem("location", JSON.stringify(data));
+  // localStorage.setItem("location", JSON.stringify(data));
 
   return (
     <div className="py-16 md:py-0 h-[100vh] w-full flex items-center justify-center ">
@@ -87,9 +115,20 @@ const PreferedLocation = () => {
                 </Form.Item>
 
                 <Form.Item name="location">
-                  <button className="flex justify-center items-center gap-2 text-primary border border-primary w-full py-2 rounded-xl">
+                  <button
+                    type="button"
+                    onClick={handleUseCurrentLocation}
+                    className="flex justify-center items-center gap-2 text-primary border border-primary w-full py-2 rounded-xl"
+                  >
                     <FaLocationArrow />
-                    <p className="text-sm">Use my current location</p>
+                    {location ? (
+                      <p className=" text-sm">
+                        {location.lat},{location.lng}
+                      </p>
+                    ) : (
+                      <p className="text-sm">Use my current location</p>
+                    )}
+                    {location && <Maps location={location}></Maps>}
                   </button>
                 </Form.Item>
 
