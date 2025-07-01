@@ -22,9 +22,9 @@ const VerifyProfile = () => {
     const studioName = localStorage.getItem("studioName");
     const location = JSON.parse(localStorage.getItem("location"));
 
-    console.log("frontFile", frontFile);
-    console.log("backFile", backFile);
-    console.log("selfieFile", selfieFile);
+    console.log("location", location);
+    // console.log("backFile", backFile);
+    // console.log("selfieFile", selfieFile);
 
     const locationPayload = {
       type: "Point",
@@ -38,7 +38,7 @@ const VerifyProfile = () => {
       artistType: artistType,
       expertise: expertise,
       studioName: studioName,
-      location: locationPayload,
+      location: location,
       city: city,
     };
     // console.log("data", data);
