@@ -4,7 +4,7 @@ import { ConfigProvider, Form, Input, message, Select } from "antd";
 const UserProfile = () => {
   const [updatePersonalInfo] = useUpdatePersonalInfoMutation();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log("Received values of form:", values);
     const data = {
       fullName: values.fullName,
@@ -14,9 +14,9 @@ const UserProfile = () => {
     };
     console.log(data);
     try {
-      const res = updatePersonalInfo(data).unwrap();
+      const res = await updatePersonalInfo(data).unwrap();
       console.log(res);
-      message.success("Perosnal Information ");
+      message.success(res?.message);
     } catch (error) {
       message.error(error.message);
     }
@@ -98,9 +98,9 @@ const UserProfile = () => {
           </Form.Item>
           <Form.Item name="country" label={<p className=" text-md">Country</p>}>
             <Select placeholder="Select Country">
-              <Option value="1">UAE </Option>
-              <Option value="1">UK </Option>
-              <Option value="1">USA </Option>
+              <Option value="UAE">UAE </Option>
+              <Option value="UK">UK </Option>
+              <Option value="USA">USA </Option>
             </Select>
           </Form.Item>
 
