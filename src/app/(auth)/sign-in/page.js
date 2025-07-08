@@ -1,17 +1,33 @@
 'use client'
 import { AllImages } from '@/assets/images/AllImages';
+import { useLoginMutation } from '@/redux/api/features/auth/authApi';
 /* eslint-disable react/no-unescaped-entities */
 
 // import GooleLogin from '@/components/Shared/SocialLogin/GooleLogin';
-import { Checkbox, Form, Input, Typography } from 'antd';
+import { Checkbox, Form, Input, message, Typography } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const SignIn = () => {
-    const onFinish = (values) => {
-        console.log(values)
-    }
+  const [signIn] = useLoginMutation();
+  const router = useRouter();
+  const onFinish = (values) => {
+    signIn(values)
+      .unwrap()
+      .then((res) => {
+        if (res?.data?.accessToken) {
+          localStorage.setItem("token", res?.data?.accessToken);
+          message.success(res?.data?.message);
+          router.push("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        message.error(error?.data?.message);
+      });
+  };
     return (
         <div className='container mx-auto my-10 md:my-40'>
             <div className='flex justify-center items-center'>

@@ -30,9 +30,10 @@ const NavBar = () => {
 
   // Handle login
   const handleLogin = () => {
-    localStorage.setItem("isLogin", "true");
-    setIsLogin(true);
-    router.push("/dashboard"); // Redirect after login
+    // localStorage.setItem("isLogin", "true");
+    // setIsLogin(true);
+    // router.push("/dashboard"); 
+    router.push("/sign-in"); 
   };
 
   // Handle logout
