@@ -44,7 +44,7 @@ const NavBar = () => {
   const handleLogout = () => {
     localStorage.setItem("isLogin", "false");
     setIsLogin(false);
-    router.push("/"); // Redirect after logout
+    router.push("/sign-in"); // Redirect after logout
   };
 
   useEffect(() => {

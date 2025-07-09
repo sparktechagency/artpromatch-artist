@@ -44,26 +44,29 @@ const PortfolioPage = () => {
   };
 
   const onFinish = async (value) => {
-  const data = {
-    name: value.folderName,
-    for: "portfolio",
+    const data = {
+      name: value.folderName,
+      for: "portfolio",
+    };
+
+    const formData = new FormData();
+    fileList.forEach((file) => {
+      formData.append("files", file);
+    });
+    formData.append("data", JSON.stringify(data));
+
+    try {
+      const res = await PortfolioApi(formData).unwrap();
+      console.log(res);
+      message.success(res?.message);
+      form.resetFields();
+      setFileList([]);
+      setIsModalOpenForAddPortfolio(false);
+    } catch (error) {
+      console.error(error);
+      message.error(error?.data?.message || "Failed to create folder");
+    }
   };
-  console.log(data);
-
-  const formData = new FormData();
-  formData.append("files", fileList);
-  formData.append("data", JSON.stringify(data));
-
-  try {
-    const res = await PortfolioApi(formData).unwrap(); 
-    console.log(res);
-    message.success(res?.message );
-  } catch (error) {
-    console.error(error);
-    message.error(error?.data?.message );
-  }
-};
-
 
   return (
     <div className="container mx-auto md:my-20">
@@ -180,8 +183,11 @@ const PortfolioPage = () => {
                 </div>
               </div>
             </Form.Item>
-            <Form.Item className="mt-5 ">
-              <button className="bg-primary text-white py-3 w-full rounded-md ">
+            <Form.Item className="mt-5">
+              <button
+                type="submit"
+                className="bg-primary text-white py-3 w-full rounded-md"
+              >
                 Create Folder
               </button>
             </Form.Item>

@@ -6,7 +6,7 @@ const PortfolioApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/folders",
         method: "POST",
-        body: "data",
+        body: data,
       }),
     }),
   }),
