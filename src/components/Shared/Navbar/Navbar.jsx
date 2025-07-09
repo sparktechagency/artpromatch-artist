@@ -16,10 +16,14 @@ import { CiHeart } from "react-icons/ci";
 const NavBar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [notificationModalVisible, setNotificationModalVisible] = useState(false);
+  const [notificationModalVisible, setNotificationModalVisible] =
+    useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const router = useRouter();
 
+  const token = localStorage.getItem("token");
+
+  console.log(token);
   // Retrieve login state from localStorage on page load
   useEffect(() => {
     const storedLoginState = localStorage.getItem("isLogin");
@@ -30,9 +34,10 @@ const NavBar = () => {
 
   // Handle login
   const handleLogin = () => {
-    localStorage.setItem("isLogin", "true");
-    setIsLogin(true);
-    router.push("/dashboard"); // Redirect after login
+    // localStorage.setItem("isLogin", "true");
+    // setIsLogin(true);
+    // router.push("/dashboard");
+    router.push("/sign-in");
   };
 
   // Handle logout
@@ -68,18 +73,15 @@ const NavBar = () => {
     { name: "Help", link: "/help" },
   ];
 
-const handleNotificationClick = () => {
-  setNotificationModalVisible(true);
-};
-const handleNotificationClose = () => {
-  setNotificationModalVisible(false);
-};
-const handleNotificationOk = () => {
-  setNotificationModalVisible(false);
-};
-
-
-
+  const handleNotificationClick = () => {
+    setNotificationModalVisible(true);
+  };
+  const handleNotificationClose = () => {
+    setNotificationModalVisible(false);
+  };
+  const handleNotificationOk = () => {
+    setNotificationModalVisible(false);
+  };
 
   return (
     <div>
@@ -95,7 +97,7 @@ const handleNotificationOk = () => {
           </Link>
 
           <div className="hidden lg:flex flex-grow justify-center space-x-6">
-            {(isLogin ? labels : beforeLoginLabels).map((item, index) => (
+            {(token ? labels : beforeLoginLabels).map((item, index) => (
               <Link
                 href={item.link}
                 key={index}
@@ -106,12 +108,15 @@ const handleNotificationOk = () => {
             ))}
           </div>
 
-          {isLogin ? (
+          {token ? (
             <div className="hidden lg:flex items-center space-x-4">
               <Link href="/favourites">
-              <CiHeart className="h-5 w-5 cursor-pointer" />
+                <CiHeart className="h-5 w-5 cursor-pointer" />
               </Link>
-              <IoIosNotificationsOutline onClick={handleNotificationClick}  className="h-5 w-5 cursor-pointer" />
+              <IoIosNotificationsOutline
+                onClick={handleNotificationClick}
+                className="h-5 w-5 cursor-pointer"
+              />
               <Link href="/message">
                 <AiOutlineMessage className="h-5 w-5" />
               </Link>
@@ -159,7 +164,7 @@ const handleNotificationOk = () => {
           open={drawerVisible}
         >
           <div className="flex flex-col items-center space-y-4">
-            {(isLogin ? labels : beforeLoginLabels).map((item, index) => (
+            {(token ? labels : beforeLoginLabels).map((item, index) => (
               <Link
                 href={item.link}
                 key={index}
@@ -169,7 +174,7 @@ const handleNotificationOk = () => {
                 {item.name}
               </Link>
             ))}
-            {isLogin ? (
+            {token ? (
               <button onClick={handleLogout} className="text-red-500">
                 Logout
               </button>
@@ -191,7 +196,11 @@ const handleNotificationOk = () => {
           </div>
         </Drawer>
       </nav>
-      <Modal open={notificationModalVisible} onOk={handleNotificationOk} onCancel={handleNotificationClose}>
+      <Modal
+        open={notificationModalVisible}
+        onOk={handleNotificationOk}
+        onCancel={handleNotificationClose}
+      >
         <NotificationModal></NotificationModal>
       </Modal>
     </div>
