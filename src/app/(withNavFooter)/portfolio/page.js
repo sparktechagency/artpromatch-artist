@@ -5,6 +5,7 @@ import {
   useAddFolderApiMutation,
   useFetchFOldersQuery,
 } from "@/redux/api/features/portfolioApi/portfolioApi";
+import { BASE_URL } from "@/utils/baseUrl";
 import { Form, Modal, Upload, Input, message } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -20,6 +21,14 @@ const PortfolioPage = () => {
 
   const { data: folderData } = useFetchFOldersQuery();
   console.log("folderData:", folderData?.data?.portfolio);
+  const folderImages = folderData?.data?.portfolio;
+  const [openFolderId, setOpenFolderId] = useState(null);
+
+  const getCleanImageUrl = (imgPath) =>
+    `http://10.0.60.41:3003/${imgPath
+      .replace(/\\/g, "/")
+      .replace(/^public\//, "")}`;
+
   const [form] = Form.useForm();
 
   const [PortfolioApi] = useAddFolderApiMutation();
@@ -87,7 +96,7 @@ const PortfolioPage = () => {
       </div>
 
       <div className="md:my-10 grid grid-cols-1 md:grid-cols-3 gap-5">
-        {[
+        {/* {[
           AllImages.image1,
           AllImages.image2,
           AllImages.image3,
@@ -109,7 +118,60 @@ const PortfolioPage = () => {
               <FaTrash className="h-8 w-8 bg-neutral-100 p-1 cursor-pointer" />
             </div>
           </div>
-        ))}
+        ))} */}
+
+        {folderData?.data?.portfolio.map((item, folderIdx) => {
+          const folder = item.folder;
+          const isOpen = openFolderId === folder._id;
+
+          return (
+            <div key={folder._id} className="mb-6 border p-3 rounded shadow">
+              <h2 className="text-lg font-semibold mb-2">{folder.name}</h2>
+
+              {/* Folder preview (only first image or all if opened) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {(isOpen ? folder.images : [folder.images[0]])?.map(
+                  (imgPath, imgIdx) => (
+                    <div className="relative" key={imgIdx}>
+                      {/* <Image
+                        src={`${BASE_URL}/${imgPath.replace(/\\/g, "/")}`}
+                        alt={`Image ${imgIdx + 1}`}
+                        width={500}
+                        height={500}
+                        className="rounded"
+                      /> */}
+                      <Image
+                        src={getCleanImageUrl(imgPath)}
+                        alt={`Image ${imgIdx + 1}`}
+                        width={500}
+                        height={500}
+                        unoptimized // ⬅ disables Next.js optimization
+                      />
+
+                      <div className="flex justify-center items-center gap-3 absolute top-2 right-2">
+                        <FaPen
+                          onClick={showModal}
+                          className="h-8 w-8 bg-neutral-100 p-1 cursor-pointer"
+                        />
+                        <FaTrash className="h-8 w-8 bg-neutral-100 p-1 cursor-pointer" />
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+
+              {/* Toggle Button */}
+              {folder.images.length > 1 && (
+                <button
+                  onClick={() => setOpenFolderId(isOpen ? null : folder._id)}
+                  className="mt-3 text-sm text-blue-600 hover:underline"
+                >
+                  {isOpen ? "Hide Images" : "Show All Images"}
+                </button>
+              )}
+            </div>
+          );
+        })}
 
         <div
           onClick={showModalForAddPortfolio}
