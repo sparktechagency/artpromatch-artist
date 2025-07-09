@@ -1,12 +1,15 @@
 "use client";
 
 import { AllImages } from "@/assets/images/AllImages";
-import { useAddFolderApiMutation } from "@/redux/api/features/portfolioApi/portfolioApi";
+import {
+  useAddFolderApiMutation,
+  useFetchFOldersQuery,
+} from "@/redux/api/features/portfolioApi/portfolioApi";
 import { Form, Modal, Upload, Input, message } from "antd";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { FaImage, FaPen, FaPlus, FaTrash } from "react-icons/fa6";
+import { FaPen, FaPlus, FaTrash } from "react-icons/fa6";
 
 const PortfolioPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +18,8 @@ const PortfolioPage = () => {
   const [fileList, setFileList] = useState([]);
   console.log("filelist:", fileList);
 
+  const { data: folderData } = useFetchFOldersQuery();
+  console.log("folderData:", folderData?.data?.portfolio);
   const [form] = Form.useForm();
 
   const [PortfolioApi] = useAddFolderApiMutation();
