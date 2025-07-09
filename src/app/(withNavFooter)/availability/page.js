@@ -56,6 +56,7 @@ const bookedHours = [
 const AvailablityPage = () => {
   const [OpenMoal, setOpenModal] = useState(false);
   const [OpenMoalForSetOffTime, setOpenModalForSetOffTime] = useState(false);
+  const [form] = Form.useForm();
 
   const [setTimeOffApi] = useSetTimeOffApiMutation();
 
@@ -90,7 +91,8 @@ const AvailablityPage = () => {
     console.log(payload);
     const res = await setTimeOffApi(payload).unwrap();
     message.success(res?.message);
-    
+    form.resetFields();
+    setOpenModalForSetOffTime(false);
   };
 
   const handleDelete = () => {
@@ -243,6 +245,7 @@ const AvailablityPage = () => {
           layout="vertical"
           footer={null}
           onFinish={onFinish}
+          form={form}
         >
           <Form.Item name="from" label={<p>From</p>}>
             <DatePicker style={{ width: "100%" }} />
