@@ -4,12 +4,19 @@ const PortfolioApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addFolderApi: builder.mutation({
       query: (data) => ({
-        url: "/api/v1/folders",
+        url: "/folders",
         method: "POST",
-        body: "data",
+        body: data,
       }),
+    }),
+    fetchFOlders: builder.query({
+      query: () => ({
+        url: "/auth/profile",
+        method: "GET",
+      }),
+      providesTags: ["folders"],
     }),
   }),
 });
 
-export const { useAddFolderApiMutation } = PortfolioApi;
+export const { useAddFolderApiMutation, useFetchFOldersQuery } = PortfolioApi;

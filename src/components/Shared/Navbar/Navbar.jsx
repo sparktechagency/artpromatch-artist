@@ -23,7 +23,7 @@ const NavBar = () => {
 
   const token = localStorage.getItem("token");
 
-  console.log(token);
+  // console.log(token);
   // Retrieve login state from localStorage on page load
   useEffect(() => {
     const storedLoginState = localStorage.getItem("isLogin");
@@ -44,7 +44,7 @@ const NavBar = () => {
   const handleLogout = () => {
     localStorage.setItem("isLogin", "false");
     setIsLogin(false);
-    router.push("/"); // Redirect after logout
+    router.push("/sign-in"); // Redirect after logout
   };
 
   useEffect(() => {
