@@ -1,0 +1,206 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import 'antd/dist/reset.css';
+import { Button, Drawer, Modal } from 'antd';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import Link from 'next/link';
+import Image from 'next/image';
+import { AllImages } from '@/assets/images/AllImages';
+import { IoIosNotificationsOutline } from 'react-icons/io';
+import { AiOutlineMessage } from 'react-icons/ai';
+import NotificationModal from '@/components/WithNavFooterComponents/HomeComponents/NotificationModal/NotificationModal';
+import { useRouter } from 'next/navigation';
+import { CiHeart } from 'react-icons/ci';
+
+const NavBar = () => {
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [notificationModalVisible, setNotificationModalVisible] =
+    useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
+
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+  useEffect(() => {
+    const storedLoginState = localStorage.getItem('isLogin');
+    if (storedLoginState) {
+      setIsLogin(storedLoginState === 'true');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth < 1024);
+      const handleResize = () => setIsMobile(window.innerWidth < 1024);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  const beforeLoginLabels = [
+    { name: 'Discover', link: '/discover' },
+    { name: 'Guest Spots', link: '/sign-in' },
+    { name: 'Help', link: '/help' },
+  ];
+
+  const labels = [
+    { name: 'Dashboard', link: '/dashboard' },
+    { name: 'Bookings', link: '/your-bookings' },
+    { name: 'Availability', link: '/availability' },
+    { name: 'Portfolio', link: '/portfolio' },
+    { name: 'Analytics', link: '/analytics' },
+    { name: 'Help', link: '/help' },
+  ];
+
+  const handleLogin = () => router.push('/sign-in');
+  const handleLogout = () => {
+    localStorage.setItem('isLogin', 'false');
+    setIsLogin(false);
+    router.push('/sign-in');
+  };
+
+  const handleNotificationClick = () => setNotificationModalVisible(true);
+  const handleNotificationClose = () => setNotificationModalVisible(false);
+  const handleNotificationOk = () => setNotificationModalVisible(false);
+
+  return (
+    <div>
+      <nav className="w-full my-6">
+        <div className="container mx-auto flex items-center justify-between py-4 px-6 lg:px-8">
+          {/* Logo */}
+          <Link href="/" className="flex justify-center items-center space-x-2">
+            <Image
+              src={AllImages.logo}
+              height={500}
+              width={500}
+              alt="logo"
+              className="lg:h-11 h-16 w-auto rounded-full"
+            />
+            <div className="mb-0 text-2xl lg:text-3xl font-bold">
+              Steady Hands
+            </div>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex flex-grow justify-center space-x-6">
+            {(token ? labels : beforeLoginLabels).map((item, index) => (
+              <Link
+                href={item.link}
+                key={index}
+                className="text-lg font-medium hover:text-blue-600 transition flex items-center"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Desktop Right Section */}
+          {token ? (
+            <div className="hidden lg:flex items-center space-x-4">
+              <Link href="/favourites">
+                <CiHeart className="h-5 w-5 cursor-pointer" />
+              </Link>
+              <IoIosNotificationsOutline
+                onClick={handleNotificationClick}
+                className="h-5 w-5 cursor-pointer"
+              />
+              <Link href="/message">
+                <AiOutlineMessage className="h-5 w-5" />
+              </Link>
+              <Link href="/user-profile-page">
+                <Image
+                  src={AllImages.user}
+                  alt="user"
+                  height={40}
+                  width={40}
+                  className="h-10 w-10 rounded-full"
+                />
+              </Link>
+              <button onClick={handleLogout} className="text-red-500">
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="hidden lg:flex items-center space-x-4">
+              <button
+                onClick={handleLogin}
+                className="border border-primary bg-primary px-10 py-3 rounded-md shadow-lg"
+              >
+                Log In
+              </button>
+              <Link href="/sign-up">
+                <button className="border border-primary text-primary px-10 py-3 rounded-md shadow-lg">
+                  Sign Up
+                </button>
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Drawer Button */}
+          <div className="lg:hidden">
+            <Button
+              icon={<RxHamburgerMenu className="text-black text-2xl" />}
+              onClick={() => setDrawerVisible(true)}
+            />
+          </div>
+        </div>
+
+        {/* Mobile Drawer */}
+        <Drawer
+          placement="left"
+          onClose={() => setDrawerVisible(false)}
+          open={drawerVisible}
+        >
+          <div className="flex flex-col items-center space-y-4">
+            {(token ? labels : beforeLoginLabels).map((item, index) => (
+              <Link
+                href={item.link}
+                key={index}
+                className="text-lg font-medium hover:text-blue-600 transition"
+                onClick={() => setDrawerVisible(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+            {token ? (
+              <button onClick={handleLogout} className="text-red-500">
+                Logout
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={handleLogin}
+                  className="bg-primary text-white px-10 py-3 rounded-md shadow-lg"
+                >
+                  Log In
+                </button>
+                <Link href="/sign-up">
+                  <button className="border border-primary text-primary px-10 py-3 rounded-md shadow-lg">
+                    Sign Up
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
+        </Drawer>
+      </nav>
+
+      {/* Notification Modal */}
+      <Modal
+        open={notificationModalVisible}
+        onOk={handleNotificationOk}
+        onCancel={handleNotificationClose}
+      >
+        <NotificationModal
+          handleOk={handleNotificationOk}
+          handleCancel={handleNotificationClose}
+        />
+      </Modal>
+    </div>
+  );
+};
+
+export default NavBar;
