@@ -104,7 +104,7 @@ const AvailablityPage: React.FC = () => {
         <h1 className="text-3xl font-bold">
           Manage Your Availability and Tour Dates
         </h1>
-        <p className="text-textSecondary">
+        <p className="text-secondary">
           Keep your calendar up-to-date so clients can easily book with you.
         </p>
       </div>

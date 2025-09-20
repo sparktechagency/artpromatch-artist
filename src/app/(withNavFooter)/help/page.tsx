@@ -36,7 +36,7 @@ const HelpPage: React.FC = () => {
     <div className="container mx-auto md:my-20">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-2xl font-bold">Help & Support</h1>
-        <p className="text-textSecondary">
+        <p className="text-secondary">
           Find answers, manage issues, or get in touch with us
         </p>
       </div>
@@ -56,7 +56,7 @@ const HelpPage: React.FC = () => {
 
       <div className="mt-8 flex flex-col justify-center items-center p-5 bg-[#faf7f7] rounded-xl">
         <h1 className="text-2xl font-bold mb-2">Still have questions?</h1>
-        <p className="text-textSecondary">
+        <p className="text-secondary">
           Can't find the answer you're looking for? Please chat to our friendly
           team.
         </p>

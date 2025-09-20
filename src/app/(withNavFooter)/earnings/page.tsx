@@ -7,7 +7,7 @@ const EarningsPage = () => {
     <div className="container mx-auto md:my-20">
       <div className="flex flex-col justify-center items-center ">
         <h1 className="text-3xl font-bold">Earnings</h1>
-        <p className="text-textSecondary mb-8">
+        <p className="text-secondary mb-8">
           Understand how your profile is performing and track your growth.
         </p>
         <div className="flex justify-center items-center gap-5">

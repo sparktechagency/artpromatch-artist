@@ -43,7 +43,7 @@ const LeftSideBar = () => {
         <BiEdit onClick={showModal} className="text-3xl cursor-pointer" />
       </div>
 
-      <p className="text-textSecondary mb-3">Unread(1)</p>
+      <p className="text-secondary mb-3">Unread(1)</p>
 
       {users.map((user, index) => (
         <Link
@@ -60,13 +60,13 @@ const LeftSideBar = () => {
               className="rounded-full"
             />
             <div>
-              <h3 className="text-xl font-semibold text-textSecondary">
+              <h3 className="text-xl font-semibold text-secondary">
                 {user.name}
               </h3>
-              <p className="text-textSecondary">{user.lastMessage}</p>
+              <p className="text-secondary">{user.lastMessage}</p>
             </div>
           </div>
-          <p className="text-textSecondary">{user.time}</p>
+          <p className="text-secondary">{user.time}</p>
         </Link>
       ))}
 
@@ -100,13 +100,13 @@ const LeftSideBar = () => {
                 className="rounded-full"
               />
               <div>
-                <h3 className="text-xl font-semibold text-textSecondary">
+                <h3 className="text-xl font-semibold text-secondary">
                   {user.name}
                 </h3>
-                <p className="text-textSecondary">{user.lastMessage}</p>
+                <p className="text-secondary">{user.lastMessage}</p>
               </div>
             </div>
-            <p className="text-textSecondary">{user.time}</p>
+            <p className="text-secondary">{user.time}</p>
           </Link>
         ))}
       </Modal>

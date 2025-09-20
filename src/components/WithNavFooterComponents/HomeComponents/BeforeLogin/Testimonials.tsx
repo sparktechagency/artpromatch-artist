@@ -9,14 +9,14 @@ const Testimonials = () => {
         What Clients and Artists Say About Steady Hands
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:mr-20 mb-5">
-        <div className="border p-3 rounded-lg">
+        <div className="border p-3 rounded-lg border-gray-300/50">
           <div>
             <div className="flex gap-2 mb-3">
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </div>
             <p>
               Lorem ipsum dolor sit amet. Et liberotione neque recusandae
@@ -37,14 +37,14 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
-        <div className="border p-3 rounded-lg">
+        <div className="border p-3 rounded-lg border-gray-300/50">
           <div>
             <div className="flex gap-2 mb-3">
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </div>
             <p>
               Lorem ipsum dolor sit amet. Et liberotione neque recusandae
@@ -65,14 +65,14 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
-        <div className="border p-3 rounded-lg">
+        <div className="border p-3 rounded-lg border-gray-300/50">
           <div>
             <div className="flex gap-2 mb-3">
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </div>
             <p>
               Lorem ipsum dolor sit amet. Et liberotione neque recusandae
@@ -95,14 +95,14 @@ const Testimonials = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:ml-20">
-        <div className="border p-3 rounded-lg">
+        <div className="border p-3 rounded-lg border-gray-300/50">
           <div>
             <div className="flex gap-2 mb-3">
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </div>
             <p>
               Lorem ipsum dolor sit amet. Et liberotione neque recusandae
@@ -123,14 +123,14 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
-        <div className="border p-3 rounded-lg">
+        <div className="border p-3 rounded-lg border-gray-300/50">
           <div>
             <div className="flex gap-2 mb-3">
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </div>
             <p>
               Lorem ipsum dolor sit amet. Et liberotione neque recusandae
@@ -151,14 +151,14 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
-        <div className="border p-3 rounded-lg">
+        <div className="border p-3 rounded-lg border-gray-300/50">
           <div>
             <div className="flex gap-2 mb-3">
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
-              <FaStar className=""></FaStar>
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
             </div>
             <p>
               Lorem ipsum dolor sit amet. Et liberotione neque recusandae

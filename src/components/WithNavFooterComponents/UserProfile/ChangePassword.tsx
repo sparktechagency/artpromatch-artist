@@ -1,17 +1,40 @@
 'use client';
 
+import { useUser } from '@/context/UserContext';
+import { changePassword } from '@/services/Auth';
 import { ConfigProvider, Form, Input } from 'antd';
+import { toast } from 'sonner';
+
+interface ChangePasswordFormValues {
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
 
 const ChangePassword = () => {
-  interface ChangePasswordFormValues {
-    email: string;
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }
+  const { user, setIsLoading } = useUser();
 
-  const onFinish = (values: ChangePasswordFormValues) => {
-    console.log(values);
+  const [form] = Form.useForm<ChangePasswordFormValues>();
+
+  const handleChangePassword = async (values: ChangePasswordFormValues) => {
+    const userInfo = {
+      newPassword: values.newPassword,
+      oldPassword: values.oldPassword,
+    };
+
+    try {
+      const res = await changePassword(userInfo);
+
+      if (res.success) {
+        toast.success(res?.message);
+        setIsLoading(true);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err: any) {
+      console.error(err);
+    }
   };
 
   return (
@@ -28,13 +51,21 @@ const ChangePassword = () => {
           },
         }}
       >
-        <Form name="changePassword" onFinish={onFinish} layout="vertical">
+        <Form<ChangePasswordFormValues>
+          form={form}
+          name="changePassword"
+          initialValues={{
+            email: user?.email,
+          }}
+          onFinish={handleChangePassword}
+          layout="vertical"
+        >
           <Form.Item
             name="email"
             label="Email"
             rules={[{ required: true, message: 'Please input your email!' }]}
           >
-            <Input placeholder="Your Email" className="p-2" />
+            <Input readOnly placeholder="Your Email" className="p-2" />
           </Form.Item>
 
           <Form.Item
@@ -44,7 +75,11 @@ const ChangePassword = () => {
               { required: true, message: 'Please input your old password!' },
             ]}
           >
-            <Input type="password" placeholder="Old Password" className="p-2" />
+            <Input.Password
+              type="password"
+              placeholder="Old Password"
+              className="p-2"
+            />
           </Form.Item>
 
           <Form.Item
@@ -54,7 +89,11 @@ const ChangePassword = () => {
               { required: true, message: 'Please input your new password!' },
             ]}
           >
-            <Input type="password" placeholder="New Password" className="p-2" />
+            <Input.Password
+              type="password"
+              placeholder="New Password"
+              className="p-2"
+            />
           </Form.Item>
 
           <Form.Item
@@ -73,7 +112,7 @@ const ChangePassword = () => {
               }),
             ]}
           >
-            <Input
+            <Input.Password
               type="password"
               placeholder="Confirm Password"
               className="p-2"
@@ -83,9 +122,9 @@ const ChangePassword = () => {
           <Form.Item className="text-end">
             <button
               type="submit"
-              className="px-5 py-2 bg-primary text-white rounded-xl font-bold"
+              className="px-5 py-2 bg-primary rounded-xl font-bold"
             >
-              Update
+              <span className="text-white"> Update</span>
             </button>
           </Form.Item>
         </Form>

@@ -3,42 +3,88 @@
 import { AllImages } from '@/assets/images/AllImages';
 import { Typography } from 'antd';
 import Image from 'next/image';
-import { IoIosArrowDown } from 'react-icons/io';
 import { IoLocationOutline } from 'react-icons/io5';
 import { CiSearch } from 'react-icons/ci';
+import { IArtist } from '@/types';
+import { useUser } from '@/context/UserContext';
+import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { RxCross2 } from 'react-icons/rx';
 
-const ArtistAfterLoginHeader = () => {
-  const onSearch = (value: string) => {
-    console.log('Search input: ', value);
+const ArtistAfterLoginHeader = ({ artists = [] }: { artists: IArtist[] }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const { user } = useUser();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const loggedinUserLocation = artists?.find(
+    artist => artist?.auth._id === user?.id
+  );
+
+  const handleSearch = () => {
+    // router.push(`/discover?searchTerm=${encodeURIComponent(searchTerm)}`);
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (searchTerm) {
+      params.set('searchTerm', searchTerm);
+    } else {
+      params.delete('searchTerm');
+    }
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('searchTerm');
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
     <div>
-      <div className="mb-4 flex flex-col justify-center items-center text-center pt-16 ">
+      <div className="mb-4 flex flex-col justify-center items-center text-center pt-16">
         <Image src={AllImages.logo} width={50} height={50} alt="logo" />
-        <h2 className="text-center md:text-6xl font-bold mt-6 mb-2 ">
+        <h2 className="text-center md:text-6xl font-bold mt-6 mb-2">
           Discover Artists and Studios <br /> Near You
         </h2>
-        <Typography.Text className="md:text-xl text-center text-primary mt-3 md:mb-10 ">
+        <Typography.Text className="md:text-xl text-center text-primary mt-3 md:mb-10">
           Discover tattoo artists, piercers, and studios tailored to <br /> your
           preferences.
         </Typography.Text>
-        <div className="bg-slate-100 rounded-3xl p-1 flex justify-center items-center gap-3">
+
+        <div className="bg-slate-100 rounded-3xl p-2 flex justify-center items-center gap-3">
           <IoLocationOutline className="h-5 w-5 text-primary" />
-          <h4 className="text-sm">
-            118-06 Atlantic Ave, South Richmond Hill, New York
-          </h4>
-          <IoIosArrowDown />
+          <div className="text-sm">{loggedinUserLocation?.stringLocation}</div>
         </div>
-        <div className="mt-2 md:mt-5 md:w-[650px] border rounded-lg p-2 flex justify-between items-center">
-          <div>
-            <p className="text-sm text-primary">
-              Search for tattoo artists, piercers and studios
-            </p>
-          </div>
-          <div className="bg-primary h-8 w-8 rounded-xl flex justify-center items-center">
+
+        {/* Search field */}
+        <div className="mt-2 md:mt-5 md:w-[650px] border rounded-lg p-2 flex justify-between items-center gap-2">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
+            placeholder="Search for tattoo artists, piercers and studios"
+            className="w-full outline-none bg-transparent text-sm text-primary px-2"
+          />
+
+          {searchTerm && (
+            <button
+              onClick={handleReset}
+              className="h-7 w-7 rounded-full flex justify-center items-center hover:bg-gray-200"
+            >
+              <RxCross2 className="text-gray-500" />
+            </button>
+          )}
+
+          <button
+            onClick={handleSearch}
+            className="bg-primary h-8 w-8 rounded-xl flex justify-center items-center"
+          >
             <CiSearch className="text-white h-5 w-5 font-bold" />
-          </div>
+          </button>
         </div>
       </div>
     </div>

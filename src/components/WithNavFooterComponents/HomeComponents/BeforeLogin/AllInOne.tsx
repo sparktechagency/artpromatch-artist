@@ -26,7 +26,7 @@ const AllInOne = () => {
             className="bg-[#392d2d] h-10 w-10 rounded-xl flex justify-center items-center p-2"
           />
           <h1 className="text-xl font-bold my-2">Showcase Your Talent</h1>
-          <p className="text-textSecondary">
+          <p className="text-secondary">
             Upload your best work and let your art speak for itself. Attract
             clients with a stunning portfolio in your style
           </p>
@@ -40,7 +40,7 @@ const AllInOne = () => {
             className="bg-[#392d2d] h-10 w-10 rounded-xl flex justify-center items-center p-2"
           />
           <h1 className="text-xl font-bold my-2">Manage Your Bookings</h1>
-          <p className="text-textSecondary">
+          <p className="text-secondary">
             Stay in control of your schedule with an intuitive calendar. Accept
             bookings and manage client requests seamlessly.
           </p>
@@ -54,7 +54,7 @@ const AllInOne = () => {
             className="bg-[#392d2d] h-10 w-10 rounded-xl flex justify-center items-center p-2"
           />
           <h1 className="text-xl font-bold my-2">Connect with Clients</h1>
-          <p className="text-textSecondary">
+          <p className="text-secondary">
             Chat directly with clients, share ideas, and bring their vision to
             life with smooth, two-way communication.
           </p>
@@ -68,7 +68,7 @@ const AllInOne = () => {
             className="bg-[#392d2d] h-10 w-10 rounded-xl flex justify-center items-center p-2"
           />
           <h1 className="text-xl font-bold my-2 ">Showcase Your Talent</h1>
-          <p className="text-textSecondary">
+          <p className="text-secondary">
             Take your art on the road. Advertise guest spots in different cities
             and connect with new clients wherever you go.
           </p>

@@ -1,5 +1,7 @@
-const page = () => {
-  return <div></div>;
+const GuestSpotsPage = () => {
+  return <div>
+    
+  </div>;
 };
 
-export default page;
+export default GuestSpotsPage;

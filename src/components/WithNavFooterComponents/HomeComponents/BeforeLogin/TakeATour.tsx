@@ -15,9 +15,9 @@ const TakeATour = () => {
             wherever you go.
           </p>
           <Link href="/sign-in">
-            <button className="px-4 py-2 rounded-lg text-white bg-black">
+            <div className="px-4 py-2 rounded-lg text-white bg-black">
               Add Your Tour Dates
-            </button>
+            </div>
           </Link>
         </div>
         <div className=" flex items-center justify-center">

@@ -141,7 +141,7 @@ const PaymentHistory = () => {
       <div className="mt-5 mb-4 border rounded-xl p-4 flex justify-between items-center ">
         <div className="flex items-center gap-3">
           <Image src={AllImages.visa} alt="visa" height={50} width={50} />
-          <div className="text-textSecondary">
+          <div className="text-secondary">
             <h3>Visa ending in 1234</h3>
             <h4>Expiry 06/2024</h4>
           </div>

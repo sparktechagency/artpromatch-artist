@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { AllImages } from '@/assets/images/AllImages';
 import { useRouter } from 'next/navigation';
 import { Flex, Input } from 'antd';
-import { sendSignupOtpAgain, verifySignUpByOTP } from '@/services/AuthService';
+import { sendSignupOtpAgain, verifySignUpByOTP } from '@/services/Auth';
 import { toast } from 'sonner';
 
 const AccountVerification: React.FC = () => {
@@ -43,7 +43,6 @@ const AccountVerification: React.FC = () => {
       }
     } catch (err: any) {
       console.error(err);
-      toast.error('Something went wrong. Please try again.');
     }
   };
 

@@ -2,21 +2,14 @@
 
 import ArtistHomePage from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistHomePage';
 import BeforeLogin from '../../../components/WithNavFooterComponents/HomeComponents/BeforeLogin';
-import { useEffect, useState } from 'react';
+import { useUser } from '@/context/UserContext';
 
 const DashboardPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    const storedLoginState = localStorage.getItem('isLogin');
-    if (storedLoginState) {
-      setIsLogin(storedLoginState === 'true');
-    }
-  }, []);
+  const { user } = useUser();
 
   return (
     <div className="container mx-auto p-6">
-      {isLogin ? <ArtistHomePage /> : <BeforeLogin />}
+      {user ? <ArtistHomePage /> : <BeforeLogin />}
     </div>
   );
 };

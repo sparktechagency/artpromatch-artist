@@ -1,8 +1,6 @@
-'use client';
 import { AllImages } from '@/assets/images/AllImages';
 import { Typography } from 'antd';
 import Image from 'next/image';
-import { IoIosArrowForward } from 'react-icons/io';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import Link from 'next/link';
 import AllInOne from './AllInOne';
@@ -41,11 +39,11 @@ const BeforeLogin = () => {
           effortlessly.
         </Typography.Text>
         <div className="flex flex-col md:flex-row justify-center items-center md:gap-5 mb-20">
-          <Link href="/sign-in">
-            <button className="bg-black text-white py-3 px-6 rounded-lg mt-5 flex  items-center gap-2">
+          <Link href="/dashboard">
+            <div className="bg-black text-white py-3 px-6 rounded-lg mt-5 flex  items-center gap-2">
               Get Started
               <MdKeyboardArrowRight />
-            </button>
+            </div>
           </Link>
         </div>
       </div>

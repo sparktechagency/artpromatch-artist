@@ -1,4 +1,6 @@
 import { AllImages } from '@/assets/images/AllImages';
+import { useUser } from '@/context/UserContext';
+import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegEye } from 'react-icons/fa6';
@@ -7,30 +9,38 @@ import { LuMessageCircleMore } from 'react-icons/lu';
 import { MdNotificationsActive } from 'react-icons/md';
 
 const ArtistHomePage = () => {
+  const { user } = useUser();
+
+  if (!user) return null;
+
   return (
     <div className=" ">
       <div className="flex flex-col md:flex-row justify-between items-center md:mt-16 md:mb-10">
         <div className="flex justify-start items-center gap-3">
           <Link href="/artist-profile">
-            <Image src={AllImages.user} width={50} height={50} alt="logo" />
+            <Image
+              src={getCleanImageUrl(user?.image)}
+              width={50}
+              height={50}
+              alt="logo"
+              className="rounded-full h-18 w-18"
+            />
           </Link>
           <div>
-            <h1> Welcome Back, Zuhran!</h1>
-            <p className="text-textSecondary">
+            <h1> Welcome Back, {user?.fullName}!</h1>
+            <p className="text-secondary">
               Here&apos;s what&apos;s happening with your profile today.
             </p>
           </div>
         </div>
         <div className="flex justify-center items-center gap-5">
-          <Link href="/user-profile-page">
-            <button className=" px-6 py-2 rounded-lg border">
-              View Profile
-            </button>
+          <Link href="/profile/update">
+            <div className=" px-6 py-2 rounded-lg border">View Profile</div>
           </Link>
           <Link href="/discover">
-            <button className=" px-6 py-2 rounded-lg border bg-primary text-white">
+            <div className=" px-6 py-2 rounded-lg border bg-primary text-white">
               Discover
-            </button>
+            </div>
           </Link>
         </div>
       </div>
@@ -42,7 +52,7 @@ const ArtistHomePage = () => {
             <p>Upcoming Appointments</p>
           </div>
           <div>
-            <Link href="/your-bookings">
+            <Link href="/bookings">
               <Image
                 src={AllImages.AllInOne2}
                 width={50}
@@ -109,13 +119,13 @@ const ArtistHomePage = () => {
               />
               <div>
                 <h1 className="text-xl font-bold">Bookings</h1>
-                <p className="text-textSecondary">
+                <p className="text-secondary">
                   Manage your upcoming appointments and track booking requests
                   in one place.
                 </p>
               </div>
             </div>
-            <Link href="/your-bookings">
+            <Link href="/bookings">
               <IoIosArrowForward className="h-8 w-8" />
             </Link>
           </div>
@@ -130,7 +140,7 @@ const ArtistHomePage = () => {
               />
               <div>
                 <h1 className="text-xl font-bold">Mr Jhon</h1>
-                <p className="text-textSecondary">
+                <p className="text-secondary">
                   Dec 10, 2024 - 11:30 AM with John Doe (Realism Tattoo)
                 </p>
               </div>
@@ -149,7 +159,7 @@ const ArtistHomePage = () => {
               />
               <div>
                 <h1 className="text-xl font-bold">Notifications</h1>
-                <p className="text-textSecondary">
+                <p className="text-secondary">
                   Stay updated with the latest booking requests, client
                   messages, and profile activity.
                 </p>
@@ -162,7 +172,7 @@ const ArtistHomePage = () => {
               <MdNotificationsActive className="h-8 w-8 text-primary" />
               <div>
                 <h1 className="text-xl font-bold">Booking Request</h1>
-                <p className="text-textSecondary">
+                <p className="text-secondary">
                   from Mia Carter for Dec 20, 2024.
                 </p>
               </div>

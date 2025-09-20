@@ -13,21 +13,21 @@ const FavouritesPage = () => {
       <div className="mb-4 flex flex-col justify-center items-center text-center pt-16 ">
         <Image src={AllImages.logo} width={50} height={50} alt="logo" />
         <h2 className="text-center md:text-6xl font-bold mt-6 mb-2 ">
-          Your Favourite Artists
+          Your Favourite Services
         </h2>
         <Typography.Text className="md:text-xl text-center text-primary mt-3 md:mb-10 ">
           Easily revisit and book the artists you love.
         </Typography.Text>
         <div className="flex flex-col md:flex-row justify-center items-center md:gap-5 mb-20">
           <Link href="/">
-            <button className="bg-black text-white py-3 px-6 rounded-lg mt-5">
-              Discover More Artists
-            </button>
+            <div className="bg-black text-white py-3 px-6 rounded-lg mt-5">
+              Discover More Services
+            </div>
           </Link>
-          <Link href="/">
-            <button className="bg-primary text-white py-3 px-6 rounded-lg mt-5 flex justify-center items-center gap-2">
+          <Link href="/guest-spots">
+            <div className="bg-primary text-white py-3 px-6 rounded-lg mt-5 flex justify-center items-center gap-2">
               Book a Guest Spot <IoIosArrowForward />
-            </button>
+            </div>
           </Link>
         </div>
       </div>
@@ -57,7 +57,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -74,7 +74,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -106,7 +106,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -123,7 +123,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -153,7 +153,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -170,7 +170,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -200,7 +200,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -217,7 +217,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -247,7 +247,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -264,7 +264,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -294,7 +294,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -311,7 +311,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -341,7 +341,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -358,7 +358,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
@@ -388,7 +388,7 @@ const FavouritesPage = () => {
                 <p className="text-xs text-neutral-500">New York,USA</p>
               </div>
             </div>
-            <p className="text-textSecondary">3.2 miles away</p>
+            <p className="text-secondary">3.2 miles away</p>
           </div>
           <div className="flex justify-between items-center gap-2 mb-5">
             <div className="flex gap-5">
@@ -405,7 +405,7 @@ const FavouritesPage = () => {
                 Genital
               </button>
             </div>
-            <button className="text-textSecondary">+5</button>
+            <button className="text-secondary">+5</button>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex  gap-1">
