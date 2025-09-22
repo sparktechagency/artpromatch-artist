@@ -35,14 +35,14 @@ const AccountVerification: React.FC = () => {
     try {
       const res = await verifySignUpByOTP(userEmail!, otp);
 
-      if (res.success) {
-        toast.success(res.message);
+      if (res?.success) {
+        toast.success(res?.message);
         router.push('/user-type-selection');
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (err: any) {
-      console.error(err);
+    } catch (error: any) {
+      console.error(error);
     }
   };
 
@@ -50,13 +50,13 @@ const AccountVerification: React.FC = () => {
     try {
       const res = await sendSignupOtpAgain(userEmail!);
 
-      if (res.success) {
+      if (res?.success) {
         toast.success(res?.message);
       } else {
         toast.error(res?.message);
       }
-    } catch (err: any) {
-      console.error(err);
+    } catch (error: any) {
+      console.error(error);
     }
   };
 

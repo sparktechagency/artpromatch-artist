@@ -46,6 +46,7 @@ const NavBar = () => {
   const afterLoginLabels = [
     { name: 'Dashboard', link: '/dashboard' },
     { name: 'Discover', link: '/discover' },
+    { name: 'Services', link: '/services' },
     { name: 'Bookings', link: '/bookings' },
     { name: 'Availability', link: '/availability' },
     { name: 'Portfolio', link: '/portfolio' },

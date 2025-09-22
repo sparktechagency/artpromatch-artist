@@ -98,15 +98,15 @@ const PortfolioComponent = ({ folders = [] }: { folders: IFolder[] }) => {
       setIsLoading(true);
 
       const res = await createFolder(formData);
-      if (res.success) {
+      if (res?.success) {
         toast.success(res?.message);
         form.resetFields();
         setFileListForCreateNewFolder([]);
         setIsModalOpenForCreateNewFolder(false);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast.error('Something went wrong. Please try again.');
     } finally {
@@ -125,14 +125,14 @@ const PortfolioComponent = ({ folders = [] }: { folders: IFolder[] }) => {
     try {
       setIsLoading(true);
       const res = await updateFolder(selectedFolderForAllTask._id, values);
-      if (res.success) {
-        toast.success(res.message);
+      if (res?.success) {
+        toast.success(res?.message);
         setIsEditFolderModalOpen(false);
         setSelectedFolderForAllTask(null);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast.error('Something went wrong. Please try again.');
     } finally {
@@ -167,15 +167,15 @@ const PortfolioComponent = ({ folders = [] }: { folders: IFolder[] }) => {
     try {
       setIsLoading(true);
       const res = await addImagesToFolder(selectedFolderIdForImages, formData);
-      if (res.success) {
+      if (res?.success) {
         toast.success(res?.message);
         setImagesFilesForExistingFolder([]);
         setIsAddImagesInsideAFolder(false);
         setSelectedFolderIdForImages(null);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast.error('Something went wrong. Please try again.');
     } finally {
@@ -196,14 +196,14 @@ const PortfolioComponent = ({ folders = [] }: { folders: IFolder[] }) => {
         selectedImage.path,
         selectedImage.folderId
       );
-      if (res.success) {
-        toast.success(res.message);
+      if (res?.success) {
+        toast.success(res?.message);
         setIsDeleteImageModalOpen(false);
         setSelectedImage(null);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast.error('Something went wrong. Please try again.');
     } finally {
@@ -221,14 +221,14 @@ const PortfolioComponent = ({ folders = [] }: { folders: IFolder[] }) => {
     try {
       setIsLoading(true);
       const res = await removeAFolder(selectedFolderForAllTask._id);
-      if (res.success) {
-        toast.success(res.message);
+      if (res?.success) {
+        toast.success(res?.message);
         setIsDeleteAFolderModalOpen(false);
         setSelectedFolderForAllTask(null);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast.error('Something went wrong. Please try again.');
     } finally {

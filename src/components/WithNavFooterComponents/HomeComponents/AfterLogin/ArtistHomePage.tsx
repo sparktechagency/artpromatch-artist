@@ -38,13 +38,25 @@ const ArtistHomePage = () => {
             <div className=" px-6 py-2 rounded-lg border">View Profile</div>
           </Link>
           <Link href="/discover">
-            <div className=" px-6 py-2 rounded-lg border bg-primary text-white">
+            <div className="px-6 py-2 rounded-lg border bg-primary text-white">
               Discover
             </div>
           </Link>
         </div>
       </div>
       <div className="md:my-5 grid grid-cols-1 md:grid-cols-4 gap-5 ">
+        <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-xl font-bold">Services</h1>
+            <h1 className="text-3xl font-bold">05</h1>
+            <p>Running Services</p>
+          </div>
+          <div>
+            <Link href="/services">
+              <FaRegEye className="bg-primary text-white h-10 w-10 p-1 rounded-lg" />
+            </Link>
+          </div>
+        </div>
         <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Current Bookings</h1>

@@ -1,7 +1,8 @@
 'use client';
 
-import { Radio, RadioChangeEvent, Switch, message } from 'antd';
+import { Radio, RadioChangeEvent, Switch } from 'antd';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 type NotificationKey =
   | 'bookingRequests'
@@ -68,7 +69,7 @@ const NotificationPage = () => {
       newGuestArtists: value,
     };
     setNotificationSettings(newSettings);
-    message.success(
+    toast.success(
       value ? 'All notifications turned ON' : 'All notifications turned OFF'
     );
   };
@@ -83,9 +84,9 @@ const NotificationPage = () => {
     try {
       // await updateNotification(payload).unwrap(); // Uncomment when API available
       console.log('Saved payload:', payload);
-      message.success('Notification settings updated successfully!');
+      toast.success('Notification settings updated successfully!');
     } catch (error) {
-      message.error('Failed to update notification settings.');
+      toast.error('Failed to update notification settings.');
       console.error(error);
     }
   };

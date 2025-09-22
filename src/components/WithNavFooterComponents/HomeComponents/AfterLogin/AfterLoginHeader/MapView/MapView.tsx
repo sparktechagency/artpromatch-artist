@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { IArtist } from '@/types';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 
 // Dynamically import the map component to avoid SSR issues
 const MapContainer = dynamic(
@@ -89,7 +90,9 @@ const ProfileMarker = ({
         html: `
           <div class="relative">
             <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-lg">
-              <img src="${artist.auth.image}" alt="${artist.auth.fullName}" class="w-full h-full object-cover" />
+              <img src="${getCleanImageUrl(artist.auth.image)}" alt="${
+          artist.auth.fullName
+        }" class="w-full h-full object-cover" />
             </div>
             <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rotate-45"></div>
           </div>

@@ -19,14 +19,15 @@ const UserProfile = () => {
   const handleUpdateData = async (values: UserProfileFormValues) => {
     try {
       const res = await updateAuthData(values.fullName);
-      if (res.success) {
+
+      if (res?.success) {
         toast.success(res?.message);
         setIsLoading(true);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
-    } catch (err: any) {
-      console.error(err);
+    } catch (error: any) {
+      console.error(error);
     }
   };
 

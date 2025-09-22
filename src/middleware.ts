@@ -13,6 +13,7 @@ const roleBasedPrivateRoutes = {
     /^\/dashboard/,
     /^\/portfolio/,
     /^\/bookings/,
+    /^\/services/,
   ],
 };
 
@@ -65,6 +66,7 @@ export const config = {
     '/dashboard',
     '/portfolio',
     '/bookings',
+    '/services',
     // '/admin/:page',
     // '/user',
     // '/user/:page',

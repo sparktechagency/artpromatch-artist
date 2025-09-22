@@ -26,11 +26,11 @@ const ChangePassword = () => {
     try {
       const res = await changePassword(userInfo);
 
-      if (res.success) {
+      if (res?.success) {
         toast.success(res?.message);
         setIsLoading(true);
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
     } catch (err: any) {
       console.error(err);
