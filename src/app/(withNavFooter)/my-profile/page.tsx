@@ -2,17 +2,15 @@
 
 import { AllImages } from '@/assets/images/AllImages';
 import Image, { StaticImageData } from 'next/image';
-import { useState, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { LuPenLine } from 'react-icons/lu';
 import { ConfigProvider, Form, Input, Modal } from 'antd';
 import ArtistProfileHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistProfileComponents/ArtistProfileHeader';
 import ArtistProfileSideBar from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistProfileComponents/ArtistProfileSideBar';
-
-// types
-interface ArtistProfilePageProps {
-  children?: ReactNode;
-}
+import { useUser } from '@/context/UserContext';
+import { getOwnArtistData } from '@/services/Auth';
+import { IArtist } from '@/types';
 
 interface PortfolioItem {
   name: string;
@@ -24,7 +22,20 @@ interface FormValues {
   aboutYou: string;
 }
 
-const ArtistProfilePage: React.FC<ArtistProfilePageProps> = () => {
+const ArtistProfilePage = () => {
+  const { user } = useUser();
+  const [artistData, setArtistData] = useState<IArtist | null>(null);
+
+  useEffect(() => {
+    const setArtistFunc = async () => {
+      const artist = await getOwnArtistData();
+
+      setArtistData(artist?.data);
+    };
+
+    setArtistFunc();
+  }, []);
+
   const data: PortfolioItem[] = [
     { name: 'Alex Rivera', date: '2 days ago', image: AllImages.image },
     { name: 'Alex Rivera', date: '2 days ago', image: AllImages.image1 },
@@ -60,7 +71,7 @@ const ArtistProfilePage: React.FC<ArtistProfilePageProps> = () => {
           />
         </div>
         <div className="container mx-auto ">
-          <ArtistProfileHeader />
+          <ArtistProfileHeader user={user} />
         </div>
       </div>
 
@@ -72,18 +83,13 @@ const ArtistProfilePage: React.FC<ArtistProfilePageProps> = () => {
         <div className="w-[80%] px-5">
           <div>
             <h1 className="text-2xl font-bold flex gap-2 items-center">
-              About Alex Rivera{' '}
+              {user?.fullName}
               <LuPenLine
                 onClick={showModal}
                 className="bg-primary text-white h-7 w-7 p-1 rounded-full cursor-pointer"
               />
             </h1>
-            <p>
-              I&apos;m a professional tattoo artist with over 10 years of
-              experience specializing in realism and black & grey designs. My
-              focus is on creating lifelike portraits and intricate custom
-              designs for clients who want their tattoos to tell a story.
-            </p>
+            <p>{artistData?.description}</p>
           </div>
 
           <div>

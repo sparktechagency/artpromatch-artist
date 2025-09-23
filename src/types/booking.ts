@@ -67,10 +67,10 @@ interface IBookingSession {
 
 type TBookingStatus =
   | 'pending'
-  | 'completed'
   | 'confirmed'
   | 'in_progress'
   | 'ready_for_completion'
+  | 'completed'
   | 'cancelled';
 
 type TSessionStatus = 'pending' | 'scheduled' | 'rescheduled' | 'completed';
@@ -97,5 +97,5 @@ type TPaymentStatus =
   | 'authorized'
   | 'captured'
   | 'succeeded'
-  | 'failed'
-  | 'refunded';
+  | 'refunded'
+  | 'failed';

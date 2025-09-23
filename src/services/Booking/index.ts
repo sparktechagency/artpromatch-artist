@@ -1,10 +1,10 @@
 'use server';
 
-import { getValidAccessTokenForServerBasedGet } from '@/lib/getValidAccessToken';
+import { getValidAccessTokenForServerHandlerGet } from '@/lib/getValidAccessToken';
 
 // getSingleArtistBookings
 export const getSingleArtistBookings = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerBasedGet();
+  const accessToken = await getValidAccessTokenForServerHandlerGet();
 
   try {
     const res = await fetch(

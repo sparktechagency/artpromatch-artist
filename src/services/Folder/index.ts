@@ -1,11 +1,14 @@
 'use server';
 
-import { getValidAccessTokenForActions, getValidAccessTokenForServerBasedGet } from '@/lib/getValidAccessToken';
+import {
+  getValidAccessTokenForActions,
+  getValidAccessTokenForServerHandlerGet,
+} from '@/lib/getValidAccessToken';
 import { revalidateTag } from 'next/cache';
 
 // getAllFolders
 export const getAllFolders = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerBasedGet();
+  const accessToken = await getValidAccessTokenForServerHandlerGet();
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/folders`, {

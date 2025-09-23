@@ -2,13 +2,13 @@
 
 import {
   getValidAccessTokenForActions,
-  getValidAccessTokenForServerBasedGet,
+  getValidAccessTokenForServerHandlerGet,
 } from '@/lib/getValidAccessToken';
 import { revalidateTag } from 'next/cache';
 
 // getSingleArtistServices
 export const getSingleArtistServices = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerBasedGet();
+  const accessToken = await getValidAccessTokenForServerHandlerGet();
 
   try {
     const res = await fetch(
@@ -81,7 +81,6 @@ export const updateAService = async (
 
     console.log({ result });
 
-    
     return result;
   } catch (error: any) {
     return Error(error);

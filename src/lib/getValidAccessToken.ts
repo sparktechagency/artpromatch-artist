@@ -37,11 +37,10 @@ export const getValidAccessTokenForActions = async (): Promise<string> => {
   return accessToken;
 };
 
-// getValidAccessTokenForServerBasedGet
-
+// getValidAccessTokenForServerHandlerGet
 let cachedAccessToken: string | null = null; // for not getting new token again and again
 let tokenExpiry: number | null = null; // for not getting new token again and again
-export const getValidAccessTokenForServerBasedGet =
+export const getValidAccessTokenForServerHandlerGet =
   async (): Promise<string> => {
     const now = Date.now();
 

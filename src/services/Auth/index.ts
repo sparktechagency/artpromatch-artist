@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
 import { FieldValues } from '@/types';
-import { getValidAccessTokenForActions } from '@/lib/getValidAccessToken';
+import { getValidAccessTokenForActions as getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
 
 // socialSignIn
 export const socialSignIn = async (payload: {
@@ -133,7 +133,7 @@ export const signInUser = async (userData: FieldValues): Promise<any> => {
 
 // updateProfilePhoto
 export const updateProfilePhoto = async (data: FormData): Promise<any> => {
-  const accessToken = await getValidAccessTokenForActions();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -160,7 +160,7 @@ export const updateProfilePhoto = async (data: FormData): Promise<any> => {
 
 // updateAuthData
 export const updateAuthData = async (fullName: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForActions();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -191,7 +191,7 @@ export const changePassword = async (data: {
   oldPassword: string;
   newPassword: string;
 }): Promise<any> => {
-  const accessToken = await getValidAccessTokenForActions();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -250,6 +250,27 @@ export const getNewAccessToken = async (refreshToken: string): Promise<any> => {
         },
       }
     );
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+// getOwnArtistData
+export const getOwnArtistData = async (): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerActions();
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/artists/own`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      next: {
+        tags: ['ARTIST'],
+      },
+    });
 
     const result = await res.json();
     return result;

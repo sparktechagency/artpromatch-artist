@@ -17,7 +17,7 @@ const ArtistHomePage = () => {
     <div className=" ">
       <div className="flex flex-col md:flex-row justify-between items-center md:mt-16 md:mb-10">
         <div className="flex justify-start items-center gap-3">
-          <Link href="/artist-profile">
+          <Link href="/my-profile">
             <Image
               src={getCleanImageUrl(user?.image)}
               width={50}
@@ -93,7 +93,7 @@ const ArtistHomePage = () => {
             </Link>
           </div>
         </div>
-        <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
+        {/* <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Profile Views</h1>
             <h1 className="text-3xl font-bold">85</h1>
@@ -104,7 +104,7 @@ const ArtistHomePage = () => {
               <FaRegEye className="bg-primary text-white h-10 w-10 p-1 rounded-lg" />
             </Link>
           </div>
-        </div>
+        </div> */}
         <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">New Message</h1>

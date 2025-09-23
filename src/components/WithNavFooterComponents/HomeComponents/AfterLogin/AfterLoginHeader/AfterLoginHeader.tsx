@@ -5,13 +5,14 @@ import { Typography } from 'antd';
 import Image from 'next/image';
 import { IoLocationOutline } from 'react-icons/io5';
 import { CiSearch } from 'react-icons/ci';
-import { IArtist } from '@/types';
+// import { IArtist } from '@/types';
 import { useUser } from '@/context/UserContext';
 import { useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RxCross2 } from 'react-icons/rx';
 
-const ArtistAfterLoginHeader = ({ artists = [] }: { artists: IArtist[] }) => {
+// const ArtistAfterLoginHeader = ({ artists = [] }: { artists: IArtist[] }) => {
+const ArtistAfterLoginHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -19,9 +20,9 @@ const ArtistAfterLoginHeader = ({ artists = [] }: { artists: IArtist[] }) => {
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const loggedinUserLocation = artists?.find(
-    artist => artist?.auth._id === user?.id
-  );
+  // const loggedinUser = artists?.find(
+  //   artist => artist?.auth._id === user?.id
+  // );
 
   const handleSearch = () => {
     // router.push(`/discover?searchTerm=${encodeURIComponent(searchTerm)}`);
@@ -56,7 +57,8 @@ const ArtistAfterLoginHeader = ({ artists = [] }: { artists: IArtist[] }) => {
 
         <div className="bg-slate-100 rounded-3xl p-2 flex justify-center items-center gap-3">
           <IoLocationOutline className="h-5 w-5 text-primary" />
-          <div className="text-sm">{loggedinUserLocation?.stringLocation}</div>
+          {/* <div className="text-sm">{loggedinUser?.stringLocation}</div> */}
+          <div className="text-sm">{user?.stringLocation}</div>
         </div>
 
         {/* Search field */}

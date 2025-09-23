@@ -1,18 +1,19 @@
 'use client';
 
-import { AllImages } from '@/assets/images/AllImages';
 import { Modal, Select } from 'antd';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { useState } from 'react';
 import { FaCalendarDay, FaDollarSign } from 'react-icons/fa6';
 import { IoIosArrowForward } from 'react-icons/io';
 import Link from 'next/link';
 import Mapview from '../MapView/MapView';
-import TattoDetailsModal from './TattoDetailsModal';
-import { ExpertiseType, IArtist, IMeta } from '@/types';
+import ServiceDetailsModal from './ServiceDetailsModal';
+import { ExpertiseType, IArtist } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
+import { useUser } from '@/context/UserContext';
 
-const FilteredTatto = ({ artists = [] }: { artists: IArtist[] }) => {
+const Services = ({ artists = [] }: { artists: IArtist[] }) => {
+  const { user } = useUser();
   const tattooCategories = [
     ...new Set(artists?.flatMap(artist => artist.expertise)),
   ];
@@ -32,10 +33,6 @@ const FilteredTatto = ({ artists = [] }: { artists: IArtist[] }) => {
     setIsModalOpen(true);
   };
 
-  const handleChange = (value: string) => {
-    console.log('Selected:', value);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -44,13 +41,15 @@ const FilteredTatto = ({ artists = [] }: { artists: IArtist[] }) => {
     <div className="container mx-auto md:my-8">
       <div className="flex justify-between items-center">
         <Select
-          defaultValue="Tattoo Artists"
+          value={selectedTab}
           style={{ width: 150 }}
-          onChange={handleChange}
-          options={[
-            { value: 'Tattoo Artists', label: 'Tattoo Artists' },
-            { value: 'Piercing Artists', label: 'Piercing Artists' },
-          ]}
+          onChange={(value: string) => {
+            setSelectedTab(value);
+          }}
+          options={tattooCategories.map(cat => ({
+            label: cat,
+            value: cat,
+          }))}
         />
 
         <div>
@@ -111,34 +110,35 @@ const FilteredTatto = ({ artists = [] }: { artists: IArtist[] }) => {
                 alt={artist?.auth?.fullName}
                 height={300}
                 width={500}
-                className="cursor-pointer"
+                className="cursor-pointer w-full h-60 object-cover rounded-lg"
               />
-              <div className="flex justify-between items-center my-3 gap-4">
-                <div className="flex items-center gap-2">
-                  <Link href="/other-artist-profile">
-                    <Image
-                      src={getCleanImageUrl(artist?.auth?.image)}
-                      alt={artist?.auth?.fullName}
-                      height={50}
-                      width={50}
-                      className="rounded-full"
-                    />
-                  </Link>
-                  <div>
-                    <h1 className="text-xl font-semibold">
-                      {artist?.auth?.fullName}
-                    </h1>
-                    <div className="text-xs text-neutral-500">
-                      {artist?.stringLocation}
-                    </div>
+
+              <div className="flex items-center gap-2">
+                <Link href={`/artist/${artist?._id}`}>
+                  <Image
+                    src={getCleanImageUrl(artist?.auth?.image)}
+                    alt={artist?.auth?.fullName}
+                    height={50}
+                    width={50}
+                    className="rounded-full h-12 w-12"
+                  />
+                </Link>
+
+                <div className="py-5">
+                  <h1 className="text-xl font-semibold">
+                    {artist?.auth?.fullName}{' '}
+                    {user?.id === artist?.auth?._id && '(me)'}
+                  </h1>
+                  <div className="text-secondary whitespace-nowrap">
+                    {(artist?.distance! / 1000).toFixed(2)} km
                   </div>
                 </div>
-                <div className="text-secondary whitespace-nowrap">
-                  {(artist?.distance! / 1000).toFixed(2)} km
-                </div>
+              </div>
+              <div className="text-xs text-neutral-500">
+                {artist?.stringLocation}
               </div>
 
-              <div className="flex justify-between items-center gap-2 mb-5">
+              <div className="flex justify-between items-center gap-2 my-5">
                 {artist?.expertise
                   ?.slice(0, 2)
                   ?.map((exp: string, index: number) => (
@@ -181,7 +181,7 @@ const FilteredTatto = ({ artists = [] }: { artists: IArtist[] }) => {
         width={800}
       >
         {selectedArtist && (
-          <TattoDetailsModal
+          <ServiceDetailsModal
             selectedArtist={selectedArtist}
             artists={artists}
             // onClose={handleCancel}
@@ -192,4 +192,4 @@ const FilteredTatto = ({ artists = [] }: { artists: IArtist[] }) => {
   );
 };
 
-export default FilteredTatto;
+export default Services;

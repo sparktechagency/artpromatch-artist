@@ -6,25 +6,49 @@ import { IBooking } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 
 const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
-  console.log({ bookings });
-
   const [activeTabKey, setActiveTabKey] = useState<string>('confirmed');
 
-  const upcomingAppointments: IBooking[] = bookings?.filter(
-    booking => booking.status === 'in_progress'
-  );
+  const pendingAppointments: IBooking[] = bookings
+    ?.filter(booking => booking.status === 'pending')
+    .map(item => ({
+      ...item,
+      key: item._id,
+    }));
 
-  const pastAppointments: IBooking[] = bookings?.filter(
-    booking => booking.status === 'pending'
-  );
+  const confirmedAppointments: IBooking[] = bookings
+    ?.filter(booking => booking.status === 'confirmed')
+    .map(item => ({
+      ...item,
+      key: item._id,
+    }));
 
-  const completedAppointments: IBooking[] = bookings?.filter(
-    booking => booking.status === 'completed'
-  );
+  const inProgressAppointments: IBooking[] = bookings
+    ?.filter(booking => booking.status === 'in_progress')
+    .map(item => ({
+      ...item,
+      key: item._id,
+    }));
 
-  const cancelledAppointments: IBooking[] = bookings?.filter(
-    booking => booking.status === 'in_progress'
-  );
+  const readyForcompletionAppointments: IBooking[] = bookings
+    ?.filter(booking => booking.status === 'ready_for_completion')
+    .map(item => ({
+      ...item,
+      key: item._id,
+    }));
+
+  const completedAppointments: IBooking[] = bookings
+    ?.filter(booking => booking.status === 'completed')
+    .map(item => ({
+      ...item,
+      key: item._id,
+    }));
+
+  const cancelledAppointments: IBooking[] = bookings
+    ?.filter(booking => booking.status === 'cancelled')
+    .map(item => ({
+      ...item,
+      key: item._id,
+    }));
 
   const columns = [
     {
@@ -120,8 +144,16 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
       key: 'price',
     },
     {
-      title: 'Status',
-      //       dataIndex: 'status',
+      title: 'Payment Status',
+      // dataIndex: 'paymentStatus',
+      key: 'paymentStatus',
+      render: (_: any, record: IBooking) => (
+        <span className="capitalize">{record.paymentStatus || 'N/A'}</span>
+      ),
+    },
+    {
+      title: 'Booking Status',
+      // dataIndex: 'status',
       key: 'status',
       render: (_: any, record: IBooking) => (
         <span className="capitalize">{record.status || 'N/A'}</span>
@@ -131,23 +163,45 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
 
   const tabItems = [
     {
-      key: 'upcoming',
-      label: 'Upcoming Appointments',
+      key: 'pending',
+      label: 'Pending Appointments',
       children: (
         <Table
           columns={columns}
-          dataSource={upcomingAppointments}
+          dataSource={pendingAppointments}
           pagination={false}
         />
       ),
     },
     {
-      key: 'past',
-      label: 'Past Appointments',
+      key: 'confirmed',
+      label: 'Confirmed Appointments',
       children: (
         <Table
           columns={columns}
-          dataSource={pastAppointments}
+          dataSource={confirmedAppointments}
+          pagination={false}
+        />
+      ),
+    },
+    {
+      key: 'in_progress',
+      label: 'In-Progress Appointments',
+      children: (
+        <Table
+          columns={columns}
+          dataSource={inProgressAppointments}
+          pagination={false}
+        />
+      ),
+    },
+    {
+      key: 'ready_for_completion',
+      label: 'Ready for Completion Appointments',
+      children: (
+        <Table
+          columns={columns}
+          dataSource={readyForcompletionAppointments}
           pagination={false}
         />
       ),

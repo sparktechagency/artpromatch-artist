@@ -48,7 +48,7 @@ const NavBar = () => {
     { name: 'Discover', link: '/discover' },
     { name: 'Services', link: '/services' },
     { name: 'Bookings', link: '/bookings' },
-    { name: 'Availability', link: '/availability' },
+    { name: 'Guest Spots', link: '/guestspots' },
     { name: 'Portfolio', link: '/portfolio' },
     { name: 'Analytics', link: '/analytics' },
     { name: 'Help', link: '/help' },

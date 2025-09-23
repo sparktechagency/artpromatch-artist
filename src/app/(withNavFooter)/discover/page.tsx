@@ -1,6 +1,6 @@
 import Pagination from '@/components/Shared/Pagination';
 import ArtistAfterLoginHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/AfterLoginHeader';
-import FilteredTatto from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/FilteredTatto/FilteredTatto';
+import Services from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/Services';
 import { getAllArtists } from '@/services/Artists';
 
 const DiscoverPage = async ({
@@ -13,8 +13,8 @@ const DiscoverPage = async ({
 
   return (
     <div>
-      <ArtistAfterLoginHeader artists={artists} />
-      <FilteredTatto artists={artists} />
+      <ArtistAfterLoginHeader />
+      <Services artists={artists} />
       <Pagination meta={meta} />
     </div>
   );

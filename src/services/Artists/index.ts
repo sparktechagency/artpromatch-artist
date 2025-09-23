@@ -1,6 +1,6 @@
 'use server';
 
-import { getValidAccessTokenForServerBasedGet } from '@/lib/getValidAccessToken';
+import { getValidAccessTokenForServerHandlerGet } from '@/lib/getValidAccessToken';
 
 // getAllArtists
 export const getAllArtists = async (
@@ -8,7 +8,7 @@ export const getAllArtists = async (
   limit?: string,
   query?: { [key: string]: string | string[] | undefined }
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerBasedGet();
+  const accessToken = await getValidAccessTokenForServerHandlerGet();
 
   const params = new URLSearchParams();
 
