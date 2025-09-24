@@ -18,8 +18,8 @@ export const isTokenExpired = async (token: string): Promise<boolean> => {
   }
 };
 
-// getValidAccessTokenForActions
-export const getValidAccessTokenForActions = async (): Promise<string> => {
+// getValidAccessTokenForServerAction
+export const getValidAccessTokenForServerAction = async (): Promise<string> => {
   const cookieStore = await cookies();
 
   let accessToken = cookieStore.get('accessToken')!.value;

@@ -6,7 +6,7 @@ import { Form, Input, Typography } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { useGoogleLogin } from '@react-oauth/google';
 import { getFcmToken } from '@/lib/firebase-messaging';

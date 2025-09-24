@@ -11,8 +11,6 @@ import { deleteAService, updateAService } from '@/services/Service';
 import Link from 'next/link';
 
 const Services = ({ services = [] }: { services: IService[] }) => {
-
-  console.log({ services });
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<IService | null>(null);
