@@ -15,8 +15,8 @@ const HelpPage: React.FC = () => {
       label: 'How do I book an appointment with an artist?',
       children: (
         <p>
-          Visit the artist's profile, select 'Book Now,' and follow the steps to
-          choose a date, time, and service.
+          Visit the artist&apos;s profile, select &apos;Book Now,&apos; and
+          follow the steps to choose a date, time, and service.
         </p>
       ),
     },
@@ -57,8 +57,8 @@ const HelpPage: React.FC = () => {
       <div className="mt-8 flex flex-col justify-center items-center p-5 bg-[#faf7f7] rounded-xl">
         <h1 className="text-2xl font-bold mb-2">Still have questions?</h1>
         <p className="text-secondary">
-          Can't find the answer you're looking for? Please chat to our friendly
-          team.
+          Can&apos;t find the answer you&apos;re looking for? Please chat to our
+          friendly team.
         </p>
         <button className="px-6 py-2 rounded-xl bg-primary text-white">
           Get in touch

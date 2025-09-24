@@ -1,5 +1,5 @@
-import EarningBarChart from '@/components/WithNavFooterComponents/EarningsComponents/EarningBarChart/EarningBarChart';
-import PieChartComponents from '@/components/WithNavFooterComponents/EarningsComponents/PieChartComponents/PieChartComponents';
+import EarningBarChart from '@/components/WithNavFooterComponents/EarningsComponents/EarningBarChart';
+import PieChartComponents from '@/components/WithNavFooterComponents/EarningsComponents/PieChartComponents';
 import TransectionTable from '@/components/WithNavFooterComponents/EarningsComponents/TransectionTable';
 
 const EarningsPage = () => {

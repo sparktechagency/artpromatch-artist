@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import 'antd/dist/reset.css';
 import { Button, Drawer, Modal } from 'antd';
 import { RxHamburgerMenu } from 'react-icons/rx';

@@ -130,7 +130,7 @@ const Services = ({ artists = [] }: { artists: IArtist[] }) => {
                     {user?.id === artist?.auth?._id && '(me)'}
                   </h1>
                   <div className="text-secondary whitespace-nowrap">
-                    {(artist?.distance! / 1000).toFixed(2)} km
+                    {(artist?.distance ?? 0 / 1000).toFixed(2)} km
                   </div>
                 </div>
               </div>
