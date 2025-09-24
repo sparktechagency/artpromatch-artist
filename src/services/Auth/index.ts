@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
 import { FieldValues } from '@/types';
-import { getValidAccessTokenForActions as getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
+import { getValidAccessTokenForServerAction as getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
 
 // socialSignIn
 export const socialSignIn = async (payload: {

@@ -103,8 +103,6 @@ const CreatePage = () => {
       // Send to your API endpoint
       const res = await createService(formData);
 
-      console.log({ res });
-
       if (res?.success) {
         toast.success(res?.message);
         form.resetFields();

@@ -5,9 +5,9 @@ export const getCleanImageUrl = (path?: string) => {
     return path;
   }
 
-  return `${process.env.NEXT_PUBLIC_IMAGE_API}/${path}`;
+  return `${process.env.NEXT_PUBLIC_MAIN_API}/${path}`;
 };
 
 export const makeImageUrl = (path: string) => {
-  return path.replace(`${process.env.NEXT_PUBLIC_IMAGE_API}/`, '');
+  return path.replace(`${process.env.NEXT_PUBLIC_MAIN_API}/`, '');
 };

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { ConfigProvider, Drawer, Tag } from 'antd';
 import { FaUsers } from 'react-icons/fa';
 import { FaX } from 'react-icons/fa6';
-
 import Image from 'next/image';
 import { AllImages } from '@/assets/images/AllImages';
 import { SearchOutlined, MoreOutlined, AudioOutlined } from '@ant-design/icons';
