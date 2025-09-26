@@ -10,32 +10,86 @@ import {
   Modal,
   DatePicker,
   TimePicker,
+  Input,
 } from 'antd';
 import { IBooking } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
-import { confirmBookingByArtist, createSession } from '@/services/Booking';
-import { div } from 'framer-motion/client';
+import {
+  cancelBookingByArtist,
+  completeBookingByArtist,
+  confirmBookingByArtist,
+  createSession,
+  sendOtpToClientByArtist as sendOtpToClientByArtist,
+} from '@/services/Booking';
 
 const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
   const [activeTabKey, setActiveTabKey] = useState<string>('pending');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] =
+    useState(false);
   const [selectedBooking, setSelectedBooking] = useState<IBooking | null>(null);
   const [form] = Form.useForm();
+
+  // State for confirmation modal
+  const [confirmModal, setConfirmModal] = useState<{
+    open: boolean;
+    title: string;
+    onConfirm: (() => void) | null;
+  }>({ open: false, title: '', onConfirm: null });
+
+  // Replace your confirmModal state with this for OTP handling
+  const [otpModal, setOtpModal] = useState<{
+    open: boolean;
+    title: string;
+    onSubmit: ((otp: string) => void) | null;
+  }>({ open: false, title: '', onSubmit: null });
 
   const byStatus = (status: string) =>
     bookings
       ?.filter(booking => booking.status === status)
       .map(item => ({ ...item, key: item._id }));
 
+  // Function to show OTP modal
+  const showOtpModal = (title: string, onSubmit: (otp: string) => void) => {
+    setOtpModal({ open: true, title, onSubmit });
+  };
+
+  // Handle OTP submit
+  const handleOtpSubmit = async () => {
+    try {
+      const values = await form.validateFields(['otp']);
+      otpModal.onSubmit?.(values.otp);
+      form.resetFields();
+      setOtpModal({ ...otpModal, open: false, onSubmit: null });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Function to show modal
+  const showConfirmationModal = (title: string, onConfirm: () => void) => {
+    setConfirmModal({ open: true, title, onConfirm });
+  };
+
+  // Function to handle OK
+  const handleConfirmOk = () => {
+    confirmModal.onConfirm?.();
+    setConfirmModal({ ...confirmModal, open: false, onConfirm: null });
+  };
+
+  // Function to handle Cancel
+  const handleConfirmCancel = () => {
+    setConfirmModal({ ...confirmModal, open: false, onConfirm: null });
+  };
+
   // Modal confirm button clicked
   const handleAddSessionClick = (booking: IBooking) => {
     setSelectedBooking(booking);
-    setIsModalOpen(true);
+    setIsCreateSessionModalOpen(true);
   };
 
-  // Submit session
+  // handleCreateSession
   const handleCreateSession = async () => {
     if (!selectedBooking) {
       return toast.error('Must select a booking to create session!');
@@ -53,7 +107,7 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
 
       if (res?.success) {
         toast.success(res?.message);
-        setIsModalOpen(false);
+        setIsCreateSessionModalOpen(false);
         form.resetFields();
       } else {
         toast.error(res?.message);
@@ -63,16 +117,16 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
     }
   };
 
+  // handleCancelCreateSession
   const handleCancelCreateSession = () => {
-    setIsModalOpen(false);
+    setIsCreateSessionModalOpen(false);
     form.resetFields();
   };
 
+  // handleConfirmBookingByArtist
   const handleConfirmBookingByArtist = async (bookingId: string) => {
     try {
       const res = await confirmBookingByArtist(bookingId);
-
-      console.log({ res });
 
       if (res?.success) {
         toast.success(res?.message);
@@ -84,6 +138,56 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
     }
   };
 
+  // handleCancelBookingByArtist
+  const handleCancelBookingByArtist = async (bookingId: string) => {
+    try {
+      const res = await cancelBookingByArtist(bookingId);
+
+      if (res?.success) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  // handleSendOtpToClient
+  const handleSendOtpToClientByArtist = async (bookingId: string) => {
+    try {
+      const res = await sendOtpToClientByArtist(bookingId);
+
+      if (res?.success) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  // handleCompleteBookingByArtist
+  const handleCompleteBookingByArtist = async (otp: string) => {
+    if (!selectedBooking) {
+      return toast.error('No booking selected!');
+    }
+
+    try {
+      const res = await completeBookingByArtist(selectedBooking._id, otp);
+
+      if (res?.success) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
+  // baseColumns
   const baseColumns = [
     {
       title: 'Client',
@@ -156,15 +260,30 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
     },
     {
       title: 'Deposit Paid',
-      dataIndex: 'price',
+      // dataIndex: 'price',
       key: 'price',
+      render: (_: any, booking: IBooking) => <span>${booking.price || 0}</span>,
     },
     {
       title: 'Payment Status',
       // dataIndex: 'paymentStatus',
       key: 'paymentStatus',
       render: (_: any, booking: IBooking) => (
-        <span className="capitalize">{booking.paymentStatus || 'N/A'}</span>
+        <span
+          className={`capitalize font-medium p-2 rounded-lg ${
+            booking.paymentStatus === 'pending'
+              ? 'bg-amber-400'
+              : booking.paymentStatus === 'authorized'
+              ? 'bg-amber-400'
+              : booking.paymentStatus === 'captured'
+              ? 'bg-amber-400'
+              : booking.paymentStatus === 'succeeded'
+              ? 'bg-green-500'
+              : 'bg-red-400'
+          }`}
+        >
+          {booking.paymentStatus || 'N/A'}
+        </span>
       ),
     },
     {
@@ -172,11 +291,28 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
       // dataIndex: 'status',
       key: 'status',
       render: (_: any, booking: IBooking) => (
-        <span className="capitalize">{booking.status || 'N/A'}</span>
+        <span
+          className={`capitalize font-medium p-2 rounded-lg ${
+            booking.status === 'pending'
+              ? 'bg-amber-400'
+              : booking.status === 'confirmed'
+              ? 'bg-amber-400'
+              : booking.status === 'in_progress'
+              ? 'bg-amber-400'
+              : booking.status === 'ready_for_completion'
+              ? 'bg-amber-400'
+              : booking.status === 'completed'
+              ? 'bg-green-500'
+              : 'bg-red-400'
+          }`}
+        >
+          {booking.status || 'N/A'}
+        </span>
       ),
     },
   ];
 
+  // pendingColumns
   const pendingColumns = [
     ...baseColumns,
     {
@@ -193,7 +329,12 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
 
           <div
             className="py-2 px-6 rounded-2xl bg-primary text-white w-fit"
-            onClick={() => handleConfirmBookingByArtist(booking?._id)}
+            onClick={() =>
+              showConfirmationModal(
+                'Are you sure you want to confirm this booking?',
+                () => handleConfirmBookingByArtist(booking._id)
+              )
+            }
           >
             Confirm
           </div>
@@ -202,6 +343,44 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
     },
   ];
 
+  // confirmedColumns
+  const confirmedColumns = [
+    ...baseColumns,
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_: any, booking: IBooking) => (
+        <div className="flex justify-center items-center gap-2">
+          <div
+            className="py-2 px-6 rounded-2xl bg-red-500 text-white w-fit"
+            onClick={() =>
+              showConfirmationModal(
+                'Are you sure you want to cancel this booking?',
+                () => handleCancelBookingByArtist(booking._id)
+              )
+            }
+          >
+            Cancel
+          </div>
+
+          <div
+            className="py-2 px-6 rounded-2xl bg-primary text-white w-fit"
+            onClick={() => {
+              setSelectedBooking(booking);
+              handleSendOtpToClientByArtist(booking?._id);
+              showOtpModal('Enter OTP to confirm this booking', async otp =>
+                handleCompleteBookingByArtist(otp)
+              );
+            }}
+          >
+            Complete
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  // tabItems
   const tabItems = [
     {
       key: 'pending',
@@ -219,34 +398,34 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
       label: 'Confirmed Appointments',
       children: (
         <Table
-          columns={baseColumns}
+          columns={confirmedColumns}
           dataSource={byStatus('confirmed')}
           pagination={false}
         />
       ),
     },
-    {
-      key: 'in_progress',
-      label: 'In-Progress Appointments',
-      children: (
-        <Table
-          columns={baseColumns}
-          dataSource={byStatus('in_progress')}
-          pagination={false}
-        />
-      ),
-    },
-    {
-      key: 'ready_for_completion',
-      label: 'Ready for Completion Appointments',
-      children: (
-        <Table
-          columns={baseColumns}
-          dataSource={byStatus('ready_for_completion')}
-          pagination={false}
-        />
-      ),
-    },
+    // {
+    //   key: 'in_progress',
+    //   label: 'In-Progress Appointments',
+    //   children: (
+    //     <Table
+    //       columns={baseColumns}
+    //       dataSource={byStatus('in_progress')}
+    //       pagination={false}
+    //     />
+    //   ),
+    // },
+    // {
+    //   key: 'ready_for_completion',
+    //   label: 'Ready for Completion Appointments',
+    //   children: (
+    //     <Table
+    //       columns={baseColumns}
+    //       dataSource={byStatus('ready_for_completion')}
+    //       pagination={false}
+    //     />
+    //   ),
+    // },
     {
       key: 'completed',
       label: 'Completed Appointments',
@@ -295,16 +474,16 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
           <Tabs
             activeKey={activeTabKey}
             onChange={setActiveTabKey}
-            className="text-primary hover:text-primary"
+            className="custom-tabs w-full"
             items={tabItems}
           />
         </ConfigProvider>
       </div>
 
-      {/* Modal */}
+      {/* Create Session Modal */}
       <Modal
         title="Create Session"
-        open={isModalOpen}
+        open={isCreateSessionModalOpen}
         onOk={handleCreateSession}
         onCancel={handleCancelCreateSession}
         okText="Confirm"
@@ -335,6 +514,43 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
             rules={[{ required: true, message: 'Please select end time' }]}
           >
             <TimePicker format="HH:mm" style={{ width: '100%' }} />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Confirmation Modal */}
+      <Modal
+        open={confirmModal.open}
+        onOk={handleConfirmOk}
+        onCancel={handleConfirmCancel}
+        okText="Yes"
+        cancelText="No"
+        title={confirmModal.title}
+      >
+        <p>Please confirm your action.</p>
+      </Modal>
+
+      {/* Complete Modal */}
+      <Modal
+        open={otpModal.open}
+        onOk={handleOtpSubmit}
+        onCancel={() =>
+          setOtpModal({ ...otpModal, open: false, onSubmit: null })
+        }
+        okText="Verify"
+        cancelText="Cancel"
+        title={otpModal.title}
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item
+            label="OTP"
+            name="otp"
+            rules={[
+              { required: true, message: 'Please enter OTP' },
+              { len: 6, message: 'OTP must be 6 digits' },
+            ]}
+          >
+            <Input placeholder="Enter OTP" maxLength={6} />
           </Form.Item>
         </Form>
       </Modal>

@@ -84,3 +84,15 @@ body {
 .custom-profile-marker div:first-child {
   animation: pulse 2s infinite;
 }
+
+/* for antd tab full-width */
+.custom-tabs .ant-tabs-nav-list {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.custom-tabs .ant-tabs-tab {
+  flex: 1; 
+  justify-content: center;
+}
