@@ -21,7 +21,7 @@ import {
   completeBookingByArtist,
   confirmBookingByArtist,
   createSession,
-  sendOtpToClientByArtist as sendOtpToClientByArtist,
+  sendOtpToClientByArtist,
 } from '@/services/Booking';
 
 const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {

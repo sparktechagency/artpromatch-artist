@@ -105,10 +105,10 @@ const ArtistProfileSideBar = ({
         <div className="flex gap-2 text-sm mb-2">
           <LuMessageCircleMore className="h-6 w-6 text-primary" />
           <div>
-            <p>
+            <div>
               <span className="font-bold">Direct Message:</span>
               <div>Usually replies in an hour</div>
-            </p>
+            </div>
           </div>
         </div>
 

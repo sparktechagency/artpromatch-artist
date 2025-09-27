@@ -8,12 +8,22 @@ import { FieldValues } from '@/types';
 import { revalidateTag } from 'next/cache';
 
 // getSingleArtistBookings
-export const getSingleArtistBookings = async (): Promise<any> => {
+export const getSingleArtistBookings = async (
+  page = '1',
+  limit?: string,
+  query?: { [key: string]: string | string[] | undefined }
+): Promise<any> => {
   const accessToken = await getValidAccessTokenForServerHandlerGet();
+
+  const params = new URLSearchParams();
+
+  if (query?.searchTerm) {
+    params.append('searchTerm', query?.searchTerm.toString());
+  }
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/bookings/list`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/bookings/list?limit=${limit}&page=${page}&${params}`,
       {
         method: 'GET',
         headers: {
@@ -144,8 +154,6 @@ export const completeBookingByArtist = async (
 ): Promise<any> => {
   const accessToken = await getValidAccessTokenForServerAction();
 
-  console.log({ bookingId, otp });
-
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/bookings/complete/${bookingId}`,
@@ -162,9 +170,6 @@ export const completeBookingByArtist = async (
     revalidateTag('BOOKINGS');
 
     const result = await res.json();
-
-    console.log({ result });
-
     return result;
   } catch (error: any) {
     return Error(error);

@@ -11,7 +11,6 @@ import ArtistProfileSideBar from '@/components/WithNavFooterComponents/HomeCompo
 import { useUser } from '@/context/UserContext';
 import { getOwnArtistData } from '@/services/Auth';
 import { IArtist, IFolder, IService } from '@/types';
-import { getAllFolders } from '@/services/Folder';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 
 interface PortfolioItem {

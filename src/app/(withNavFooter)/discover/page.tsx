@@ -1,7 +1,7 @@
 import Pagination from '@/components/Shared/Pagination';
-import ArtistAfterLoginHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/AfterLoginHeader';
-import Services from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/Services';
 import { getAllArtists } from '@/services/Artists';
+import ArtistAfterLoginHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/AfterLoginHeader';
+import Artists from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/Artists';
 
 const DiscoverPage = async ({
   searchParams,
@@ -9,12 +9,13 @@ const DiscoverPage = async ({
   searchParams: Promise<{ page: string }>;
 }) => {
   const query = await searchParams;
-  const { data: artists, meta } = await getAllArtists(query.page, '12', query);
+
+  const { data: artists, meta } = await getAllArtists(query.page, '20', query);
 
   return (
     <div>
       <ArtistAfterLoginHeader />
-      <Services artists={artists} />
+      <Artists artists={artists} />
       <Pagination meta={meta} />
     </div>
   );

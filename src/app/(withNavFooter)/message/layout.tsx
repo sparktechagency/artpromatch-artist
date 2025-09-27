@@ -6,8 +6,8 @@ import { FaUsers } from 'react-icons/fa';
 import { FaX } from 'react-icons/fa6';
 import Image from 'next/image';
 import { AllImages } from '@/assets/images/AllImages';
-import { SearchOutlined, MoreOutlined, AudioOutlined } from '@ant-design/icons';
-import LeftSideBar from '@/components/WithNavFooterComponents/MessageComponents/LeftSideBar/LeftSideBar';
+import { SearchOutlined, MoreOutlined } from '@ant-design/icons';
+import LeftSideBar from '@/components/WithNavFooterComponents/MessageComponents/LeftSideBar';
 const MessegeLayout = ({ children }: { children: React.ReactNode }) => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const showDrawer = () => setIsDrawerVisible(true);
