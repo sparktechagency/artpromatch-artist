@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import 'antd/dist/reset.css';
 import { Button, Drawer, Modal } from 'antd';
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -50,7 +50,6 @@ const NavBar = () => {
     { name: 'Bookings', link: '/bookings' },
     { name: 'Guest Spots', link: '/guestspots' },
     { name: 'Portfolio', link: '/portfolio' },
-    { name: 'Analytics', link: '/analytics' },
     { name: 'Help', link: '/help' },
   ];
 

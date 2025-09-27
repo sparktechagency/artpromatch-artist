@@ -3,16 +3,16 @@
 import { Modal, Select } from 'antd';
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaCalendarDay, FaDollarSign } from 'react-icons/fa6';
-import { IoIosArrowForward } from 'react-icons/io';
+import { FaDollarSign, FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import Mapview from '../MapView/MapView';
 import ServiceDetailsModal from './ServiceDetailsModal';
 import { ExpertiseType, IArtist } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { useUser } from '@/context/UserContext';
+import { SiGoogletasks } from 'react-icons/si';
 
-const Services = ({ artists = [] }: { artists: IArtist[] }) => {
+const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
   const { user } = useUser();
   const tattooCategories = [
     ...new Set(artists?.flatMap(artist => artist.expertise)),
@@ -130,7 +130,7 @@ const Services = ({ artists = [] }: { artists: IArtist[] }) => {
                     {user?.id === artist?.auth?._id && '(me)'}
                   </h1>
                   <div className="text-secondary whitespace-nowrap">
-                    {(artist?.distance! / 1000).toFixed(2)} km
+                    {(artist?.distance ?? 0 / 1000).toFixed(2)} km
                   </div>
                 </div>
               </div>
@@ -157,13 +157,20 @@ const Services = ({ artists = [] }: { artists: IArtist[] }) => {
 
               <div className="flex justify-between items-center">
                 <div className="flex  gap-1 items-center">
-                  <FaCalendarDay />
-                  <div className="text-sm">{artist?.totalCompletedService}</div>
+                  <SiGoogletasks />
+                  <div>({artist?.totalCompletedService})</div>
                 </div>
+
+                {artist?.avgRating > 0 && (
+                  <div className="flex gap-1 text-amber-600">
+                    <FaStar />
+                    {artist?.avgRating} ({artist?.totalReviewCount})
+                  </div>
+                )}
                 <div className="flex items-center text-primary font-bold gap-1">
                   <FaDollarSign />
                   {artist?.hourlyRate}
-                  <IoIosArrowForward />
+                  {/* <IoIosArrowForward /> */}
                 </div>
               </div>
             </div>
@@ -192,4 +199,4 @@ const Services = ({ artists = [] }: { artists: IArtist[] }) => {
   );
 };
 
-export default Services;
+export default Artists;

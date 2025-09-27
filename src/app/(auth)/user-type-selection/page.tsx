@@ -4,50 +4,33 @@ import { AllImages } from '@/assets/images/AllImages';
 import { Form, Typography, Radio } from 'antd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const userRoles = [
   {
     value: 1,
     label: 'CLIENT',
-    description:
-      'Discover and book talented artists and piercers near you or worldwide. Save your favorites, explore guest spots, and manage appointments.',
+    description: 'Discover and book talented artists...',
   },
-  {
-    value: 2,
-    label: 'ARTIST',
-    description:
-      "Showcase your portfolio, attract clients, and manage bookings. Whether you're a tattoo artist or piercer, we&apos;ve got you covered.",
-  },
-  {
-    value: 3,
-    label: 'BUSINESS',
-    description:
-      'Promote your business, feature talented artists, and organize events. Perfect for tattoo studios, piercing studios, or related businesses.',
-  },
+  { value: 2, label: 'ARTIST', description: 'Showcase your portfolio...' },
+  { value: 3, label: 'BUSINESS', description: 'Promote your business...' },
 ];
 
 const UserTypeSelection = () => {
   const [value, setValue] = useState(1);
   const router = useRouter();
-  const selectedRole = userRoles.find(role => role.value === value);
-  const selectedRoleValue = localStorage.setItem(
-    'role',
-    selectedRole?.label ?? ''
-  );
-  const onFinish = async () => {
-    try {
-      router.push(`/user-welcome`);
-    } catch (error) {
-      console.error(error);
+
+  // Store role in localStorage only on client
+  useEffect(() => {
+    const selectedRole = userRoles.find(role => role.value === value);
+    if (selectedRole) {
+      localStorage.setItem('role', selectedRole.label);
     }
-  };
+  }, [value]); // whenever value changes
 
   const handleNext = () => {
     router.push(`/preference-selection`);
-    localStorage.setItem('role', selectedRole?.label ?? '');
   };
-  localStorage.setItem('role', selectedRole?.label ?? '');
 
   return (
     <div className="py-16 md:py-0 h-[100vh] w-full flex items-center justify-center">
@@ -55,10 +38,8 @@ const UserTypeSelection = () => {
         <div className="w-[450px]">
           <Form
             name="select-user-type"
-            initialValues={{ remember: true }}
             layout="vertical"
             className="w-full md:w-[600px] bg-white px-2 rounded-2xl"
-            onFinish={onFinish}
           >
             <div className="mb-4 flex flex-col justify-center items-center text-center">
               <Image src={AllImages.logo} width={50} height={50} alt="logo" />
@@ -101,7 +82,7 @@ const UserTypeSelection = () => {
 
             <button
               onClick={handleNext}
-              type="submit"
+              type="button"
               className="w-full bg-primary text-white py-3 rounded-lg mt-5"
             >
               Continue

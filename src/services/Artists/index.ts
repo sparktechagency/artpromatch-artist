@@ -37,6 +37,29 @@ export const getAllArtists = async (
   }
 };
 
+// getDashboardData
+export const getDashboardData = async (clientCall?: boolean): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerHandlerGet(clientCall);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/artists/dashboard`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 // export const getLocationName = async (location: number[]) => {
 //   const [lon, lat] = location;
 //   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=en`;

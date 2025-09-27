@@ -1,3 +1,5 @@
+'use client';
+
 import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';
 import { useState } from 'react';
 

@@ -1,15 +1,37 @@
 import { AllImages } from '@/assets/images/AllImages';
 import { useUser } from '@/context/UserContext';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
+import { getDashboardData as getArtistDashboardData } from '@/services/Artists';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { FaRegEye } from 'react-icons/fa6';
 import { IoIosArrowForward } from 'react-icons/io';
-import { LuMessageCircleMore } from 'react-icons/lu';
 import { MdNotificationsActive } from 'react-icons/md';
+
+type TDashboardData = {
+  totalService: number;
+  currentBooking: number;
+  artistEarning: number;
+  completedOrder: number;
+  pendingBooking: number;
+};
 
 const ArtistHomePage = () => {
   const { user } = useUser();
+  const [dashboardData, setDashboardData] = useState<TDashboardData | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (!user) return;
+
+    const getSetDashboardData = async () => {
+      const { data: dashboardData } = await getArtistDashboardData(true);
+      setDashboardData(dashboardData);
+    };
+    getSetDashboardData();
+  }, [user]);
 
   if (!user) return null;
 
@@ -48,7 +70,9 @@ const ArtistHomePage = () => {
         <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Services</h1>
-            <h1 className="text-3xl font-bold">05</h1>
+            <h1 className="text-3xl font-bold">
+              {dashboardData?.totalService}
+            </h1>
             <p>Running Services</p>
           </div>
           <div>
@@ -60,7 +84,9 @@ const ArtistHomePage = () => {
         <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Current Bookings</h1>
-            <h1 className="text-3xl font-bold">05</h1>
+            <h1 className="text-3xl font-bold">
+              {dashboardData?.currentBooking}
+            </h1>
             <p>Upcoming Appointments</p>
           </div>
           <div>
@@ -78,7 +104,9 @@ const ArtistHomePage = () => {
         <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Earnings</h1>
-            <h1 className="text-3xl font-bold">$2,450</h1>
+            <h1 className="text-3xl font-bold">
+              {dashboardData?.artistEarning}
+            </h1>
             <p>This Month</p>
           </div>
           <div>
@@ -93,18 +121,35 @@ const ArtistHomePage = () => {
             </Link>
           </div>
         </div>
-        {/* <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
+        <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
-            <h1 className="text-xl font-bold">Profile Views</h1>
-            <h1 className="text-3xl font-bold">85</h1>
-            <p>Upcoming Appointments</p>
+            <h1 className="text-xl font-bold">Completed Orders</h1>
+            <h1 className="text-3xl font-bold">
+              {dashboardData?.completedOrder}
+            </h1>
+            <p>Done till now</p>
           </div>
           <div>
-            <Link href="/analytics">
+            <Link href="/bookings">
               <FaRegEye className="bg-primary text-white h-10 w-10 p-1 rounded-lg" />
             </Link>
           </div>
-        </div> */}
+        </div>
+
+        <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-xl font-bold">Pending Bookings</h1>
+            <h1 className="text-3xl font-bold">
+              {dashboardData?.pendingBooking}
+            </h1>
+            <p>to be confirmed</p>
+          </div>
+          <div>
+            <Link href="/bookings">
+              <FaRegEye className="bg-primary text-white h-10 w-10 p-1 rounded-lg" />
+            </Link>
+          </div>
+        </div>
         {/* <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">New Message</h1>

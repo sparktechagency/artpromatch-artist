@@ -42,8 +42,8 @@ const DeleteAFolderConfirmationModal: React.FC<
       ]}
     >
       <p>
-        Are you sure you want to delete the folder "{selectedFolder?.name}
-        "? This action cannot be undone.
+        Are you sure you want to delete the folder &quot;{selectedFolder?.name}
+        &quot;? This action cannot be undone.
       </p>
     </Modal>
   );

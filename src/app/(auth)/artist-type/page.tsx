@@ -4,7 +4,7 @@ import { AllImages } from '@/assets/images/AllImages';
 import { Form, Typography, Radio } from 'antd';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const userRoles = [
   {
@@ -23,26 +23,18 @@ const userRoles = [
 const ArtistType = () => {
   const [value, setValue] = useState(1);
   const router = useRouter();
-  const selectedArtistType = userRoles.find(type => type.value === value);
 
-  const selectedArtistTypeValue = localStorage.setItem(
-    'artistType',
-    selectedArtistType?.label ?? ''
-  );
-
-  const onFinish = async () => {
-    try {
-      router.push(`/preference`);
-    } catch (error) {
-      console.error(error);
+  // Save artist type to localStorage only in the browser
+  useEffect(() => {
+    const selectedArtistType = userRoles.find(type => type.value === value);
+    if (selectedArtistType) {
+      localStorage.setItem('artistType', selectedArtistType.label);
     }
-  };
+  }, [value]);
 
   const handleNext = () => {
     router.push(`/preference-selection`);
-    localStorage.setItem('artistType', selectedArtistType?.label ?? '');
   };
-  localStorage.setItem('artistType', selectedArtistType?.label ?? '');
 
   return (
     <div className="py-16 md:py-0 h-[100vh] w-full flex items-center justify-center">
@@ -50,17 +42,16 @@ const ArtistType = () => {
         <div className="w-[450px]">
           <Form
             name="select-user-type"
-            initialValues={{ remember: true }}
             layout="vertical"
             className="w-full md:w-[600px] bg-white px-2 rounded-2xl"
-            onFinish={onFinish}
+            onFinish={handleNext}
           >
             <div className="mb-4 flex flex-col justify-center items-center text-center">
               <Image src={AllImages.logo} width={50} height={50} alt="logo" />
               <h2 className="text-center text-2xl font-bold mt-6 mb-2 text-primary">
                 What Kind of Artist Are You?
               </h2>
-              <Typography.Text className=" text-center text-base ">
+              <Typography.Text className="text-center text-base">
                 Choose your primary focus so we can tailor your profile and
                 features.
               </Typography.Text>
@@ -75,7 +66,7 @@ const ArtistType = () => {
                   <Radio
                     key={role.value}
                     value={role.value}
-                    className="!w-full "
+                    className="!w-full"
                   >
                     <div
                       className={`border rounded-lg p-6 mb-5 ${
@@ -95,7 +86,6 @@ const ArtistType = () => {
             </div>
 
             <button
-              //   onClick={handleNext}
               type="submit"
               className="w-full bg-primary text-white py-3 rounded-lg mt-5"
             >
