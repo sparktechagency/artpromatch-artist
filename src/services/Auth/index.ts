@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
 import { FieldValues } from '@/types';
-import { getValidAccessTokenForServerAction as getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
+import { getValidAccessTokenForServerActions as getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
 
 // socialSignIn
 export const socialSignIn = async (payload: {
@@ -289,7 +289,7 @@ export const updateFcmTokenToServer = async (data: FieldValues) => {
       {
         method: 'PUT',
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),

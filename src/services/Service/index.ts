@@ -1,7 +1,7 @@
 'use server';
 
 import {
-  getValidAccessTokenForServerAction,
+  getValidAccessTokenForServerActions,
   getValidAccessTokenForServerHandlerGet,
 } from '@/lib/getValidAccessToken';
 import { revalidateTag } from 'next/cache';
@@ -33,7 +33,7 @@ export const getSingleArtistServices = async (): Promise<any> => {
 
 // createService
 export const createService = async (data: FormData): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -61,7 +61,7 @@ export const updateAService = async (
   serviceId: string,
   data: FormData
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -86,7 +86,7 @@ export const updateAService = async (
 
 // deleteAService
 export const deleteAService = async (serviceId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
