@@ -20,9 +20,9 @@ const roleBasedPrivateRoutes = {
 
 export const middleware = async (request: NextRequest) => {
   const { origin, pathname } = request.nextUrl;
-  const userInfo = await getCurrentUser();
+  const user = await getCurrentUser();
 
-  if (!userInfo) {
+  if (!user) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
@@ -46,8 +46,16 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
-  if (userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as Role]) {
-    const routes = roleBasedPrivateRoutes[userInfo?.role as Role];
+  if (!user.isProfile && user.isActive) {
+    return NextResponse.redirect(new URL('/user-type-selection', origin));
+  }
+
+  if (user.isProfile && !user.isActive) {
+    return NextResponse.redirect(new URL('/wait-for-confirmation', origin));
+  }
+
+  if (user?.role && roleBasedPrivateRoutes[user?.role as Role]) {
+    const routes = roleBasedPrivateRoutes[user?.role as Role];
 
     if (routes.some(route => pathname.match(route))) {
       return NextResponse.next();
