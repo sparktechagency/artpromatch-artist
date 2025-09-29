@@ -1,7 +1,7 @@
 'use server';
 
 import {
-  getValidAccessTokenForServerAction,
+  getValidAccessTokenForServerActions,
   getValidAccessTokenForServerHandlerGet,
 } from '@/lib/getValidAccessToken';
 import { revalidateTag } from 'next/cache';
@@ -30,7 +30,7 @@ export const getAllFolders = async (): Promise<any> => {
 
 // createFolder
 export const createFolder = async (data: FormData): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/folders`, {
@@ -55,7 +55,7 @@ export const updateFolder = async (
   folderId: string,
   updateData: { name: string; for: 'portfolio' | 'flash' }
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -84,7 +84,7 @@ export const addImagesToFolder = async (
   folderId: string,
   images: FormData
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -112,7 +112,7 @@ export const removeAnImageFromAFolder = async (
   image: string,
   folderId: string
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -138,7 +138,7 @@ export const removeAnImageFromAFolder = async (
 
 // removeFolder
 export const removeAFolder = async (folderId: string): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(

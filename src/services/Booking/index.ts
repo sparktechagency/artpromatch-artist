@@ -1,7 +1,7 @@
 'use server';
 
 import {
-  getValidAccessTokenForServerAction,
+  getValidAccessTokenForServerActions,
   getValidAccessTokenForServerHandlerGet,
 } from '@/lib/getValidAccessToken';
 import { FieldValues } from '@/types';
@@ -47,7 +47,7 @@ export const createSession = async (
   bookingId: string,
   payload: FieldValues
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -75,7 +75,7 @@ export const createSession = async (
 export const confirmBookingByArtist = async (
   bookingId: string
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -101,7 +101,7 @@ export const confirmBookingByArtist = async (
 export const cancelBookingByArtist = async (
   bookingId: string
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -127,7 +127,7 @@ export const cancelBookingByArtist = async (
 export const sendOtpToClientByArtist = async (
   bookingId: string
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
@@ -152,7 +152,7 @@ export const completeBookingByArtist = async (
   bookingId: string,
   otp: string
 ): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerAction();
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
