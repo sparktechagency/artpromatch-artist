@@ -153,50 +153,29 @@ const SignUpForm = () => {
               name="fullName"
               label={<p className=" text-md">Enter your Full Name</p>}
             >
-              <Input
-                required
-                style={{ padding: '6px' }}
-                className="text-md"
-                placeholder="Olivia Reiss"
-              />
+              <Input required placeholder="Olivia Reiss" />
             </Form.Item>
             <Form.Item
               name="email"
               label={<p className=" text-md">Enter your email</p>}
             >
-              <Input
-                required
-                style={{ padding: '6px' }}
-                className="text-md"
-                placeholder="oliviareiss91@gmail.com"
-              />
+              <Input required placeholder="slota812@gmail.com" />
             </Form.Item>
             <Form.Item
               name="phoneNumber"
               label={<p className=" text-md">Enter your Phone Number</p>}
             >
-              <Input
-                required
-                style={{ padding: '6px' }}
-                className="text-md"
-                placeholder="oliviareiss91@gmail.com"
-              />
+              <Input required placeholder="slota812@gmail.com" />
             </Form.Item>
             <Form.Item
               name="password"
               label={
-                <p className=" text-md">
+                <p className="text-md">
                   Choose a password with at least 8 characters.
                 </p>
               }
             >
-              <Input.Password
-                required
-                style={{ padding: '6px' }}
-                className="text-md"
-                type="password"
-                placeholder="Password"
-              />
+              <Input.Password required type="password" placeholder="Password" />
             </Form.Item>
 
             <Form.Item className="text-center">
