@@ -1,7 +1,7 @@
 'use client';
 
 import { AllImages } from '@/assets/images/AllImages';
-import { Form, Input, InputNumber } from 'antd';
+import { Form, Input } from 'antd';
 import Image from 'next/image';
 
 interface CardEditModalProps {

@@ -1,7 +1,7 @@
 'use client';
 
 import { Form } from 'antd';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const SelectStyle = () => {
@@ -89,9 +89,10 @@ const SelectStyle = () => {
         : [...prevSelectedArt, value]
     );
   };
-  const onChange = (value: number) => {
-    setCurrent(value);
-  };
+
+  // const onChange = (value: number) => {
+  //   setCurrent(value);
+  // };
 
   return (
     <div>

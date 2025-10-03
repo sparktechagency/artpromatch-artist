@@ -1,9 +1,8 @@
 'use client';
 
 import { AuthUser, IArtist, IService } from '@/types';
-import { ConfigProvider, Form, Input, Modal } from 'antd';
+import { ConfigProvider } from 'antd';
 import Link from 'next/link';
-import { useState } from 'react';
 import { FiPhone } from 'react-icons/fi';
 import { IoLocationOutline } from 'react-icons/io5';
 import { LuMessageCircleMore, LuPenLine } from 'react-icons/lu';
@@ -18,9 +17,8 @@ const ArtistProfileSideBar = ({
   artist: IArtist | null;
   services: IService[];
 }) => {
-  console.log({ services });
   // const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpenForContact, setIsModalOpenForContact] = useState(false);
+  // const [isModalOpenForContact, setIsModalOpenForContact] = useState(false);
 
   // Service modal handlers
   // const showServiceModal = () => setIsModalOpen(true);
@@ -30,11 +28,11 @@ const ArtistProfileSideBar = ({
   // const onFinishService = (values: any) => console.log('Service Form:', values);
 
   // Contact modal handlers
-  const showContactModal = () => setIsModalOpenForContact(true);
-  const handleContactOk = () => setIsModalOpenForContact(false);
-  const handleContactCancel = () => setIsModalOpenForContact(false);
+  // const showContactModal = () => setIsModalOpenForContact(true);
+  // const handleContactOk = () => setIsModalOpenForContact(false);
+  // const handleContactCancel = () => setIsModalOpenForContact(false);
 
-  const onFinishContact = (values: any) => console.log('Contact Form:', values);
+  // const onFinishContact = (values: any) => console.log('Contact Form:', values);
 
   return (
     <div className="container mx-auto">
@@ -44,7 +42,7 @@ const ArtistProfileSideBar = ({
           Availability & Guest Spots
           <LuPenLine className="bg-primary text-white h-7 w-7 p-1 rounded-full" />
         </h1>
-        <p className="text-sm font-bold">
+        {/* <p className="text-sm font-bold">
           Dec 1-5: <span className="font-normal">Open for bookings.</span>
         </p>
         <p className="text-sm font-bold">
@@ -52,7 +50,7 @@ const ArtistProfileSideBar = ({
         </p>
         <p className="text-sm font-bold">
           Dec 20-30: <span className="font-normal">Open for bookings.</span>
-        </p>
+        </p> */}
       </div>
 
       {/* Services */}
@@ -96,10 +94,12 @@ const ArtistProfileSideBar = ({
       <div className="border p-3 rounded-lg mb-2">
         <h1 className="text-xl font-bold flex justify-between">
           Contact: {user?.fullName}
-          <LuPenLine
-            onClick={showContactModal}
-            className="bg-primary text-white h-7 w-7 p-1 rounded-full cursor-pointer"
-          />
+          <Link href="/profile/update">
+            <LuPenLine
+              // onClick={showContactModal}
+              className="bg-primary text-white h-7 w-7 p-1 rounded-full cursor-pointer"
+            />
+          </Link>
         </h1>
 
         <div className="flex gap-2 text-sm mb-2">
@@ -114,10 +114,10 @@ const ArtistProfileSideBar = ({
 
         <div className="flex gap-2 text-sm mb-2">
           <IoLocationOutline className="h-6 w-6 text-primary" />
-          <p>
+          <div>
             <span className="font-bold">Location:</span>
             <div>{user?.stringLocation}</div>
-          </p>
+          </div>
         </div>
 
         <p className="text-sm font-bold flex gap-2">
@@ -173,7 +173,7 @@ const ArtistProfileSideBar = ({
         </Modal> */}
 
         {/* Contact Modal */}
-        <Modal
+        {/* <Modal
           open={isModalOpenForContact}
           onOk={handleContactOk}
           onCancel={handleContactCancel}
@@ -212,7 +212,7 @@ const ArtistProfileSideBar = ({
               </button>
             </Form.Item>
           </Form>
-        </Modal>
+        </Modal> */}
       </ConfigProvider>
     </div>
   );

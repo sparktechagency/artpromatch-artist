@@ -1,6 +1,4 @@
-import { AllImages } from '@/assets/images/AllImages';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
-import { getOwnArtistData } from '@/services/Auth';
 import { AuthUser } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
