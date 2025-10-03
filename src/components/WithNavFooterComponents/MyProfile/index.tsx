@@ -13,12 +13,6 @@ import { getOwnArtistData } from '@/services/Auth';
 import { IArtist, IFolder, IService } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 
-interface PortfolioItem {
-  name: string;
-  date: string;
-  image: StaticImageData;
-}
-
 interface FormValues {
   aboutYou: string;
 }

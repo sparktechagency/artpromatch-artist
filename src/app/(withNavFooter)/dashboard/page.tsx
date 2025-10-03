@@ -1,7 +1,7 @@
 'use client';
 
 import ArtistHomePage from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistHomePage';
-import BeforeLogin from '../../../components/WithNavFooterComponents/HomeComponents/BeforeLogin';
+import BeforeLogin from '@/components/WithNavFooterComponents/HomeComponents/BeforeLogin';
 import { useUser } from '@/context/UserContext';
 
 const DashboardPage = () => {
