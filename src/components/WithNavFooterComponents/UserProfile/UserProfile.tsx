@@ -87,7 +87,14 @@ const UserProfile = () => {
             name="phoneNumber"
             label={<p className=" text-md">Contact Number</p>}
             rules={[
-              { required: true, message: 'Please enter your phone number' },
+              {
+                required: true,
+                message: 'Please input your phone number with country code!',
+              },
+              {
+                pattern: /^[+]*[0-9]{7,15}$/,
+                message: 'Please enter a valid phone number!',
+              },
             ]}
           >
             <Input
