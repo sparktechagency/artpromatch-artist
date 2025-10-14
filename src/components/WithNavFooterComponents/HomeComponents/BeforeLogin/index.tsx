@@ -7,8 +7,9 @@ import AllInOne from './AllInOne';
 import TakeATour from './TakeATour';
 import Testimonials from './Testimonials';
 import SteadyHands from './SteadyHands';
+import { IBooking } from '@/types';
 
-const BeforeLogin = () => {
+const BeforeLogin = ({ bookings = [] }: { bookings: IBooking[] }) => {
   return (
     <div className="container mx-auto px-2 md:px-0">
       <div className="relative">
@@ -49,7 +50,7 @@ const BeforeLogin = () => {
       </div>
       <AllInOne />
       <TakeATour />
-      <Testimonials />
+      <Testimonials bookings={bookings} />
       <SteadyHands />
     </div>
   );

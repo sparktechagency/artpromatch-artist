@@ -9,62 +9,80 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-const artStyles = [
+const TATTOO_STYLE_VALUES = [
   'American Traditional',
-  'Neo Traditional',
-  'Traditional',
-  'Pacific Islander/Polynesian',
-  'Tatau',
-  'Maori',
-  'African',
-  'Native American',
-  'Black & Grey',
-  'Portrait',
-  'Realism',
   'Abstract',
-  'Blackwork',
-  'Heavy Blackwork',
-  'Brutal Blackwork',
-  'Ignorant',
+  'African',
   'Anime',
-  'White On Black',
-  'White Tattoos',
-  'Black Trash',
-  'Trash Polka',
+
+  'Black & Grey',
+  'Blackwork',
+  'Brutal Blackwork',
   'Blackout',
-  'Script',
-  'Lettering',
-  'Fine Line',
-  'Calligraphy',
-  'Ornamental',
-  'Watercolor',
-  'Geometric',
-  'Japanese Style',
-  'Irezumi',
-  'Tebori',
-  'Tribal',
-  'Neo Tribal',
-  'New School',
-  'Old School',
-  'Illustrative',
-  'Minimalist',
-  'Lineart',
-  'Botanical',
-  'Realistic Color',
-  'Realistic Black & Grey',
-  'Graphic',
-  'Dotwork',
-  'Stick and Poke',
-  'Microrealism',
+  'Black Trash',
   'Biomech',
+  'Botanical',
+
+  'Calligraphy',
   'Chicano',
-  'Thai',
   'Comic',
   'Coverups',
-  'Scar Coverups',
-  'Microblading',
+
+  'Dotwork',
+
+  'Fine Line',
   'Freckles',
+
+  'Geometric',
+  'Graphic',
+
+  'Heavy Blackwork',
+
+  'Illustrative',
+  'Ignorant',
+  'Irezumi',
+
+  'Japanese Style',
+
+  'Lettering',
+  'Lineart',
+
+  'Maori',
+  'Microblading',
+  'Microrealism',
+  'Minimalist',
+
+  'Native American',
+  'Neo Traditional',
+  'Neo Tribal',
+  'New School',
+
+  'Old School',
+  'Ornamental',
+
+  'Pacific Islander / Polynesian',
+  'Portrait',
+
+  'Realism',
+  'Realistic Color',
+  'Realistic Black & Grey',
+
+  'Scar Coverup',
+  'Script',
+  'Stick and Poke',
+
+  'Tatau',
   'Tattoo Removal',
+  'Tebori',
+  'Thai',
+  'Traditional',
+  'Trash Polka',
+  'Tribal',
+
+  'Watercolor',
+  'White on Black',
+  'White Tattoos',
+
   'Tooth Gems',
 ];
 
@@ -185,13 +203,13 @@ const Preferences = () => {
           {/* Buttons in groups of 10 */}
           <div className="flex flex-col gap-4">
             {Array.from(
-              { length: Math.ceil(artStyles.length / 10) },
+              { length: Math.ceil(TATTOO_STYLE_VALUES.length / 10) },
               (_, i) => (
                 <div
                   key={i}
                   className="flex justify-center items-center gap-4 flex-wrap"
                 >
-                  {artStyles.slice(i * 10, i * 10 + 10).map(style => (
+                  {TATTOO_STYLE_VALUES.slice(i * 10, i * 10 + 10).map(style => (
                     <button
                       key={style}
                       type="button"

@@ -1,15 +1,9 @@
-'use client';
-
-import ArtistHomePage from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistHomePage';
-import BeforeLogin from '@/components/WithNavFooterComponents/HomeComponents/BeforeLogin';
-import { useUser } from '@/context/UserContext';
+import ArtistHome from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistHome';
 
 const DashboardPage = () => {
-  const { user } = useUser();
-
   return (
     <div className="container mx-auto p-6">
-      {user ? <ArtistHomePage /> : <BeforeLogin />}
+      <ArtistHome />
     </div>
   );
 };
