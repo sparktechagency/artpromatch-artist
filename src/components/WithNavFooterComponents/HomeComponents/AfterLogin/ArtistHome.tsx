@@ -1,3 +1,5 @@
+'use client';
+
 import { AllImages } from '@/assets/images/AllImages';
 import { useUser } from '@/context/UserContext';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
@@ -17,7 +19,7 @@ type TDashboardData = {
   pendingBooking: number;
 };
 
-const ArtistHomePage = () => {
+const ArtistHome = () => {
   const { user } = useUser();
   const [dashboardData, setDashboardData] = useState<TDashboardData | null>(
     null
@@ -241,4 +243,4 @@ const ArtistHomePage = () => {
   );
 };
 
-export default ArtistHomePage;
+export default ArtistHome;

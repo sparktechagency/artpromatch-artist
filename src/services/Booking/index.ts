@@ -175,3 +175,23 @@ export const completeBookingByArtist = async (
     return Error(error);
   }
 };
+
+
+
+// getBookingsWithReviewThatHaveReviewForClientHomePage
+export const getBookingsWithReviewThatHaveReviewForClientHomePage =
+  async (): Promise<any> => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/bookings/bookings-with-review`,
+        {
+          method: 'GET',
+        }
+      );
+
+      const result = await res.json();
+      return result;
+    } catch (error: any) {
+      return Error(error);
+    }
+  };
