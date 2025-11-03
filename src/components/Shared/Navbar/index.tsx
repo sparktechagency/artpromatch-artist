@@ -2,20 +2,21 @@
 
 import { useState } from 'react';
 import 'antd/dist/reset.css';
-import { Button, Drawer, Modal } from 'antd';
+import { Button, Drawer, Dropdown, Modal } from 'antd';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AllImages } from '@/assets/images/AllImages';
 import { IoIosNotificationsOutline } from 'react-icons/io';
 import { AiOutlineMessage } from 'react-icons/ai';
-import NotificationModal from '@/components/WithNavFooterComponents/HomeComponents/NotificationModal/NotificationModal';
+import NotificationModal from '@/components/WithNavFooterComponents/HomeComponents/NotificationModal';
 import { usePathname, useRouter } from 'next/navigation';
 // import { CiHeart } from 'react-icons/ci';
 import { useUser } from '@/context/UserContext';
 import { logOut } from '@/services/Auth';
 import { protectedRoutes } from '@/constants';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
+import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const NavBar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -38,19 +39,104 @@ const NavBar = () => {
   // }, []);
 
   const beforeLoginLabels = [
-    { name: 'Discover', link: '/discover' },
+    {
+      name: 'Discover',
+      link: '/discover',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
     // { name: 'Guest Spots', link: '/guest-spots' },
-    { name: 'Help', link: '/help' },
+    {
+      name: 'Help',
+      link: '/help',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
   ];
 
   const afterLoginLabels = [
-    { name: 'Dashboard', link: '/dashboard' },
-    { name: 'Discover', link: '/discover' },
-    { name: 'Services', link: '/services' },
-    { name: 'Bookings', link: '/bookings' },
-    { name: 'Guest Spots', link: '/guestspots' },
-    { name: 'Portfolio', link: '/portfolio' },
-    { name: 'Help', link: '/help' },
+    {
+      name: 'Dashboard',
+      link: '/dashboard',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
+      name: 'Discover',
+      link: '/discover',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
+      name: 'Services',
+      link: '/services',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
+      name: 'Bookings',
+      link: '/bookings',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
+      name: 'Guest Spots',
+      link: '/guestspots',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
+      name: 'Portfolio',
+      link: '/portfolio',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
+      name: 'Join As',
+      isDropdown: true,
+      dropdownItems: [
+        {
+          key: '1',
+          label: (
+            <Link href="https://client-artpromatch-4cq2vqx1n-rabeyaakter78s-projects.vercel.app/">
+              Client
+            </Link>
+          ),
+        },
+        {
+          key: '2',
+          label: (
+            <Link href="https://artist-artpromatch-ckakmcc6u-rabeyaakter78s-projects.vercel.app/">
+              Artist
+            </Link>
+          ),
+        },
+        {
+          key: '3',
+          label: (
+            <Link href="https://artpromatch-business-nh3gxj7po-rabeyaakter78s-projects.vercel.app/">
+              Business Owner
+            </Link>
+          ),
+        },
+      ],
+      icon: <RiArrowDropDownLine className="text-black text-4xl" />,
+    },
+    {
+      name: 'Help',
+      link: '/help',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
   ];
 
   const handleLogout = async () => {
@@ -87,10 +173,20 @@ const NavBar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex flex-grow justify-center space-x-6">
-            {(user ? afterLoginLabels : beforeLoginLabels).map(
-              (item, index) => (
+            {(user ? afterLoginLabels : beforeLoginLabels).map((item, index) =>
+              item?.isDropdown ? (
+                <Dropdown
+                  key={index}
+                  menu={{ items: item?.dropdownItems }}
+                  placement="bottom"
+                >
+                  <button className="text-lg font-medium hover:text-blue-600 transition flex items-center">
+                    {item.name} {item?.icon}
+                  </button>
+                </Dropdown>
+              ) : (
                 <Link
-                  href={item.link}
+                  href={item.link || '/'}
                   key={index}
                   className={`text-lg font-medium hover:text-blue-600 transition flex items-center ${
                     pathname === item.link
@@ -98,7 +194,7 @@ const NavBar = () => {
                       : ''
                   }`}
                 >
-                  {item.name}
+                  {item.name} {item?.icon && item?.icon}
                 </Link>
               )
             )}
@@ -165,7 +261,7 @@ const NavBar = () => {
             {(user ? afterLoginLabels : beforeLoginLabels).map(
               (item, index) => (
                 <Link
-                  href={item.link}
+                  href={item.link || '/'}
                   key={index}
                   className="text-lg font-medium hover:text-blue-600 transition"
                   onClick={() => setDrawerVisible(false)}
@@ -203,10 +299,7 @@ const NavBar = () => {
         onOk={handleNotificationOk}
         onCancel={handleNotificationClose}
       >
-        <NotificationModal
-          handleOk={handleNotificationOk}
-          handleCancel={handleNotificationClose}
-        />
+        <NotificationModal />
       </Modal>
     </div>
   );

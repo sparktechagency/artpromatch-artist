@@ -38,10 +38,10 @@ const ArtistHome = () => {
   if (!user) return null;
 
   return (
-    <div className=" ">
+    <div>
       <div className="flex flex-col md:flex-row justify-between items-center md:mt-16 md:mb-10">
         <div className="flex justify-start items-center gap-3">
-          <Link href="/my-profile">
+          <Link href="/me">
             <Image
               src={getCleanImageUrl(user?.image)}
               width={50}
@@ -59,7 +59,7 @@ const ArtistHome = () => {
         </div>
         <div className="flex justify-center items-center gap-5">
           <Link href="/profile/update">
-            <div className=" px-6 py-2 rounded-lg border">View Profile</div>
+            <div className="px-6 py-2 rounded-lg border">View Profile</div>
           </Link>
           <Link href="/discover">
             <div className="px-6 py-2 rounded-lg border bg-primary text-white">
@@ -68,8 +68,8 @@ const ArtistHome = () => {
           </Link>
         </div>
       </div>
-      <div className="md:my-5 grid grid-cols-1 md:grid-cols-4 gap-5 ">
-        <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
+      <div className="md:my-5 grid grid-cols-1 md:grid-cols-4 gap-5">
+        <div className="border rounded-xl border-gray-400/70 p-4 shadow-sm flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Services</h1>
             <h1 className="text-3xl font-bold">
@@ -83,7 +83,7 @@ const ArtistHome = () => {
             </Link>
           </div>
         </div>
-        <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
+        <div className="border rounded-xl border-gray-400/70 p-4 shadow-sm flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Current Bookings</h1>
             <h1 className="text-3xl font-bold">
@@ -103,7 +103,7 @@ const ArtistHome = () => {
             </Link>
           </div>
         </div>
-        <div className="border shadow-sm rounded-lg p-4 flex justify-between items-center">
+        <div className="border rounded-xl border-gray-400/70 p-4 shadow-sm flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Earnings</h1>
             <h1 className="text-3xl font-bold">
@@ -123,7 +123,7 @@ const ArtistHome = () => {
             </Link>
           </div>
         </div>
-        <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
+        <div className="border rounded-xl border-gray-400/70 p-4 shadow-sm flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Completed Orders</h1>
             <h1 className="text-3xl font-bold">
@@ -138,7 +138,7 @@ const ArtistHome = () => {
           </div>
         </div>
 
-        <div className="border s hadow-sm rounded-lg p-4 flex justify-between items-center">
+        <div className="border rounded-xl border-gray-400/70 p-4 shadow-sm flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">Pending Bookings</h1>
             <h1 className="text-3xl font-bold">
@@ -165,8 +165,8 @@ const ArtistHome = () => {
           </div>
         </div> */}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 ">
-        <div className="p-5 border rounded-xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-10">
+        <div className="border rounded-xl border-gray-400/50 p-5">
           <div className="flex justify-between items-center border-0 border-b pb-2 mb-2">
             <div className="flex justify-center items-center gap-2">
               <Image
@@ -206,7 +206,7 @@ const ArtistHome = () => {
             </div>
           </div>
         </div>
-        <div className="p-5 border rounded-xl">
+        <div className="border rounded-xl border-gray-400/50 p-5">
           <div className="flex justify-between items-center border-0 border-b pb-2 mb-2">
             <div className="flex justify-center items-center gap-2">
               <Image

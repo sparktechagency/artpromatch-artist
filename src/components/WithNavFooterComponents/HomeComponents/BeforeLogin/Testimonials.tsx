@@ -1,4 +1,3 @@
-import { AllImages } from '@/assets/images/AllImages';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { IBooking } from '@/types';
 import Image from 'next/image';
