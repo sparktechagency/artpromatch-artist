@@ -17,7 +17,7 @@ interface FormValues {
   aboutYou: string;
 }
 
-const MyProfile = ({ folders = [] }: { folders: IFolder[] }) => {
+const Profile = ({ folders = [] }: { folders: IFolder[] }) => {
   const { user } = useUser();
   const [artistData, setArtistData] = useState<IArtist | null>(null);
   const [artistServices, setArtistServices] = useState<IService[] | []>([]);
@@ -169,4 +169,4 @@ const MyProfile = ({ folders = [] }: { folders: IFolder[] }) => {
   );
 };
 
-export default MyProfile;
+export default Profile;

@@ -1,4 +1,4 @@
-import UserProfile from "@/components/WithNavFooterComponents/UserProfile/UserProfile";
+import UserProfile from '@/components/WithNavFooterComponents/UserProfile';
 
 const UserProfilePage = () => {
   return (
