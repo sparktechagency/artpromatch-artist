@@ -12,14 +12,13 @@ import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { useUser } from '@/context/UserContext';
 import { SiGoogletasks } from 'react-icons/si';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { formatCount } from '@/lib/formatCount';
 
 type ViewMode = 'list' | 'map';
 
 const ALL = 'All';
 
 const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
-  console.log({ artists });
-
   const { user } = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -218,9 +217,9 @@ const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
               </div>
 
               <div className="flex justify-between items-center">
-                <div className="flex  gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <SiGoogletasks />
-                  <div>({artist?.totalCompletedService})</div>
+                  <span>{formatCount(artist?.totalCompletedService)} Done</span>
                 </div>
 
                 {artist?.avgRating > 0 && (
@@ -229,9 +228,10 @@ const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
                     {artist?.avgRating.toFixed(1)} ({artist?.totalReviewCount})
                   </div>
                 )}
-                <div className="flex items-center text-primary font-bold gap-1">
-                  <FaDollarSign />
-                  {artist?.hourlyRate}
+
+                <div className="text-primary font-bold">
+                  {/* <FaDollarSign /> */}${artist?.hourlyRate ?? 0}/hr
+                  {/* <IoIosArrowForward /> */}
                 </div>
               </div>
             </div>
