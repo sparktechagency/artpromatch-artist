@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { deleteAService, updateAService } from '@/services/Service';
 import { artistCreateHisOnboardingAccount } from '@/services/Artists';
 import Link from 'next/link';
+import BoostProfileButton from './Bookings/BoostProfileButton';
 
 const Services = ({
   services = [],
@@ -291,7 +292,9 @@ const Services = ({
         <p className="text-gray-500">View and manage your created services.</p>
       </div>
 
-      <Link href="/services/create" className="flex justify-end mb-5">
+      <BoostProfileButton profileData={profile} />
+
+      <Link href="/services/create" className="flex justify-end my-5">
         <div className="px-6 py-2 w-fit rounded-lg border bg-primary text-white">
           + Create Service
         </div>

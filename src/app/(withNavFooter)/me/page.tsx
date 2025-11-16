@@ -3,6 +3,7 @@ import { getAllFolders } from '@/services/Folder';
 
 const MyProfilePage = async () => {
   const { data: folders } = await getAllFolders();
+
   return (
     <div>
       <Profile folders={folders} />

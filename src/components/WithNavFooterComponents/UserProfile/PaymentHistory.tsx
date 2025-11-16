@@ -28,6 +28,7 @@ const PaymentHistory = ({
     return d.toISOString().slice(0, 10);
   };
 
+  // handleConnectStripe
   const handleConnectStripe = async () => {
     try {
       const res = await artistCreateHisOnboardingAccount();

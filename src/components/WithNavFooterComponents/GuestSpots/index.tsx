@@ -2,7 +2,7 @@
 
 import {
   Card,
-  List,
+  // List,
   Modal,
   Form,
   DatePicker,
@@ -23,21 +23,11 @@ import {
   Calendar,
   Clock,
   Navigation,
-  Star,
+  // Star,
   Edit3,
-  Trash2,
+  // Trash2,
 } from 'lucide-react';
-
-interface GuestSpot {
-  _id: string;
-  startDate: string;
-  endDate: string;
-  location: {
-    coordinates: [number, number];
-    until: string;
-  };
-  isActive: boolean;
-}
+import { GuestSpot } from '@/types';
 
 interface CreateGuestSpotFormValues {
   latitude: number;

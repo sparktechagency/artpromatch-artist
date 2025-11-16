@@ -130,6 +130,31 @@ export const artistBoostHisProfile = async (): Promise<any> => {
   }
 };
 
+// artistVerifyBoostProfile
+export const artistVerifyBoostProfile = async (
+  session_id: string
+): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerActions();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/artists/boost-profile/${session_id}`,
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 // export const getLocationName = async (location: number[]) => {
 //   const [lon, lat] = location;
 //   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=en`;
