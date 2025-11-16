@@ -23,3 +23,6 @@ export const getAllPaymentsForClientAndArtist = async (): Promise<any> => {
     return Error(error);
   }
 };
+
+
+

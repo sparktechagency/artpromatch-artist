@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Modal, Table, Tag } from 'antd';
-import CardEditModal from './CardEditModal';
+// import CardEditModal from './CardEditModal';
 import { ColumnsType } from 'antd/es/table';
 import { IPayment } from '@/types';
 
@@ -13,7 +13,7 @@ const PaymentHistory = ({
   payments: IPayment[];
   profile: any;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   // deterministic date formatter to avoid SSR/CSR hydration mismatch
   const formatDate = (value?: string | number | Date) => {
@@ -82,13 +82,17 @@ const PaymentHistory = ({
     },
   ];
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
 
   // Check if Stripe is connected and ready
   const isStripeConnected = profile?.stripeAccountId && profile?.isStripeReady;
@@ -181,14 +185,14 @@ const PaymentHistory = ({
         />
       </div>
 
-      <Modal
+      {/* <Modal
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
         <CardEditModal handleOk={handleOk} handleCancel={handleCancel} />
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

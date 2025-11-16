@@ -79,6 +79,29 @@ export const getDashboardData = async (clientCall?: boolean): Promise<any> => {
   }
 };
 
+// artistCreateHisOnboardingAccount
+export const artistCreateHisOnboardingAccount = async (): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerHandlerGet(true);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/artists/create-onboarding-account`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 // export const getLocationName = async (location: number[]) => {
 //   const [lon, lat] = location;
 //   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=en`;
