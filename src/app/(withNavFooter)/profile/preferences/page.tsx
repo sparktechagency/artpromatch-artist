@@ -6,7 +6,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 const PreferecnePage = () => {
   return (
     <div className="p-5">
-      <div className="border rounded-xl p-5 flex justify-between items-center mb-4">
+      {/* <div className="border rounded-xl p-5 flex justify-between items-center mb-4">
         <div>
           <h1 className="text-xl font-bold">
             Select Your Favorite Tattoo Styles
@@ -15,7 +15,7 @@ const PreferecnePage = () => {
             Choose the tattoo styles you love the most.
           </p>
         </div>
-        <Link href="/profile/preferences/select-style">
+        <Link href="/profile/preferences/select-tattoo-styles">
           <IoIosArrowForward className="bg-slate-50 rounded-full h-8 w-8" />
         </Link>
       </div>
@@ -24,10 +24,10 @@ const PreferecnePage = () => {
           <h1 className="text-xl font-bold">Select Your Favorite Piercings</h1>
           <p className="text-secondary">Pick the ones that match your vibe.</p>
         </div>
-        <Link href="/profile/preferences/piercing">
+        <Link href="/profile/preferences/select-piercing-styles">
           <IoIosArrowForward className="bg-slate-50 rounded-full h-8 w-8" />
         </Link>
-      </div>
+      </div> */}
       <h1 className="text-xl font-bold">General Preferences</h1>
       <div className="mb-4 border-0 border-b border-neutral-200 pb-4">
         <h1 className="text-secondary">Default Home View</h1>

@@ -3,7 +3,10 @@
 import { cookies } from 'next/headers';
 import { jwtDecode } from 'jwt-decode';
 import { FieldValues } from '@/types';
-import { getValidAccessTokenForServerActions as getValidAccessTokenForServerActions } from '@/lib/getValidAccessToken';
+import {
+  getValidAccessTokenForServerActions,
+  getValidAccessTokenForServerHandlerGet,
+} from '@/lib/getValidAccessToken';
 
 // socialSignIn
 export const socialSignIn = async (payload: {
@@ -237,6 +240,28 @@ export const updateAuthData = async (fullName: string): Promise<any> => {
       (await cookies()).set('accessToken', result?.data?.accessToken);
     }
 
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+// fetchProfileData
+export const fetchProfileData = async (): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerHandlerGet();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/auth/profile`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const result = await res.json();
     return result;
   } catch (error: any) {
     return Error(error);

@@ -7,5 +7,6 @@ export * from './faq';
 export * from './folder';
 export * from './meta';
 export * from './service';
+export * from './payments';
 
 export type FieldValues = Record<string, unknown>;

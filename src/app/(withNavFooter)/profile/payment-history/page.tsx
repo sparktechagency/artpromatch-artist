@@ -1,9 +1,18 @@
+// import Pagination from '@/components/Shared/Pagination';
 import PaymentHistory from '@/components/WithNavFooterComponents/UserProfile/PaymentHistory';
+import { fetchProfileData } from '@/services/Auth';
+import { getAllPaymentsForClientAndArtist } from '@/services/PaymentHistory';
 
-const PaymentPage = () => {
+const PaymentPage = async () => {
+  const [{ data: payments, meta: paymentMeta }, { data: profileData }] = await Promise.all([
+    getAllPaymentsForClientAndArtist(),
+    fetchProfileData(),
+  ]);
+
   return (
     <div>
-      <PaymentHistory />
+      <PaymentHistory payments={payments} profile={profileData} />
+      {/* <Pagination meta={paymentMeta} /> */}
     </div>
   );
 };
