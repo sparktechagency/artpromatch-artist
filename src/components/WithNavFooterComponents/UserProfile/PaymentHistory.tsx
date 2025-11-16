@@ -1,12 +1,10 @@
 'use client';
 
-import { AllImages } from '@/assets/images/AllImages';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Modal, Table, Tag } from 'antd';
 import CardEditModal from './CardEditModal';
 import { ColumnsType } from 'antd/es/table';
-import { IMeta, IPayment } from '@/types';
+import { IPayment } from '@/types';
 
 const PaymentHistory = ({
   payments = [],
@@ -75,14 +73,14 @@ const PaymentHistory = ({
             ? 'red'
             : 'blue';
 
-        return <Tag color={color}>{status}</Tag>;
+        return (
+          <Tag className="capitalize" color={color}>
+            {status}
+          </Tag>
+        );
       },
     },
   ];
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -180,6 +178,7 @@ const PaymentHistory = ({
           dataSource={payments}
           bordered
           pagination={false}
+          rowKey="_id"
         />
       </div>
 
