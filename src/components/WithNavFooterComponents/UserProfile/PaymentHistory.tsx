@@ -5,6 +5,8 @@ import { Modal, Table, Tag } from 'antd';
 // import CardEditModal from './CardEditModal';
 import { ColumnsType } from 'antd/es/table';
 import { IPayment } from '@/types';
+import { artistCreateHisOnboardingAccount } from '@/services/Artists';
+import { toast } from 'sonner';
 
 const PaymentHistory = ({
   payments = [],
@@ -24,6 +26,20 @@ const PaymentHistory = ({
     if (Number.isNaN(d.getTime())) return '';
 
     return d.toISOString().slice(0, 10);
+  };
+
+  const handleConnectStripe = async () => {
+    try {
+      const res = await artistCreateHisOnboardingAccount();
+
+      if (res?.success) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.error('Failed to create Stripe onboarding account:', error);
+    }
   };
 
   const columns: ColumnsType<IPayment> = [
@@ -157,7 +173,15 @@ const PaymentHistory = ({
                 </p>
               </div>
             </div>
-            <Tag color="orange">Setup Required</Tag>
+            <div className="flex items-center gap-3">
+              <Tag color="orange">Setup Required</Tag>
+              <button
+                onClick={handleConnectStripe}
+                className="px-4 py-2 rounded-md bg-yellow-500 text-white text-sm font-medium hover:bg-yellow-600 transition-colors"
+              >
+                Connect Stripe
+              </button>
+            </div>
           </div>
         )}
       </div>
