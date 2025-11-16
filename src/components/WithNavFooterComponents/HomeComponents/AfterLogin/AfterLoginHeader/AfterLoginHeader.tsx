@@ -7,7 +7,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { CiSearch } from 'react-icons/ci';
 // import { IArtist } from '@/types';
 import { useUser } from '@/context/UserContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RxCross2 } from 'react-icons/rx';
 
@@ -20,6 +20,12 @@ const ArtistAfterLoginHeader = () => {
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  // hydrate search from URL on reload and when URL changes
+  useEffect(() => {
+    const term = searchParams.get('searchTerm') || '';
+    setSearchTerm(term);
+  }, [searchParams]);
+
   // const loggedinUser = artists?.find(
   //   artist => artist?.auth._id === user?.id
   // );
@@ -28,8 +34,8 @@ const ArtistAfterLoginHeader = () => {
     // router.push(`/discover?searchTerm=${encodeURIComponent(searchTerm)}`);
 
     const params = new URLSearchParams(searchParams.toString());
-    if (searchTerm) {
-      params.set('searchTerm', searchTerm);
+    if (searchTerm.trim()) {
+      params.set('searchTerm', searchTerm.trim());
     } else {
       params.delete('searchTerm');
     }

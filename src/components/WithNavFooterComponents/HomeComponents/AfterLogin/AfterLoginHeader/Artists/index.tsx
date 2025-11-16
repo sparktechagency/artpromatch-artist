@@ -2,7 +2,7 @@
 
 import { Modal, Select } from 'antd';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FaDollarSign, FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
 import Mapview from '../MapView/MapView';
@@ -11,56 +11,117 @@ import { ExpertiseType, IArtist } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { useUser } from '@/context/UserContext';
 import { SiGoogletasks } from 'react-icons/si';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { formatCount } from '@/lib/formatCount';
+
+type ViewMode = 'list' | 'map';
+
+const ALL = 'All';
 
 const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
   const { user } = useUser();
-  const tattooCategories = [
-    ...new Set(artists?.flatMap(artist => artist.expertise)),
-  ];
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const [selectedTab, setSelectedTab] = useState<string>(tattooCategories[0]);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedArtist, setSelectedArtist] = useState<IArtist | null>(null);
-  const [view, setView] = useState<'list' | 'map'>('list');
+  // Derive filters safely
+  const { artistTypes, tattooCategories } = useMemo(() => {
+    const types = Array.from(
+      new Set(
+        artists
+          .map(artist => artist?.type)
+          .filter(v => Boolean(v && String(v).trim()))
+      )
+    );
+    const categories = Array.from(
+      new Set(
+        artists
+          .flatMap(artist => artist?.expertise || [])
+          .filter(v => Boolean(v && String(v).trim()))
+      )
+    );
+    return {
+      artistTypes: [ALL, ...types],
+      tattooCategories: [ALL, ...categories],
+    };
+  }, [artists]);
 
-  const filteredArtists = artists?.filter(artist =>
-    artist.expertise.includes(selectedTab as ExpertiseType)
+  // UI state
+  const [artistType, setArtistType] = useState<string>(artistTypes[0] ?? ALL);
+  const [tattooCategory, setTattooCategory] = useState<string>(
+    tattooCategories[0] ?? ALL
   );
+  const [isShowServiceModalOpen, setIsShowServiceModalOpen] =
+    useState<boolean>(false);
+  const [selectedArtist, setSelectedArtist] = useState<IArtist | null>(null);
+  const [view, setView] = useState<ViewMode>('list');
+
+  // ✅ Sync filters from URL on reload or URL change
+  useEffect(() => {
+    const urlArtistType = searchParams.get('artistType') || ALL;
+    const urlTattooCategory = searchParams.get('tattooCategory') || ALL;
+
+    setArtistType(urlArtistType);
+    setTattooCategory(urlTattooCategory);
+  }, [searchParams]);
+
+  // Apply both filters consistently
+  const filteredArtists = useMemo(() => {
+    return artists.filter(artist => {
+      const byType = artistType === ALL ? true : artist?.type === artistType;
+      const byCategory =
+        tattooCategory === ALL
+          ? true
+          : (artist?.expertise || []).includes(tattooCategory as ExpertiseType);
+      return byType && byCategory;
+    });
+  }, [artists, artistType, tattooCategory]);
 
   const openModal = (id: string) => {
     const artist = artists?.find(artist => artist._id === id) || null;
     setSelectedArtist(artist);
-    setIsModalOpen(true);
+    setIsShowServiceModalOpen(true);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  // helper function
+  const updateQuery = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value === ALL) {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+    const newUrl = `?${params.toString()}`;
+    router.push(newUrl, { scroll: false });
   };
 
   return (
     <div className="container mx-auto md:my-8">
       <div className="flex justify-between items-center">
         <Select
-          value={selectedTab}
-          style={{ width: 150 }}
-          onChange={(value: string) => {
-            setSelectedTab(value);
+          value={artistType}
+          style={{ width: 180 }}
+          // onChange={(v: string) => setArtistType(v)}
+          onChange={(v: string) => {
+            setArtistType(v);
+            updateQuery('artistType', v);
           }}
-          options={tattooCategories.map(cat => ({
-            label: cat,
-            value: cat,
-          }))}
+          options={artistTypes.map(t => ({ label: t, value: t }))}
         />
 
         <div>
           {tattooCategories.map(category => (
             <button
               key={category}
-              onClick={() => setSelectedTab(category)}
-              className={`py-2 px-4 rounded-3xl ${
-                selectedTab === category
-                  ? 'bg-slate-200 text-primary'
-                  : 'hover:bg-slate-50 hover:text-primary'
+              type="button"
+              // onClick={() => setTattooCategory(category)}
+              onClick={() => {
+                setTattooCategory(category);
+                updateQuery('tattooCategory', category);
+              }}
+              className={`py-2 px-4 rounded-3xl border ${
+                tattooCategory === category
+                  ? 'bg-slate-100 text-primary border-primary'
+                  : 'hover:bg-slate-50 hover:text-primary border-transparent'
               }`}
             >
               {category}
@@ -71,7 +132,7 @@ const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
 
       <div className="my-8 flex justify-between items-center">
         <p>
-          {filteredArtists.length} {selectedTab}
+          {filteredArtists.length} {tattooCategory}
         </p>
         <div className="flex gap-2">
           <div
@@ -156,20 +217,20 @@ const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
               </div>
 
               <div className="flex justify-between items-center">
-                <div className="flex  gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <SiGoogletasks />
-                  <div>({artist?.totalCompletedService})</div>
+                  <span>{formatCount(artist?.totalCompletedService)} Done</span>
                 </div>
 
                 {artist?.avgRating > 0 && (
                   <div className="flex gap-1 text-amber-600">
                     <FaStar />
-                    {artist?.avgRating} ({artist?.totalReviewCount})
+                    {artist?.avgRating.toFixed(1)} ({artist?.totalReviewCount})
                   </div>
                 )}
-                <div className="flex items-center text-primary font-bold gap-1">
-                  <FaDollarSign />
-                  {artist?.hourlyRate}
+
+                <div className="text-primary font-bold">
+                  {/* <FaDollarSign /> */}${artist?.hourlyRate ?? 0}/hr
                   {/* <IoIosArrowForward /> */}
                 </div>
               </div>
@@ -177,13 +238,15 @@ const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
           ))}
         </div>
       ) : (
-        <Mapview artists={artists} />
+        <Mapview artists={filteredArtists} />
       )}
 
       <Modal
-        open={isModalOpen}
+        open={isShowServiceModalOpen}
         footer={null}
-        onCancel={handleCancel}
+        onCancel={() => {
+          setIsShowServiceModalOpen(false);
+        }}
         centered
         width={800}
       >
@@ -191,7 +254,9 @@ const Artists = ({ artists = [] }: { artists: IArtist[] }) => {
           <ServiceDetailsModal
             selectedArtist={selectedArtist}
             artists={artists}
-            // onClose={handleCancel}
+            // onClose={() => {
+            // setIsModalOpen(false);
+            // }}
           />
         )}
       </Modal>

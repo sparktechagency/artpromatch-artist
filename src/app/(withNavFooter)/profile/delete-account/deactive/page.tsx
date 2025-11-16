@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  Checkbox,
-  CheckboxChangeEvent,
+  // Checkbox,
+  // CheckboxChangeEvent,
   ConfigProvider,
   Form,
   Input,
@@ -13,18 +13,60 @@ import TextArea from 'antd/es/input/TextArea';
 import { useState } from 'react';
 import { CiCircleInfo } from 'react-icons/ci';
 import { FaMinus } from 'react-icons/fa6';
+import { deactivateAccount } from '@/services/Auth';
+import { toast } from 'sonner';
 
 const DeactiveAccount = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [understandChecked, setUnderstandChecked] = useState(false);
+  // const [understandChecked, setUnderstandChecked] = useState(false);
+  const [form] = Form.useForm();
+  const [formValues, setFormValues] = useState<any | null>(null);
+  const [selectedReason, setSelectedReason] = useState<string | null>(null);
 
-  const showModal = () => setIsModalOpen(true);
-  const handleOk = () => setIsModalOpen(false);
+  const handleOpenConfirm = () => {
+    form.submit();
+  };
+
+  const handleFormFinish = (values: any) => {
+    const finalReason =
+      values.reason === 'Other' ? values.deactivationReason : values.reason;
+
+    setFormValues({
+      ...values,
+      deactivationReason: finalReason,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleOk = async () => {
+    if (!formValues) return;
+
+    try {
+      const payload = {
+        email: formValues.email,
+        password: formValues.password,
+        deactivationReason: formValues.deactivationReason,
+      };
+
+      const res = await deactivateAccount(payload);
+
+      if (res?.success) {
+        toast.success(res?.message || 'Account deactivated successfully');
+        setIsModalOpen(false);
+      } else {
+        toast.error(res?.message || 'Failed to deactivate account');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong while deactivating account');
+    }
+  };
+
   const handleCancel = () => setIsModalOpen(false);
 
-  const onCheckboxChange = (e: CheckboxChangeEvent) => {
-    setUnderstandChecked(e.target.checked);
-  };
+  // const onCheckboxChange = (e: CheckboxChangeEvent) => {
+  //   setUnderstandChecked(e.target.checked);
+  // };
 
   return (
     <div className="p-5">
@@ -52,22 +94,48 @@ const DeactiveAccount = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <h1 className="text-xl font-bold">
-          Choose a Reason <span className="text-neutral-400">(Optional)</span>
-        </h1>
-        <Radio value={1}>Taking a break, I&apos;ll be back</Radio>
-        <Radio value={1}>Tired</Radio>
-        <Radio value={1}>Not finding the right artists</Radio>
-        <Radio value={1}>Prefer a different platform</Radio>
-        <Radio value={1}>Other</Radio>
-      </div>
+      <Form
+        name="deactivate-account"
+        layout="vertical"
+        className="mb-10"
+        form={form}
+        onFinish={handleFormFinish}
+      >
+        <div className="flex flex-col gap-2">
+          <h1 className="text-xl font-bold">Choose a Reason</h1>
+          <Form.Item
+            name="reason"
+            rules={[{ required: true, message: 'Please select a reason' }]}
+          >
+            <Radio.Group
+              onChange={e => setSelectedReason(e.target.value)}
+              value={selectedReason}
+            >
+              <div className="flex flex-col gap-1">
+                <Radio value="Taking a break, I'll be back">
+                  Taking a break, I'll be back
+                </Radio>
+                <Radio value="Tired">Tired</Radio>
+                <Radio value="Not finding the right artists">
+                  Not finding the right artists
+                </Radio>
+                <Radio value="Prefer a different platform">
+                  Prefer a different platform
+                </Radio>
+                <Radio value="Other">Other</Radio>
+              </div>
+            </Radio.Group>
+          </Form.Item>
+        </div>
 
-      <Form name="deactivate-account" layout="vertical" className="mb-10">
         <h1 className="my-5">
-          Tell us more why are you deactivating this Account? (optional)
+          Tell us more why are you deactivating this Account?
         </h1>
-        <TextArea rows={4} />
+        {selectedReason === 'Other' && (
+          <Form.Item name="deactivationReason">
+            <TextArea rows={4} />
+          </Form.Item>
+        )}
 
         <Form.Item name="email" label={<p>Enter your Email</p>}>
           <Input name="email" placeholder="Email" />
@@ -77,16 +145,16 @@ const DeactiveAccount = () => {
           <Input name="password" placeholder="******" />
         </Form.Item>
 
-        <Form.Item>
+        {/* <Form.Item>
           <Checkbox checked={understandChecked} onChange={onCheckboxChange}>
             I understand that deleted account is not recoverable
           </Checkbox>
-        </Form.Item>
+        </Form.Item> */}
 
         <div className="my-5 flex justify-end items-end">
           <Form.Item>
             <button
-              onClick={showModal}
+              onClick={handleOpenConfirm}
               className="bg-red-100 text-red-500 border border-red-500 rounded-xl px-4 py-2"
             >
               Deactivate Account

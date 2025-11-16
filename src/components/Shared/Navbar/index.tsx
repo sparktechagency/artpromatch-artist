@@ -87,7 +87,7 @@ const NavBar = () => {
     },
     {
       name: 'Guest Spots',
-      link: '/guestspots',
+      link: '/guest-spots',
       icon: '',
       isDropdown: false,
       dropdownItems: [],

@@ -23,8 +23,15 @@ import {
   createSession,
   sendOtpToClientByArtist,
 } from '@/services/Booking';
+import BoostProfileButton from './BoostProfileButton';
 
-const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
+const Bookings = ({
+  bookings = [],
+  profile,
+}: {
+  bookings: IBooking[];
+  profile: any;
+}) => {
   const [activeTabKey, setActiveTabKey] = useState<string>('pending');
   const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] =
     useState(false);
@@ -458,6 +465,7 @@ const Bookings = ({ bookings = [] }: { bookings: IBooking[] }) => {
           View and manage your confirmed appointments.
         </p>
       </div>
+      <BoostProfileButton profileData={profile} />
       <div className="my-5">
         <ConfigProvider
           theme={{

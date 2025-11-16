@@ -1,37 +1,50 @@
 'use client';
 
-import {
-  Checkbox,
-  CheckboxChangeEvent,
-  ConfigProvider,
-  Form,
-  Input,
-  Modal,
-  Radio,
-} from 'antd';
-import TextArea from 'antd/es/input/TextArea';
+import { ConfigProvider, Form, Input, Modal } from 'antd';
 import { useState } from 'react';
 import { BsTrash3 } from 'react-icons/bs';
 import { CiCircleInfo } from 'react-icons/ci';
+import { deleteAccount } from '@/services/Auth';
+import { toast } from 'sonner';
 
-const ConfirmDelete: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedReason, setSelectedReason] = useState<number | null>(null);
-  const [understandChecked, setUnderstandChecked] = useState<boolean>(false);
+const ConfirmDelete = () => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [form] = Form.useForm();
+  const [formValues, setFormValues] = useState<any | null>(null);
 
-  const showModal = () => setIsModalOpen(true);
-  const handleOk = () => setIsModalOpen(false);
-  const handleCancel = () => setIsModalOpen(false);
-
-  const onCheckboxChange = (e: CheckboxChangeEvent) => {
-    console.log('checked = ', e.target.checked);
-    setUnderstandChecked(e.target.checked);
+  const showDeleteModal = () => {
+    form.submit();
   };
 
-  const onRadioChange = (e: any) => {
-    console.log('Selected reason:', e.target.value);
-    setSelectedReason(e.target.value);
+  const handleFormFinish = (values: any) => {
+    setFormValues(values);
+    setIsDeleteModalOpen(true);
   };
+
+  const handleOk = async () => {
+    if (!formValues) return;
+
+    try {
+      const payload = {
+        email: formValues.email,
+        password: formValues.password,
+      };
+
+      const res = await deleteAccount(payload);
+
+      if (res?.success) {
+        toast.success(res?.message || 'Account deleted successfully');
+        setIsDeleteModalOpen(false);
+      } else {
+        toast.error(res?.message || 'Failed to delete account');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong while deleting account');
+    }
+  };
+
+  const handleCancel = () => setIsDeleteModalOpen(false);
 
   return (
     <div className="p-5">
@@ -62,26 +75,12 @@ const ConfirmDelete: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <h1 className="text-xl font-bold">
-          Choose a Reason <span className="text-neutral-400">(Optional)</span>
-        </h1>
-
-        <Radio.Group onChange={onRadioChange} value={selectedReason}>
-          <Radio value={1}>I no longer need the service</Radio>
-          <Radio value={2}>Privacy concerns</Radio>
-          <Radio value={3}>Too many notifications</Radio>
-          <Radio value={4}>Prefer a different platform</Radio>
-          <Radio value={5}>Other</Radio>
-        </Radio.Group>
-      </div>
-
-      <Form layout="vertical" className="mb-10 mt-5">
-        <h1 className="my-5">
-          Tell us more why are you deleting this Account? (optional)
-        </h1>
-        <TextArea rows={4} />
-
+      <Form
+        layout="vertical"
+        className="mb-10 mt-5"
+        form={form}
+        onFinish={handleFormFinish}
+      >
         <Form.Item name="email" label={<p>Enter your Email</p>}>
           <Input name="email" placeholder="Email" />
         </Form.Item>
@@ -90,15 +89,9 @@ const ConfirmDelete: React.FC = () => {
           <Input name="password" placeholder="******" />
         </Form.Item>
 
-        <Form.Item>
-          <Checkbox checked={understandChecked} onChange={onCheckboxChange}>
-            I understand that deleted account is not recoverable
-          </Checkbox>
-        </Form.Item>
-
         <div className="my-5 flex justify-end items-end">
           <button
-            onClick={showModal}
+            onClick={showDeleteModal}
             className="bg-red-100 text-red-500 border border-red-500 rounded-xl px-4 py-2"
           >
             Delete Account
@@ -108,7 +101,7 @@ const ConfirmDelete: React.FC = () => {
 
       <ConfigProvider>
         <Modal
-          open={isModalOpen}
+          open={isDeleteModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
           footer={null}

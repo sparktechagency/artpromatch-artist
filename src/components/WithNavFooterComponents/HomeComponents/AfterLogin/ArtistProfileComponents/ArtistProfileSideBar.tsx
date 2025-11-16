@@ -38,10 +38,12 @@ const ArtistProfileSideBar = ({
     <div className="container mx-auto">
       {/* Availability & Guest Spots */}
       <div className="border p-3 rounded-lg mb-5">
-        <h1 className="text-xl font-bold flex justify-between">
-          Availability & Guest Spots
-          <LuPenLine className="bg-primary text-white h-7 w-7 p-1 rounded-full" />
-        </h1>
+        <Link href="/guest-spots">
+          <h1 className="text-xl font-bold flex justify-between">
+            Guest Spots
+            <LuPenLine className="bg-primary text-white h-7 w-7 p-1 rounded-full" />
+          </h1>
+        </Link>
         {/* <p className="text-sm font-bold">
           Dec 1-5: <span className="font-normal">Open for bookings.</span>
         </p>

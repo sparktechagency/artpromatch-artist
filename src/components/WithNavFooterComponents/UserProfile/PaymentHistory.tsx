@@ -1,144 +1,193 @@
 'use client';
 
-import { AllImages } from '@/assets/images/AllImages';
-import Image from 'next/image';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Modal, Table, Tag } from 'antd';
-import CardEditModal from './CardEditModal';
+// import CardEditModal from './CardEditModal';
 import { ColumnsType } from 'antd/es/table';
+import { IPayment } from '@/types';
+import { artistCreateHisOnboardingAccount } from '@/services/Artists';
+import { toast } from 'sonner';
 
-const PaymentHistory = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  interface PaymentHistoryData {
-    key: string;
-    artist: string;
-    billingDate: string;
-    service: string;
-    amount: string;
-    status: string;
-  }
+const PaymentHistory = ({
+  payments = [],
+  profile,
+}: {
+  payments: IPayment[];
+  profile: any;
+}) => {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const data: PaymentHistoryData[] = [
-    {
-      key: '1',
-      artist: 'Demo Artist Name',
-      billingDate: 'Dec 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '2',
-      artist: 'Demo Artist Name',
-      billingDate: 'Nov 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '3',
-      artist: 'Demo Artist Name',
-      billingDate: 'Oct 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '4',
-      artist: 'Demo Artist Name',
-      billingDate: 'Sep 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '5',
-      artist: 'Demo Artist Name',
-      billingDate: 'Aug 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '6',
-      artist: 'Demo Artist Name',
-      billingDate: 'Jul 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '7',
-      artist: 'Demo Artist Name',
-      billingDate: 'Jul 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '8',
-      artist: 'Demo Artist Name',
-      billingDate: 'Jul 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-    {
-      key: '9',
-      artist: 'Demo Artist Name',
-      billingDate: 'Jun 1, 2022',
-      service: 'Realism Tattoo',
-      amount: '$50.00',
-      status: 'Paid',
-    },
-  ];
+  // deterministic date formatter to avoid SSR/CSR hydration mismatch
+  const formatDate = (value?: string | number | Date) => {
+    if (!value) return '';
 
-  const columns: ColumnsType<PaymentHistoryData> = [
+    const d = new Date(value);
+
+    if (Number.isNaN(d.getTime())) return '';
+
+    return d.toISOString().slice(0, 10);
+  };
+
+  // handleConnectStripe
+  const handleConnectStripe = async () => {
+    try {
+      const res = await artistCreateHisOnboardingAccount();
+
+      if (res?.success) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.error('Failed to create Stripe onboarding account:', error);
+    }
+  };
+
+  const columns: ColumnsType<IPayment> = [
     {
-      title: 'Artist',
-      dataIndex: 'artist',
-      key: 'artist',
-    },
-    {
-      title: 'Billing date',
-      dataIndex: 'billingDate',
-      key: 'billingDate',
-      defaultSortOrder: 'descend',
-      sorter: (a: PaymentHistoryData, b: PaymentHistoryData) =>
-        new Date(a.billingDate).getDate() - new Date(b.billingDate).getDate(),
+      title: 'Client',
+      key: 'client',
+      render: (_value, record) => record.clientInfo.fullName,
     },
     {
       title: 'Service',
-      dataIndex: 'service',
-      key: 'service',
+      dataIndex: 'serviceName',
+      key: 'serviceName',
     },
     {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      title: 'Billing date',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      defaultSortOrder: 'descend',
+      sorter: (a: IPayment, b: IPayment) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      render: (value: IPayment['createdAt']) => formatDate(value),
+    },
+    {
+      title: 'Total Amount',
+      dataIndex: 'price',
+      key: 'price',
+      render: (value: number) => `$${value.toFixed(2)}`,
+    },
+    {
+      title: 'Your Earning',
+      dataIndex: 'artistEarning',
+      key: 'artistEarning',
+      render: (value: number) => `$${value.toFixed(2)}`,
     },
     {
       title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: status => <Tag color="green">{status}</Tag>,
+      dataIndex: 'paymentStatus',
+      key: 'paymentStatus',
+      render: (status: IPayment['paymentStatus']) => {
+        const normalized = status?.toLowerCase();
+        const color =
+          normalized === 'captured'
+            ? 'green'
+            : normalized === 'pending'
+            ? 'orange'
+            : normalized === 'failed'
+            ? 'red'
+            : 'blue';
+
+        return (
+          <Tag className="capitalize" color={color}>
+            {status}
+          </Tag>
+        );
+      },
     },
   ];
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleOk = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
+
+  // Check if Stripe is connected and ready
+  const isStripeConnected = profile?.stripeAccountId && profile?.isStripeReady;
 
   return (
     <div>
-      <div className="mt-5 mb-4 border rounded-xl p-4 flex justify-between items-center ">
+      {/* Stripe Connection Status */}
+      <div className="mb-6">
+        {isStripeConnected ? (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-green-800 font-semibold">
+                  Stripe Connected
+                </h3>
+                <p className="text-green-600 text-sm">
+                  Your account is ready to accept payments
+                </p>
+              </div>
+            </div>
+            <Tag color="green">Active</Tag>
+          </div>
+        ) : (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-yellow-800 font-semibold">
+                  Stripe Not Connected
+                </h3>
+                <p className="text-yellow-600 text-sm">
+                  Connect your Stripe account to accept payments
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Tag color="orange">Setup Required</Tag>
+              <button
+                onClick={handleConnectStripe}
+                className="px-4 py-2 rounded-md bg-yellow-500 text-white text-sm font-medium hover:bg-yellow-600 transition-colors"
+              >
+                Connect Stripe
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {/* Payment Method Section */}
+      {/* <div className="mt-5 mb-4 border rounded-xl p-4 flex justify-between items-center ">
         <div className="flex items-center gap-3">
           <Image src={AllImages.visa} alt="visa" height={50} width={50} />
           <div className="text-secondary">
@@ -146,22 +195,29 @@ const PaymentHistory = () => {
             <h4>Expiry 06/2024</h4>
           </div>
         </div>
-        <button onClick={showModal} className=" px-4 py-2 rounded-xl border">
+        <button onClick={showModal} className="px-4 py-2 rounded-xl border">
           Edit
         </button>
-      </div>
+      </div> */}
+
       <div>
-        <Table columns={columns} dataSource={data} bordered />
+        <Table
+          columns={columns}
+          dataSource={payments}
+          bordered
+          pagination={false}
+          rowKey="_id" // Ensure _id is used as the rowKey
+        />
       </div>
 
-      <Modal
+      {/* <Modal
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
       >
         <CardEditModal handleOk={handleOk} handleCancel={handleCancel} />
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
