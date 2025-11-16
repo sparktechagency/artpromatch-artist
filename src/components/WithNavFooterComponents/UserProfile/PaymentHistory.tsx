@@ -157,7 +157,6 @@ const PaymentHistory = ({
           </div>
         )}
       </div>
-
       {/* Payment Method Section */}
       {/* <div className="mt-5 mb-4 border rounded-xl p-4 flex justify-between items-center ">
         <div className="flex items-center gap-3">
@@ -178,7 +177,7 @@ const PaymentHistory = ({
           dataSource={payments}
           bordered
           pagination={false}
-          rowKey="_id"
+          rowKey="_id" // Ensure _id is used as the rowKey
         />
       </div>
 
