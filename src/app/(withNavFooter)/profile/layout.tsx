@@ -22,7 +22,7 @@ const UserDashboardLayout = ({ children }: { children: React.ReactNode }) => {
     // { name: 'Preferences', path: '/profile/preferences' },
     // { name: 'Notifications', path: '/profile/notifications' },
     { name: 'Payment History', path: '/profile/payment-history' },
-    { name: 'Privacy & Security', path: '/profile/privacy-security' },
+    // { name: 'Privacy & Security', path: '/profile/privacy-security' },
     { name: 'Linked Accounts', path: '/profile/linked-accounts' },
   ];
 

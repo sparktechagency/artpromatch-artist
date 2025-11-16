@@ -1,6 +1,9 @@
 'use server';
 
-import { getValidAccessTokenForServerHandlerGet } from '@/lib/getValidAccessToken';
+import {
+  getValidAccessTokenForServerActions,
+  getValidAccessTokenForServerHandlerGet,
+} from '@/lib/getValidAccessToken';
 
 // getAllArtists
 export const getAllArtists = async (
@@ -56,8 +59,10 @@ export const getAllArtists = async (
   }
 };
 
-// getDashboardData
-export const getDashboardData = async (clientCall?: boolean): Promise<any> => {
+// getArtistDashboardData
+export const getArtistDashboardData = async (
+  clientCall?: boolean
+): Promise<any> => {
   const accessToken = await getValidAccessTokenForServerHandlerGet(clientCall);
 
   try {
@@ -81,11 +86,34 @@ export const getDashboardData = async (clientCall?: boolean): Promise<any> => {
 
 // artistCreateHisOnboardingAccount
 export const artistCreateHisOnboardingAccount = async (): Promise<any> => {
-  const accessToken = await getValidAccessTokenForServerHandlerGet(true);
+  const accessToken = await getValidAccessTokenForServerActions();
 
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/artists/create-onboarding-account`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+// artistBoostHisProfile
+export const artistBoostHisProfile = async (): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerActions();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/artists/boost-profile`,
       {
         method: 'POST',
         headers: {

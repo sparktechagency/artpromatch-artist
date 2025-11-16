@@ -519,3 +519,62 @@ export const getUserForConversation = async (searchTerm: string) => {
     return Error(error);
   }
 };
+
+// deactivateAccount
+export const deactivateAccount = async (data: FieldValues) => {
+  const accessToken = await getValidAccessTokenForServerActions();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/auth/deactive-account`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    const result = await res.json();
+
+    if (result?.success) {
+      (await cookies()).delete('accessToken');
+      (await cookies()).delete('refreshToken');
+    }
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+// deleteAccount
+export const deleteAccount = async (data: FieldValues) => {
+  const accessToken = await getValidAccessTokenForServerActions();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/auth/delete-account`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    const result = await res.json();
+
+    if (result?.success) {
+      (await cookies()).delete('accessToken');
+      (await cookies()).delete('refreshToken');
+    }
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};

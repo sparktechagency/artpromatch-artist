@@ -13,7 +13,11 @@ import {
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { toast } from 'sonner';
-import { createGuestSpotByArtist } from '@/services/GuestSpot';
+import {
+  createGuestSpotByArtist,
+  getSingleGuestSpotByArtist,
+  updateGuestSpotByArtist,
+} from '@/services/GuestSpot';
 import {
   MapPin,
   Calendar,
@@ -49,12 +53,15 @@ interface CreateGuestSpotFormValues {
 
 const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
-  const [creating, setCreating] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [loadingSpot, setLoadingSpot] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [selectedSpotId, setSelectedSpotId] = useState<string | null>(null);
   const [createForm] = Form.useForm<CreateGuestSpotFormValues>();
 
-  const handleCreateGuestSpot = async (values: CreateGuestSpotFormValues) => {
+  const handleSubmitGuestSpot = async (values: CreateGuestSpotFormValues) => {
     try {
-      setCreating(true);
+      setSubmitting(true);
 
       const startTimeStr = values.startTime?.format('h:mm a');
       const endTimeStr = values.endTime?.format('h:mm a');
@@ -78,22 +85,75 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
       };
 
       try {
-        const res = await createGuestSpotByArtist(payload);
+        const res =
+          editing && selectedSpotId
+            ? await updateGuestSpotByArtist(selectedSpotId, payload)
+            : await createGuestSpotByArtist(payload);
+
         if (res?.success) {
           toast.success(res?.message);
           setOpenCreateModal(false);
+          setEditing(false);
+          setSelectedSpotId(null);
           createForm.resetFields();
         } else {
           toast.error(res?.message);
         }
       } catch (err) {
         console.error(err);
-        toast.error('Something went wrong while adding.');
+        toast.error('Something went wrong while saving.');
       }
     } catch (error: any) {
-      toast.error(error?.message || 'Unable to create guest spot');
+      toast.error(error?.message || 'Unable to save guest spot');
     } finally {
-      setCreating(false);
+      setSubmitting(false);
+    }
+  };
+
+  const handleOpenCreateModal = () => {
+    setEditing(false);
+    setSelectedSpotId(null);
+    createForm.resetFields();
+    setOpenCreateModal(true);
+  };
+
+  const handleEditGuestSpot = async (id: string) => {
+    try {
+      setLoadingSpot(true);
+      setEditing(true);
+      setSelectedSpotId(id);
+      setOpenCreateModal(true);
+
+      const res = await getSingleGuestSpotByArtist(id);
+      const data = res?.data;
+
+      if (!data) {
+        toast.error('Unable to load guest spot details');
+        return;
+      }
+
+      createForm.setFieldsValue({
+        latitude: data.location?.coordinates?.[1],
+        longitude: data.location?.coordinates?.[0],
+        currentLocationUntil: data.location?.until
+          ? dayjs(data.location.until)
+          : undefined,
+        startDate: data.startDate ? dayjs(data.startDate) : undefined,
+        endDate: data.endDate ? dayjs(data.endDate) : undefined,
+        startTime: data.startTime ? dayjs(data.startTime, 'h:mm a') : undefined,
+        endTime: data.endTime ? dayjs(data.endTime, 'h:mm a') : undefined,
+        offDaysStartDate: data.offDays?.startDate
+          ? dayjs(data.offDays.startDate)
+          : null,
+        offDaysEndDate: data.offDays?.endDate
+          ? dayjs(data.offDays.endDate)
+          : null,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to load guest spot details');
+    } finally {
+      setLoadingSpot(false);
     }
   };
 
@@ -149,7 +209,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
               </div>
               <button
                 type="button"
-                onClick={() => setOpenCreateModal(true)}
+                onClick={handleOpenCreateModal}
                 className="bg-primary hover:bg-primary/90 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 <span className="text-white flex items-center gap-2">
@@ -268,7 +328,11 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
                         <span className="text-sm text-gray-600">Actions:</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button className="p-2 hover:bg-white rounded-lg transition-colors duration-200 group/edit">
+                        <button
+                          type="button"
+                          onClick={() => handleEditGuestSpot(item._id)}
+                          className="p-2 hover:bg-white rounded-lg transition-colors duration-200 group/edit"
+                        >
                           <Edit3 className="w-4 h-4 text-gray-400 group-hover/edit:text-primary" />
                         </button>
                         {/* <button className="p-2 hover:bg-white rounded-lg transition-colors duration-200 group/delete">
@@ -287,18 +351,18 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
         </Card>
       </div>
 
-      {/* Create Guest Spot Modal - Your existing modal code remains unchanged */}
+      {/* Create / Edit Guest Spot Modal */}
       <Modal
         open={openCreateModal}
         onCancel={() => setOpenCreateModal(false)}
         onOk={() => createForm.submit()}
-        confirmLoading={creating}
-        title="Add Guest Spot"
+        confirmLoading={submitting || loadingSpot}
+        title={editing ? 'Edit Guest Spot' : 'Add Guest Spot'}
       >
         <Form<CreateGuestSpotFormValues>
           form={createForm}
           layout="vertical"
-          onFinish={handleCreateGuestSpot}
+          onFinish={handleSubmitGuestSpot}
         >
           <Form.Item
             label="Guest Location's Latitude"

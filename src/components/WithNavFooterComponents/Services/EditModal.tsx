@@ -140,6 +140,7 @@ const EditModal = ({
       open={isEditModalOpen}
       onCancel={() => setIsEditModalOpen(false)}
       footer={null}
+      width={1000}
     >
       {selectedService && (
         <Form form={editForm} layout="vertical" onFinish={onFinish}>
