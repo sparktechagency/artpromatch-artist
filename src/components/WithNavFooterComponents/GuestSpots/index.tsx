@@ -9,6 +9,7 @@ import {
   InputNumber,
   TimePicker,
   Tag,
+  Input,
 } from 'antd';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
@@ -30,6 +31,7 @@ import {
 import { GuestSpot } from '@/types';
 
 interface CreateGuestSpotFormValues {
+  stringLocation: string;
   latitude: number;
   longitude: number;
   currentLocationUntil: Dayjs;
@@ -57,6 +59,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
       const endTimeStr = values.endTime?.format('h:mm a');
 
       const payload = {
+        stringLocation: values.stringLocation,
         currentLocation: {
           coordinates: [values.longitude, values.latitude] as [number, number],
           currentLocationUntil: values.currentLocationUntil?.toISOString(),
@@ -123,6 +126,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
       }
 
       createForm.setFieldsValue({
+        stringLocation: data.stringLocation,
         latitude: data.location?.coordinates?.[1],
         longitude: data.location?.coordinates?.[0],
         currentLocationUntil: data.location?.until
@@ -148,7 +152,8 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
   };
 
   const formatCoordinates = (coords: [number, number]) => {
-    return `${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;
+    return `${coords[0]}, ${coords[1]}`;
+    // return `${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;
   };
 
   const getStatusColor = (isActive: boolean) => {
@@ -283,6 +288,17 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
                         </div>
                       </div>
 
+                      {/* Location */}
+                      <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+                          <MapPin className="w-4 h-4" />
+                          <span className="font-medium">Location</span>
+                        </div>
+                        <p className="font-mono text-gray-800 text-sm">
+                          {item.stringLocation}
+                        </p>
+                      </div>
+
                       {/* Coordinates */}
                       <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-100">
                         <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
@@ -348,12 +364,23 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
         onOk={() => createForm.submit()}
         confirmLoading={submitting || loadingSpot}
         title={editing ? 'Edit Guest Spot' : 'Add Guest Spot'}
+        width={1000}
       >
         <Form<CreateGuestSpotFormValues>
           form={createForm}
           layout="vertical"
           onFinish={handleSubmitGuestSpot}
         >
+          <Form.Item
+            label="Guest Location Name"
+            name="stringLocation"
+            rules={[{ required: true, message: 'Location is required' }]}
+          >
+            <Input
+              style={{ width: '100%' }}
+              placeholder="118-06 Atlantic Ave, South Richmond Hill, New York"
+            />
+          </Form.Item>
           <Form.Item
             label="Guest Location's Latitude"
             name="latitude"

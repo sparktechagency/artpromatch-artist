@@ -8,7 +8,7 @@ import EditModal from './EditModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import { toast } from 'sonner';
 import { deleteAService, updateAService } from '@/services/Service';
-import { artistCreateHisOnboardingAccount } from '@/services/Artists';
+import { artistCreateHisOnboardingAccount } from '@/services/Artist';
 import Link from 'next/link';
 import BoostProfileButton from './Bookings/BoostProfileButton';
 

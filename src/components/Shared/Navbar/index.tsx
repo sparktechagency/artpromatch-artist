@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'antd/dist/reset.css';
 import { Button, Drawer, Dropdown, Modal } from 'antd';
 import { RxHamburgerMenu } from 'react-icons/rx';
@@ -17,6 +17,7 @@ import { logOut } from '@/services/Auth';
 import { protectedRoutes } from '@/constants';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { RiArrowDropDownLine } from 'react-icons/ri';
+import { initSocket } from '@/utils/socket';
 
 const NavBar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -28,6 +29,27 @@ const NavBar = () => {
   const pathname = usePathname();
 
   const { user, setUser, setIsLoading } = useUser();
+
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setUnreadCount(0);
+      return;
+    }
+
+    const socket = initSocket(user.id);
+
+    const handleUnread = (payload: { unreadCount?: number }) => {
+      setUnreadCount(payload?.unreadCount ?? 0);
+    };
+
+    socket.on('unread-message-count', handleUnread);
+
+    return () => {
+      socket.off('unread-message-count', handleUnread);
+    };
+  }, [user?.id]);
 
   // useEffect(() => {
   //   if (typeof window !== 'undefined') {
@@ -210,8 +232,13 @@ const NavBar = () => {
                 onClick={handleNotificationClick}
                 className="h-5 w-5 cursor-pointer"
               />
-              <Link href="/message">
+              <Link href="/message" className="relative">
                 <AiOutlineMessage className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-semibold text-white shadow-lg">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
               </Link>
               <Link href="/profile/update">
                 <Image

@@ -176,8 +176,6 @@ export const completeBookingByArtist = async (
   }
 };
 
-
-
 // getBookingsWithReviewThatHaveReviewForClientHomePage
 export const getBookingsWithReviewThatHaveReviewForClientHomePage =
   async (): Promise<any> => {

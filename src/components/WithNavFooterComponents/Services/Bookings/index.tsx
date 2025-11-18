@@ -12,6 +12,7 @@ import {
   TimePicker,
   Input,
 } from 'antd';
+import Link from 'next/link';
 import { IBooking } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { toast } from 'sonner';
@@ -200,15 +201,32 @@ const Bookings = ({
       title: 'Client',
       dataIndex: 'clients',
       key: 'client',
-      render: (text: string, booking: IBooking) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar
-            src={getCleanImageUrl(booking?.client?.image)}
-            style={{ marginRight: 8 }}
-          />
-          {text}
-        </div>
-      ),
+      render: (_: any, booking: IBooking) => {
+        const receiverId = booking?.client?._id;
+
+        const clientName = (
+          <span className="font-medium">{booking?.client?.name!}</span>
+        );
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={getCleanImageUrl(booking?.client?.image)}
+              style={{ marginRight: 8 }}
+            />
+            {receiverId ? (
+              <Link
+                href={`/message?receiverId=${receiverId}`}
+                className="text-blue-500! hover:underline!"
+              >
+                {clientName}
+              </Link>
+            ) : (
+              clientName
+            )}
+          </div>
+        );
+      },
     },
     {
       title: 'Service',

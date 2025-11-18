@@ -11,6 +11,7 @@ export interface GuestSpot {
     coordinates: [number, number];
     until: string;
   };
+  stringLocation: string;
 
   isActive: boolean;
 }

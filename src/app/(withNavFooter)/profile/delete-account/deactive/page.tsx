@@ -16,7 +16,7 @@ import { FaMinus } from 'react-icons/fa6';
 import { deactivateAccount } from '@/services/Auth';
 import { toast } from 'sonner';
 
-const DeactiveAccount = () => {
+const DeactiveAccountPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [understandChecked, setUnderstandChecked] = useState(false);
   const [form] = Form.useForm();
@@ -199,4 +199,4 @@ const DeactiveAccount = () => {
   );
 };
 
-export default DeactiveAccount;
+export default DeactiveAccountPage;

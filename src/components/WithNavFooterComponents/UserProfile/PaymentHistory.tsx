@@ -5,7 +5,7 @@ import { Modal, Table, Tag } from 'antd';
 // import CardEditModal from './CardEditModal';
 import { ColumnsType } from 'antd/es/table';
 import { IPayment } from '@/types';
-import { artistCreateHisOnboardingAccount } from '@/services/Artists';
+import { artistCreateHisOnboardingAccount } from '@/services/Artist';
 import { toast } from 'sonner';
 
 const PaymentHistory = ({

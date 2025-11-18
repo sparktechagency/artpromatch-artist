@@ -7,7 +7,7 @@ import { CiCircleInfo } from 'react-icons/ci';
 import { deleteAccount } from '@/services/Auth';
 import { toast } from 'sonner';
 
-const ConfirmDelete = () => {
+const ConfirmDeletePage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState<any | null>(null);
@@ -131,4 +131,4 @@ const ConfirmDelete = () => {
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmDeletePage;

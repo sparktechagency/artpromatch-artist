@@ -108,6 +108,29 @@ export const deleteAService = async (serviceId: string): Promise<any> => {
   }
 };
 
+// getArtistProfileByHisId
+export const getArtistProfileByHisId = async (id: string): Promise<any> => {
+  const accessToken = await getValidAccessTokenForServerActions();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/artists/profile/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: 'no-store',
+      }
+    );
+
+    const result = await res.json();
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
 // getLocationName
 export const getLocationName = async (location: number[]) => {
   const [lat, lon] = location;

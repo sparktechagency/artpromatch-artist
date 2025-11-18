@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Modal } from 'antd';
 import { toast } from 'sonner';
-import { artistBoostHisProfile } from '@/services/Artists';
+import { artistBoostHisProfile } from '@/services/Artist';
 import { useRouter } from 'next/navigation';
 
 const BoostProfileButton = ({ profileData }: { profileData: any }) => {
