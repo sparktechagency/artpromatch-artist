@@ -9,7 +9,7 @@ import { revalidateTag } from 'next/cache';
 
 // getSingleArtistBookings
 export const getSingleArtistBookings = async (
-  page = '1',
+  page: string = '1',
   limit?: string,
   query?: { [key: string]: string | string[] | undefined }
 ): Promise<any> => {
