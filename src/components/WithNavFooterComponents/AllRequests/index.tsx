@@ -4,8 +4,8 @@ import { Table, Tag, Avatar, Space, Button, Tooltip } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import {
   UserOutlined,
-  EyeOutlined,
   CheckCircleOutlined,
+  CloseCircleOutlined,
   ClockCircleOutlined,
   EnvironmentOutlined,
   PhoneOutlined,
@@ -135,27 +135,28 @@ const AllRequests: React.FC<AllRequestsProps> = ({ requests, meta }) => {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-          <Tooltip title="Accept Request">
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EyeOutlined />}
-              onClick={() => handleAcceptRequestByArtist(record._id)}
-              className="bg-blue-500 hover:bg-blue-600 border-none"
-            />
-          </Tooltip>
-          <Tooltip title="Cancel Request">
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EyeOutlined />}
-              onClick={() => handleRejectRequestByArtist(record._id)}
-              className="bg-blue-500 hover:bg-blue-600 border-none"
-            />
-          </Tooltip>
-          {/* <Tooltip title="View Details">
+      render: (_, record) =>
+        record.status === 'pending' ? (
+          <Space size="middle">
+            <Tooltip title="Accept Request">
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<CheckCircleOutlined />}
+                onClick={() => handleAcceptRequestByArtist(record._id)}
+                className="bg-green-500! hover:bg-green-600! border-none"
+              />
+            </Tooltip>
+            <Tooltip title="Cancel Request">
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<CloseCircleOutlined />}
+                onClick={() => handleRejectRequestByArtist(record._id)}
+                className="bg-red-500! hover:bg-red-600! border-none"
+              />
+            </Tooltip>
+            {/* <Tooltip title="View Details">
             <Button
               type="primary"
               shape="circle"
@@ -164,8 +165,8 @@ const AllRequests: React.FC<AllRequestsProps> = ({ requests, meta }) => {
               className="bg-blue-500 hover:bg-blue-600 border-none"
             />
           </Tooltip> */}
-        </Space>
-      ),
+          </Space>
+        ) : null,
     },
   ];
 
