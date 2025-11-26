@@ -94,6 +94,13 @@ const NavBar = () => {
       dropdownItems: [],
     },
     {
+      name: 'Requests',
+      link: '/requests',
+      icon: '',
+      isDropdown: false,
+      dropdownItems: [],
+    },
+    {
       name: 'Services',
       link: '/services',
       icon: '',
