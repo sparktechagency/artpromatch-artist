@@ -3,7 +3,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { CiCircleMinus } from 'react-icons/ci';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
-const DeleteAccount = () => {
+const DeleteAccountPage = () => {
   return (
     <div className="p-5">
       <div className="border rounded-xl p-5 flex justify-between items-center mb-4">
@@ -43,4 +43,4 @@ const DeleteAccount = () => {
   );
 };
 
-export default DeleteAccount;
+export default DeleteAccountPage;

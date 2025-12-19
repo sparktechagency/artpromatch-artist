@@ -12,6 +12,7 @@ import {
   TimePicker,
   Input,
 } from 'antd';
+import Link from 'next/link';
 import { IBooking } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
 import { toast } from 'sonner';
@@ -31,7 +32,9 @@ const Bookings = ({
 }: {
   bookings: IBooking[];
   profile: any;
-}) => {
+  }) => {
+  
+  console.log({ bookings });
   const [activeTabKey, setActiveTabKey] = useState<string>('pending');
   const [isCreateSessionModalOpen, setIsCreateSessionModalOpen] =
     useState(false);
@@ -200,37 +203,54 @@ const Bookings = ({
       title: 'Client',
       dataIndex: 'clients',
       key: 'client',
-      render: (text: string, booking: IBooking) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar
-            src={getCleanImageUrl(booking?.client?.image)}
-            style={{ marginRight: 8 }}
-          />
-          {text}
-        </div>
-      ),
+      render: (_: any, booking: IBooking) => {
+        const receiverId = booking?.authId;
+
+        const clientName = (
+          <span className="font-medium">{booking?.clientName!}</span>
+        );
+
+        return (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar
+              src={getCleanImageUrl(booking?.clientImage)}
+              style={{ marginRight: 8 }}
+            />
+            {receiverId ? (
+              <Link
+                href={`/message?receiverId=${receiverId}`}
+                className="text-blue-500! hover:underline!"
+              >
+                {clientName}
+              </Link>
+            ) : (
+              clientName
+            )}
+          </div>
+        );
+      },
     },
     {
       title: 'Service',
       key: 'service',
-      render: (_: any, booking: IBooking) => booking.service?.title || 'N/A',
+      render: (_: any, booking: IBooking) => booking?.serviceName || 'N/A',
     },
     {
       title: 'Session Length',
       key: 'sessionType',
       render: (_: any, booking: IBooking) => {
-        if (!booking.sessions || booking.sessions.length === 0) return 'N/A';
+        if (!booking?.sessions || booking?.sessions?.length === 0) return 'N/A';
 
         // Count unique days
         const uniqueDays = new Set(
-          booking.sessions.map(s => new Date(s.date).toDateString())
+          booking?.sessions?.map(s => new Date(s.date).toDateString())
         );
         const totalDays = uniqueDays.size;
 
         // Sum total hours (with minutes)
-        const totalHours = booking.sessions.reduce((sum, s) => {
-          const start = dayjs(s.startTime, 'hh:mm A');
-          const end = dayjs(s.endTime, 'hh:mm A');
+        const totalHours = booking?.sessions.reduce((sum, s) => {
+          const start = dayjs(s?.startTime, 'hh:mm A');
+          const end = dayjs(s?.endTime, 'hh:mm A');
           const diffInHours = end.diff(start, 'minute') / 60;
           return sum + diffInHours;
         }, 0);

@@ -6,7 +6,7 @@ import {
   ArrowLeft,
   Sparkles,
 } from 'lucide-react';
-import { artistVerifyBoostProfile } from '@/services/Artists';
+import { artistVerifyBoostProfile } from '@/services/Artist';
 
 type VerifyResponse = {
   success?: boolean;

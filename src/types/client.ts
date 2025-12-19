@@ -8,6 +8,8 @@ import { TAuth } from './auth';
 
 export interface IClient {
   _id: string;
+  name: string;
+  email: string;
   image?: string;
   location: { type: 'Point'; coordinates: [number, number] };
   stringLocation: string;

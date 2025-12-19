@@ -9,7 +9,8 @@ interface UserProfileFormValues {
   fullName: string;
   email: string;
   phoneNumber: string;
-  country: string;
+  // country: string;
+  stringLocation: string;
 }
 
 const UserProfile = () => {
@@ -18,7 +19,10 @@ const UserProfile = () => {
 
   const handleUpdateData = async (values: UserProfileFormValues) => {
     try {
-      const res = await updateAuthData(values.fullName);
+      const res = await updateAuthData({
+        fullName: values.fullName,
+        stringLocation: values.stringLocation,
+      });
 
       if (res?.success) {
         toast.success(res?.message);
@@ -52,7 +56,7 @@ const UserProfile = () => {
             fullName: user?.fullName,
             email: user?.email,
             phoneNumber: user?.phoneNumber,
-            // country: 'USA',
+            stringLocation: user?.stringLocation,
           }}
           onFinish={handleUpdateData}
           layout="vertical"
@@ -102,6 +106,18 @@ const UserProfile = () => {
               style={{ padding: '6px' }}
               className="text-md"
               placeholder="Contact Number"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="stringLocation"
+            label={<p className=" text-md">Address</p>}
+            rules={[{ required: true, message: 'Please enter your name!' }]}
+          >
+            <Input
+              style={{ padding: '6px' }}
+              className=" text-md"
+              placeholder="Your Address"
             />
           </Form.Item>
 

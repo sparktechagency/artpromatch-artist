@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { CiHeart } from 'react-icons/ci';
 import Link from 'next/link';
@@ -20,28 +20,15 @@ const ServiceDetailsModal = ({
     selectedArtist || artists[0]
   );
 
-  const handlePrev = () => {
-    const currentIndex = artists.findIndex(
-      artist => artist._id === currentArtist?._id
-    );
-    const prevArtist =
-      artists[currentIndex - 1] || artists[artists?.length - 1];
-    setCurrentArtist(prevArtist);
-  };
-
-  const handleNext = () => {
-    const currentIndex = artists.findIndex(
-      artist => artist._id === currentArtist?._id
-    );
-    const nextArtist = artists[currentIndex + 1] || artists[0];
-    setCurrentArtist(nextArtist);
-  };
+  useEffect(() => {
+    setCurrentArtist(selectedArtist || artists[0]);
+  }, [selectedArtist, artists]);
 
   return (
     <div className="relative p-4">
       <div className="flex justify-between items-center pb-3 border-b">
         <div className="flex items-center gap-3">
-          <Link href="/profile-page">
+          <Link href={`/artist/${selectedArtist?._id}`}>
             <Image
               src={getCleanImageUrl(selectedArtist?.auth?.image)}
               alt="Profile"
@@ -58,12 +45,14 @@ const ServiceDetailsModal = ({
           </div>
         </div>
         <div className="flex gap-2">
-          <button className="border border-primary px-2 rounded-lg">
+          {/* <button className="border border-primary px-2 rounded-lg">
             <CiHeart />
-          </button>
-          <div className="flex justify-center items-center gap-2 text-primary px-3 py-1 border rounded-lg font-bold">
-            <AiOutlineMessage /> Message
-          </div>
+          </button> */}
+          <Link href={`/message?receiverId=${selectedArtist?.auth?._id}`}>
+            <div className="flex justify-center items-center gap-2 text-primary px-3 py-1 border rounded-lg font-bold">
+              <AiOutlineMessage /> Message
+            </div>
+          </Link>
           {/* <div className="px-3 py-1 bg-primary text-white rounded-lg">
             Book Now
           </div> */}
@@ -78,18 +67,6 @@ const ServiceDetailsModal = ({
           height={400}
           className="rounded-lg w-full"
         />
-      </div>
-      <div className="flex justify-center items-center gap-5 text-center text-gray-500">
-        <button onClick={handlePrev} className=" bg-gray-200 p-2 rounded-full">
-          <FaChevronLeft />
-        </button>
-        <p className="pt-3">
-          {artists?.findIndex(artist => artist?._id === currentArtist?._id) + 1}{' '}
-          / {artists?.length}
-        </p>
-        <button onClick={handleNext} className=" bg-gray-200 p-2 rounded-full">
-          <FaChevronRight />
-        </button>
       </div>
     </div>
   );

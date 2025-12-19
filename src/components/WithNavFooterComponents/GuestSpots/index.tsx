@@ -9,6 +9,7 @@ import {
   InputNumber,
   TimePicker,
   Tag,
+  Input,
 } from 'antd';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
@@ -28,8 +29,10 @@ import {
   // Trash2,
 } from 'lucide-react';
 import { GuestSpot } from '@/types';
+import { Row, Col } from 'antd';
 
 interface CreateGuestSpotFormValues {
+  stringLocation: string;
   latitude: number;
   longitude: number;
   currentLocationUntil: Dayjs;
@@ -57,6 +60,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
       const endTimeStr = values.endTime?.format('h:mm a');
 
       const payload = {
+        stringLocation: values.stringLocation,
         currentLocation: {
           coordinates: [values.longitude, values.latitude] as [number, number],
           currentLocationUntil: values.currentLocationUntil?.toISOString(),
@@ -123,6 +127,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
       }
 
       createForm.setFieldsValue({
+        stringLocation: data.stringLocation,
         latitude: data.location?.coordinates?.[1],
         longitude: data.location?.coordinates?.[0],
         currentLocationUntil: data.location?.until
@@ -148,7 +153,8 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
   };
 
   const formatCoordinates = (coords: [number, number]) => {
-    return `${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;
+    return `${coords[0]}, ${coords[1]}`;
+    // return `${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;
   };
 
   const getStatusColor = (isActive: boolean) => {
@@ -220,7 +226,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
               </h3>
               <p className="text-gray-500 mb-6 max-w-md mx-auto">
                 Start by adding your first guest spot to let clients know where
-                and when you're available.
+                and when you&apos;re available.
               </p>
               <button
                 type="button"
@@ -281,6 +287,17 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
                             </p>
                           </div>
                         </div>
+                      </div>
+
+                      {/* Location */}
+                      <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+                          <MapPin className="w-4 h-4" />
+                          <span className="font-medium">Location</span>
+                        </div>
+                        <p className="font-mono text-gray-800 text-sm">
+                          {item.stringLocation}
+                        </p>
                       </div>
 
                       {/* Coordinates */}
@@ -348,130 +365,184 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
         onOk={() => createForm.submit()}
         confirmLoading={submitting || loadingSpot}
         title={editing ? 'Edit Guest Spot' : 'Add Guest Spot'}
+        width={1000}
       >
         <Form<CreateGuestSpotFormValues>
           form={createForm}
           layout="vertical"
           onFinish={handleSubmitGuestSpot}
         >
-          <Form.Item
-            label="Guest Location's Latitude"
-            name="latitude"
-            rules={[{ required: true, message: 'Latitude is required' }]}
-          >
-            <InputNumber style={{ width: '100%' }} placeholder="40.7128" />
-          </Form.Item>
+          {/* First Row for 2 Columns */}
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Guest Location Name"
+                name="stringLocation"
+                rules={[{ required: true, message: 'Location is required' }]}
+              >
+                <Input
+                  style={{ width: '100%' }}
+                  placeholder="118-06 Atlantic Ave, South Richmond Hill, New York"
+                />
+              </Form.Item>
+            </Col>
 
-          <Form.Item
-            label="Guest Location's Longitude"
-            name="longitude"
-            rules={[{ required: true, message: 'Longitude is required' }]}
-          >
-            <InputNumber style={{ width: '100%' }} placeholder="-74.0060" />
-          </Form.Item>
+            <Col span={12}>
+              <Form.Item
+                label="Guest Location's Latitude"
+                name="latitude"
+                rules={[{ required: true, message: 'Latitude is required' }]}
+              >
+                <InputNumber style={{ width: '100%' }} placeholder="40.7128" />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item
-            label="Guest Location Until"
-            name="currentLocationUntil"
-            rules={[
-              { required: true, message: 'Current location until is required' },
-            ]}
-          >
-            <DatePicker
-              showTime
-              style={{ width: '100%' }}
-              disabledDate={current => {
-                if (!current) return false;
-                const today = dayjs().startOf('day');
-                return (
-                  current.startOf('day').isSame(today, 'day') ||
-                  current.startOf('day').isBefore(today, 'day')
-                );
-              }}
-            />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Guest Location's Longitude"
+                name="longitude"
+                rules={[{ required: true, message: 'Longitude is required' }]}
+              >
+                <InputNumber style={{ width: '100%' }} placeholder="-74.0060" />
+              </Form.Item>
+            </Col>
 
-          <Form.Item
-            label="Start Date"
-            name="startDate"
-            rules={[{ required: true, message: 'Start date is required' }]}
-          >
-            <DatePicker
-              style={{ width: '100%' }}
-              disabledDate={current => {
-                if (!current) return false;
-                const today = dayjs().startOf('day');
-                const min = today.add(1, 'day');
-                const until = createForm.getFieldValue('currentLocationUntil');
+            <Col span={12}>
+              <Form.Item
+                label="Guest Location Until"
+                name="currentLocationUntil"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Current location until is required',
+                  },
+                ]}
+              >
+                <DatePicker
+                  showTime
+                  style={{ width: '100%' }}
+                  disabledDate={current => {
+                    if (!current) return false;
+                    const today = dayjs().startOf('day');
+                    return (
+                      current.startOf('day').isSame(today, 'day') ||
+                      current.startOf('day').isBefore(today, 'day')
+                    );
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
-                if (!until) {
-                  return (
-                    current.startOf('day').isSame(today, 'day') ||
-                    current.startOf('day').isBefore(today, 'day')
-                  );
-                }
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Start Date"
+                name="startDate"
+                rules={[{ required: true, message: 'Start date is required' }]}
+              >
+                <DatePicker
+                  style={{ width: '100%' }}
+                  disabledDate={current => {
+                    if (!current) return false;
+                    const today = dayjs().startOf('day');
+                    const min = today.add(1, 'day');
+                    const until = createForm.getFieldValue(
+                      'currentLocationUntil'
+                    );
+                    if (!until) {
+                      return (
+                        current.startOf('day').isSame(today, 'day') ||
+                        current.startOf('day').isBefore(today, 'day')
+                      );
+                    }
+                    const max = dayjs(until).startOf('day');
+                    return (
+                      current.startOf('day').isBefore(min, 'day') ||
+                      current.startOf('day').isAfter(max, 'day')
+                    );
+                  }}
+                />
+              </Form.Item>
+            </Col>
 
-                const max = dayjs(until).startOf('day');
-                return (
-                  current.startOf('day').isBefore(min, 'day') ||
-                  current.startOf('day').isAfter(max, 'day')
-                );
-              }}
-            />
-          </Form.Item>
+            <Col span={12}>
+              <Form.Item
+                label="End Date"
+                name="endDate"
+                rules={[{ required: true, message: 'End date is required' }]}
+              >
+                <DatePicker
+                  style={{ width: '100%' }}
+                  disabledDate={current => {
+                    if (!current) return false;
+                    const today = dayjs().startOf('day');
+                    const min = today.add(1, 'day');
+                    const until = createForm.getFieldValue(
+                      'currentLocationUntil'
+                    );
+                    if (!until) {
+                      return (
+                        current.startOf('day').isSame(today, 'day') ||
+                        current.startOf('day').isBefore(today, 'day')
+                      );
+                    }
+                    const max = dayjs(until).startOf('day');
+                    return (
+                      current.startOf('day').isBefore(min, 'day') ||
+                      current.startOf('day').isAfter(max, 'day')
+                    );
+                  }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
-          <Form.Item
-            label="End Date"
-            name="endDate"
-            rules={[{ required: true, message: 'End date is required' }]}
-          >
-            <DatePicker
-              style={{ width: '100%' }}
-              disabledDate={current => {
-                if (!current) return false;
-                const today = dayjs().startOf('day');
-                const min = today.add(1, 'day');
-                const until = createForm.getFieldValue('currentLocationUntil');
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Start Time"
+                name="startTime"
+                rules={[{ required: true, message: 'Start time is required' }]}
+              >
+                <TimePicker
+                  use12Hours
+                  format="h:mm a"
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+            </Col>
 
-                if (!until) {
-                  return (
-                    current.startOf('day').isSame(today, 'day') ||
-                    current.startOf('day').isBefore(today, 'day')
-                  );
-                }
+            <Col span={12}>
+              <Form.Item
+                label="End Time"
+                name="endTime"
+                rules={[{ required: true, message: 'End time is required' }]}
+              >
+                <TimePicker
+                  use12Hours
+                  format="h:mm a"
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
-                const max = dayjs(until).startOf('day');
-                return (
-                  current.startOf('day').isBefore(min, 'day') ||
-                  current.startOf('day').isAfter(max, 'day')
-                );
-              }}
-            />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Off Days Start" name="offDaysStartDate">
+                <DatePicker style={{ width: '100%' }} />
+              </Form.Item>
+            </Col>
 
-          <Form.Item
-            label="Start Time"
-            name="startTime"
-            rules={[{ required: true, message: 'Start time is required' }]}
-          >
-            <TimePicker use12Hours format="h:mm a" style={{ width: '100%' }} />
-          </Form.Item>
-
-          <Form.Item
-            label="End Time"
-            name="endTime"
-            rules={[{ required: true, message: 'End time is required' }]}
-          >
-            <TimePicker use12Hours format="h:mm a" style={{ width: '100%' }} />
-          </Form.Item>
-
-          <Form.Item label="Off Days Start" name="offDaysStartDate">
-            <DatePicker style={{ width: '100%' }} />
-          </Form.Item>
-
-          <Form.Item label="Off Days End" name="offDaysEndDate">
-            <DatePicker style={{ width: '100%' }} />
-          </Form.Item>
+            <Col span={12}>
+              <Form.Item label="Off Days End" name="offDaysEndDate">
+                <DatePicker style={{ width: '100%' }} />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

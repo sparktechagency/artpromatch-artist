@@ -3,7 +3,7 @@
 import { AllImages } from '@/assets/images/AllImages';
 import { useUser } from '@/context/UserContext';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
-import { getArtistDashboardData } from '@/services/Artists';
+import { getArtistDashboardData } from '@/services/Artist';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

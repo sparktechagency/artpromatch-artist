@@ -1,6 +1,6 @@
 import Pagination from '@/components/Shared/Pagination';
-import { getAllArtists } from '@/services/Artists';
-import ArtistAfterLoginHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/AfterLoginHeader';
+import { getAllArtists } from '@/services/Artist';
+import ArtistAfterLoginHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader';
 import Artists from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/AfterLoginHeader/Artists';
 
 const DiscoverPage = async ({

@@ -3,9 +3,9 @@
 import { Modal, Select } from 'antd';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
-import { FaDollarSign, FaStar } from 'react-icons/fa6';
+import {  FaStar } from 'react-icons/fa6';
 import Link from 'next/link';
-import Mapview from '../MapView/MapView';
+import Mapview from '../MapView';
 import ServiceDetailsModal from './ServiceDetailsModal';
 import { ExpertiseType, IArtist } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';

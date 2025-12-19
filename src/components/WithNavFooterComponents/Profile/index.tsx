@@ -7,11 +7,11 @@ import { motion } from 'framer-motion';
 import { LuPenLine } from 'react-icons/lu';
 import { ConfigProvider, Form, Input, Modal } from 'antd';
 import ArtistProfileHeader from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistProfileComponents/ArtistProfileHeader';
-import ArtistProfileSideBar from '@/components/WithNavFooterComponents/HomeComponents/AfterLogin/ArtistProfileComponents/ArtistProfileSideBar';
 import { useUser } from '@/context/UserContext';
 import { getOwnArtistData } from '@/services/Auth';
 import { IArtist, IFolder, IService } from '@/types';
 import { getCleanImageUrl } from '@/lib/getCleanImageUrl';
+import ArtistProfileSideBar from '../HomeComponents/AfterLogin/ArtistProfileComponents/ArtistProfileSideBar';
 
 interface FormValues {
   aboutYou: string;

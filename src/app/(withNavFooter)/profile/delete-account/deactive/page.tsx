@@ -16,7 +16,7 @@ import { FaMinus } from 'react-icons/fa6';
 import { deactivateAccount } from '@/services/Auth';
 import { toast } from 'sonner';
 
-const DeactiveAccount = () => {
+const DeactiveAccountPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [understandChecked, setUnderstandChecked] = useState(false);
   const [form] = Form.useForm();
@@ -113,7 +113,7 @@ const DeactiveAccount = () => {
             >
               <div className="flex flex-col gap-1">
                 <Radio value="Taking a break, I'll be back">
-                  Taking a break, I'll be back
+                  Taking a break, I&apos;ll be back
                 </Radio>
                 <Radio value="Tired">Tired</Radio>
                 <Radio value="Not finding the right artists">
@@ -199,4 +199,4 @@ const DeactiveAccount = () => {
   );
 };
 
-export default DeactiveAccount;
+export default DeactiveAccountPage;

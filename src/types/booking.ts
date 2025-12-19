@@ -52,6 +52,10 @@ export interface IBooking {
   isInGuestSpot: boolean;
   createdAt: Date;
   updatedAt: Date;
+
+  authId: string;
+  clientName: string;
+  clientImage: string;
 }
 
 interface IBookingSession {
