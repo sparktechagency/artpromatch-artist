@@ -226,7 +226,7 @@ const GuestSpots = ({ guestSpots = [] }: { guestSpots: GuestSpot[] }) => {
               </h3>
               <p className="text-gray-500 mb-6 max-w-md mx-auto">
                 Start by adding your first guest spot to let clients know where
-                and when you're available.
+                and when you&apos;re available.
               </p>
               <button
                 type="button"
