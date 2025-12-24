@@ -1,7 +1,18 @@
 // protectedRoutes
 export const protectedRoutes = [
   '/',
-  // '/admin/:page',
+  '/dashboard',
+  '/discover',
+  '/requests',
+  '/services',
+  '/bookings',
+  '/guest-spots',
+  '/portfolio',
+  '/message',
+  '/favourites',
+
+  '/profile',
+  '/profile/:page',
 ];
 
 export const artistTypesList: string[] = [
