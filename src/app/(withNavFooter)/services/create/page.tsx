@@ -158,16 +158,16 @@ const CreatePage = () => {
             rules={[
               { required: true, message: 'Please enter a description!' },
               {
-                min: 500,
-                message: 'Description must be at least 500 characters!',
+                min: 250,
+                message: 'Description must be at least 250 characters!',
               },
             ]}
           >
             <TextArea
               rows={6}
-              placeholder="Describe your service in detail (minimum 500 characters)..."
+              placeholder="Describe your service in detail (minimum 250 characters)..."
               showCount
-              maxLength={2000}
+              maxLength={1200}
               className="rounded-md"
             />
           </Form.Item>

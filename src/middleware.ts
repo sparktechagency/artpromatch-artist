@@ -13,6 +13,7 @@ const roleBasedPrivateRoutes = {
     /^\/dashboard/,
     /^\/portfolio/,
     /^\/bookings/,
+    /^\/requests/,
     /^\/services/,
     /^\/message/,
 
