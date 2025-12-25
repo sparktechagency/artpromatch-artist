@@ -11,6 +11,7 @@ import { deleteAService, updateAService } from '@/services/Service';
 import { artistCreateHisOnboardingAccount } from '@/services/Artist';
 import Link from 'next/link';
 import BoostProfileButton from './Bookings/BoostProfileButton';
+import { useRouter } from 'next/navigation';
 
 const Services = ({
   services = [],
@@ -28,6 +29,7 @@ const Services = ({
   // const [imageFiles, setImageFiles] = useState<UploadFile[]>([]);
   const [hideStripeBanner, setHideStripeBanner] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   const isStripeConnected = profile?.stripeAccountId && profile?.isStripeReady;
 
@@ -48,6 +50,7 @@ const Services = ({
 
       if (res?.success) {
         toast.success(res?.message);
+        router.push(res.data);
       } else {
         toast.error(res?.message);
       }
